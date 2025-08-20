@@ -1,5 +1,5 @@
 {
-  "name": "foundation",
+  "name": "foundation-nova",
   "private": true,
   "scripts": {
     "dev": "turbo run dev",

@@ -10,7 +10,7 @@ import stylistic from '@stylistic/eslint-plugin';
  */
 const config: FlatConfig = [
   {
-    name: 'foundation/lang-typescript',
+    name: 'foundation-nova/lang-typescript',
     files: [
       '**/*.ts',
       '**/*.tsx',
@@ -31,7 +31,7 @@ const config: FlatConfig = [
     rules: {},
   },
   {
-    name: 'foundation/lang-typescript/type-declarations',
+    name: 'foundation-nova/lang-typescript/type-declarations',
     files: [
       '**/*.ts',
       '**/*.tsx',

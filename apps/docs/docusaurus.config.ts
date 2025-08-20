@@ -13,14 +13,14 @@ import { getFooterLinks, getNavBarItems } from './lib/menu-builder';
  * @since 1.0.0
  */
 const config: Config = {
-  title: 'Foundation',
+  title: 'Foundation Nova',
   titleDelimiter: ' - ',
-  tagline: 'Scripts, templates, and project configuration for the common developer',
+  tagline: 'Scripts, templates, and project configuration for the common JavaScript and TypeScript developer',
   favicon: 'images/favicon.ico',
   url: 'https://cbnventures.github.io',
-  baseUrl: '/foundation/',
+  baseUrl: '/foundation-nova/',
   organizationName: 'cbnventures',
-  projectName: 'foundation',
+  projectName: 'foundation-nova',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   i18n: {
@@ -85,9 +85,9 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'Foundation',
+      title: 'Foundation Nova',
       logo: {
-        alt: 'Foundation',
+        alt: 'Foundation Nova',
         src: 'images/logo.svg',
       },
       items: [
@@ -96,7 +96,7 @@ const config: Config = {
           label: 'GitHub',
           position: 'right',
           type: undefined,
-          href: 'https://github.com/cbnventures/foundation',
+          href: 'https://github.com/cbnventures/foundation-nova',
         },
       ],
     },

@@ -1,8 +1,8 @@
 {
-  "name": "@cbnventures/foundation",
-  "displayName": "Foundation",
-  "version": "0.1.0",
-  "description": "Scripts, templates, and project configuration for the common developer",
+  "name": "@cbnventures/foundation-nova",
+  "displayName": "Foundation Nova",
+  "version": "1.0.0",
+  "description": "Scripts, templates, and project configuration for the common JavaScript and TypeScript developer",
   "main": "",
   "exports": {
     "./eslint": "./build/presets/eslint/index.mjs",
@@ -52,7 +52,7 @@
   "types": "",
   "repository": {
     "type": "git",
-    "url": "git://github.com/cbnventures/foundation.git"
+    "url": "git://github.com/cbnventures/foundation-nova.git"
   },
   "funding": [
     {
@@ -87,10 +87,10 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cbnventures/foundation/issues"
+    "url": "https://github.com/cbnventures/foundation-nova/issues"
   },
   "files": [],
-  "homepage": "https://github.com/cbnventures/foundation",
+  "homepage": "https://github.com/cbnventures/foundation-nova",
   "engines": {
     "node": ">=20"
   },

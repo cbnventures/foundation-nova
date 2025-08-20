@@ -7,7 +7,7 @@ import type { FlatConfig } from '@/types/index.d.ts';
  */
 const config: FlatConfig = [
   {
-    name: 'foundation/fw-docusaurus/ignored-files',
+    name: 'foundation-nova/fw-docusaurus/ignored-files',
     ignores: [
       './.docusaurus/**',
     ],

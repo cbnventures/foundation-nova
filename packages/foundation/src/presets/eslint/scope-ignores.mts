@@ -7,7 +7,7 @@ import type { FlatConfig } from '@/types/index.d.ts';
  */
 const config: FlatConfig = [
   {
-    name: 'foundation/scope-ignores/build-output',
+    name: 'foundation-nova/scope-ignores/build-output',
     ignores: [
       '**/dist/**',
       '**/build/**',
@@ -16,7 +16,7 @@ const config: FlatConfig = [
     ],
   },
   {
-    name: 'foundation/scope-ignores/generated',
+    name: 'foundation-nova/scope-ignores/generated',
     ignores: [
       '**/*.map',
       '**/generated/**',

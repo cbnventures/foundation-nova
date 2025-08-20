@@ -7,7 +7,7 @@ import type { FlatConfig } from '@/types/index.d.ts';
  */
 const config: FlatConfig = [
   {
-    name: 'foundation/tool-vite/ignored-files',
+    name: 'foundation-nova/tool-vite/ignored-files',
     ignores: [],
   },
 ];

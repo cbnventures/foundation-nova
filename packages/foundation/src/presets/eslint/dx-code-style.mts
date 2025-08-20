@@ -9,7 +9,7 @@ import type { FlatConfig } from '@/types/index.d.ts';
  */
 const config: FlatConfig = [
   {
-    name: 'foundation/dx-code-style',
+    name: 'foundation-nova/dx-code-style',
     files: [
       '**/*.js',
       '**/*.ts',
@@ -28,7 +28,7 @@ const config: FlatConfig = [
     },
   },
   {
-    name: 'foundation/dx-code-style/arrows',
+    name: 'foundation-nova/dx-code-style/arrows',
     files: [
       '**/*.js',
       '**/*.ts',
@@ -48,7 +48,7 @@ const config: FlatConfig = [
     },
   },
   {
-    name: 'foundation/dx-code-style/braces-commas-semicolons',
+    name: 'foundation-nova/dx-code-style/braces-commas-semicolons',
     files: [
       '**/*.js',
       '**/*.ts',
@@ -76,7 +76,7 @@ const config: FlatConfig = [
     },
   },
   {
-    name: 'foundation/dx-code-style/objects-newlines',
+    name: 'foundation-nova/dx-code-style/objects-newlines',
     files: [
       '**/*.js',
       '**/*.ts',
@@ -127,7 +127,7 @@ const config: FlatConfig = [
     },
   },
   {
-    name: 'foundation/dx-code-style/quotes-props',
+    name: 'foundation-nova/dx-code-style/quotes-props',
     files: [
       '**/*.js',
       '**/*.ts',
@@ -150,7 +150,7 @@ const config: FlatConfig = [
     },
   },
   {
-    name: 'foundation/dx-code-style/ternary-layout',
+    name: 'foundation-nova/dx-code-style/ternary-layout',
     files: [
       '**/*.js',
       '**/*.ts',
@@ -172,7 +172,7 @@ const config: FlatConfig = [
     },
   },
   {
-    name: 'foundation/dx-code-style/whitespace',
+    name: 'foundation-nova/dx-code-style/whitespace',
     files: [
       '**/*.js',
       '**/*.ts',

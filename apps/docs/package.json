@@ -28,7 +28,7 @@
     "react-dom": "19.1.1"
   },
   "devDependencies": {
-    "@cbnventures/foundation": "file:../../packages/foundation",
+    "@cbnventures/foundation-nova": "file:../../packages/foundation-nova",
     "@docusaurus/module-type-aliases": "3.8.1",
     "@docusaurus/types": "3.8.1",
     "@types/node": "24.3.0",

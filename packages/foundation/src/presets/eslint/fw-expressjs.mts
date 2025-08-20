@@ -7,7 +7,7 @@ import type { FlatConfig } from '@/types/index.d.ts';
  */
 const config: FlatConfig = [
   {
-    name: 'foundation/fw-expressjs/ignored-files',
+    name: 'foundation-nova/fw-expressjs/ignored-files',
     ignores: [],
   },
 ];

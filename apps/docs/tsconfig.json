@@ -1,8 +1,8 @@
 {
   "extends": [
-    "@cbnventures/foundation/tsconfig/dx-essentials.json",
-    "@cbnventures/foundation/tsconfig/dx-strict.json",
-    "@cbnventures/foundation/tsconfig/fw-docusaurus.json"
+    "@cbnventures/foundation-nova/tsconfig/dx-essentials.json",
+    "@cbnventures/foundation-nova/tsconfig/dx-strict.json",
+    "@cbnventures/foundation-nova/tsconfig/fw-docusaurus.json"
   ],
   "compilerOptions": {
     "baseUrl": ".",

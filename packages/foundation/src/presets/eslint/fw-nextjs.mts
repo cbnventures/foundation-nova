@@ -7,7 +7,7 @@ import type { FlatConfig } from '@/types/index.d.ts';
  */
 const config: FlatConfig = [
   {
-    name: 'foundation/fw-nextjs/ignored-files',
+    name: 'foundation-nova/fw-nextjs/ignored-files',
     ignores: [],
   },
 ];

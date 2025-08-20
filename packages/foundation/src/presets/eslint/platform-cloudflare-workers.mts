@@ -7,7 +7,7 @@ import type { FlatConfig } from '@/types/index.d.ts';
  */
 const config: FlatConfig = [
   {
-    name: 'foundation/platform-cloudflare-workers/ignored-files',
+    name: 'foundation-nova/platform-cloudflare-workers/ignored-files',
     ignores: [],
   },
 ];
