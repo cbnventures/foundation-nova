@@ -1,0 +1,29 @@
+{
+  "name": "foundation",
+  "private": true,
+  "scripts": {
+    "dev": "turbo run dev",
+    "prod": "turbo run prod",
+    "build": "npm-run-all --sequential build:*",
+    "build:turbo": "turbo run build",
+    "build:copy": "npx tsx ./scripts/copy-build-files.ts",
+    "check": "turbo run check",
+    "deploy": "turbo run deploy",
+    "clean": "turbo run clean",
+    "release": "changeset version"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@changesets/cli": "2.29.5",
+    "@types/node": "24.3.0",
+    "npm-run-all": "4.1.5",
+    "turbo": "2.5.6"
+  },
+  "packageManager": "npm@10.8.2",
+  "workspaces": [
+    "./apps/*",
+    "./packages/*"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "extends": [
+    "./src/presets/tsconfig/dx-essentials.json",
+    "./src/presets/tsconfig/dx-strict.json",
+    "./src/presets/tsconfig/env-node.json"
+  ],
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./build",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "rootDir": "./src",
+    "tsBuildInfoFile": "./.tsbuildinfo"
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": [
+    "./build/**",
+    "./node_modules/**"
+  ]
+}

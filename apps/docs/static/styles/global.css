@@ -1,0 +1,123 @@
+/**
+ * ==================================================
+ * Light mode colors
+ * ==================================================
+ */
+:root {
+  --ifm-color-primary: #9B1F1F;
+  --ifm-color-primary-dark: #7C1919;
+  --ifm-color-primary-darker: #6C1616;
+  --ifm-color-primary-darkest: #551111;
+  --ifm-color-primary-light: #AF4C4C;
+  --ifm-color-primary-lighter: #BE6D6D;
+  --ifm-color-primary-lightest: #CD8F8F;
+
+  --brand-accent: #FFBA33;
+  --brand-secondary: #E25050;
+
+  --ifm-link-color: var(--ifm-color-primary);
+  --ifm-link-hover-color: var(--brand-secondary);
+  --ifm-menu-color-active: var(--ifm-color-primary);
+  --ifm-breadcrumb-color-active: var(--ifm-color-primary);
+
+  --ifm-navbar-background-color: #FFFFFF;
+  --ifm-navbar-link-hover-color: var(--brand-secondary);
+  --ifm-footer-background-color: #0F0F0F;
+  --ifm-footer-link-color: #EFEFEF;
+  --ifm-footer-link-hover-color: var(--brand-accent);
+
+  --ifm-button-background-color: var(--ifm-color-primary);
+  --ifm-button-border-color: var(--ifm-color-primary-dark);
+  --ifm-button-hover-background-color: var(--ifm-color-primary-dark);
+  --ifm-button-hover-border-color: var(--ifm-color-primary-darker);
+
+  --ifm-pre-background: #FAF7F6;
+  --docusaurus-highlighted-code-line-bg: rgba(155, 31, 31, 0.08);
+
+  --ifm-table-stripe-background: rgba(155, 31, 31, 0.04);
+}
+
+/**
+ * ==================================================
+ * Dark mode colors
+ * ==================================================
+ */
+[data-theme='dark'] {
+  --ifm-color-primary: #E25050;
+  --ifm-color-primary-dark: #C04444;
+  --ifm-color-primary-darker: #AA3C3C;
+  --ifm-color-primary-darkest: #883030;
+  --ifm-color-primary-light: #E66A6A;
+  --ifm-color-primary-lighter: #EB8484;
+  --ifm-color-primary-lightest: #EF9F9F;
+
+  --brand-accent: #FFBA33;
+  --brand-secondary: #E25050;
+
+  --ifm-link-color: var(--ifm-color-primary);
+  --ifm-link-hover-color: var(--brand-accent);
+
+  --ifm-navbar-background-color: #0F0F0F;
+  --ifm-navbar-link-hover-color: var(--brand-accent);
+  --ifm-footer-background-color: #0A0A0A;
+  --ifm-footer-link-color: #EAEAEA;
+  --ifm-footer-link-hover-color: var(--brand-accent);
+
+  --ifm-button-background-color: var(--ifm-color-primary);
+  --ifm-button-border-color: var(--ifm-color-primary-darker);
+  --ifm-button-hover-background-color: var(--ifm-color-primary-dark);
+  --ifm-button-hover-border-color: var(--ifm-color-primary-darker);
+
+  --ifm-pre-background: #141111;
+  --docusaurus-highlighted-code-line-bg: rgba(226, 80, 80, 0.18);
+
+  --ifm-table-stripe-background: rgba(226, 80, 80, 0.06);
+}
+
+/**
+ * ==================================================
+ * Gold accents
+ * ==================================================
+ */
+.badge--accent,
+.alert--accent {
+  --ifm-alert-background-color: color-mix(in srgb, var(--brand-accent) 16%, transparent);
+  --ifm-alert-border-color: var(--brand-accent);
+  --ifm-alert-color: var(--brand-accent);
+  border-color: var(--brand-accent);
+}
+
+.button--accent {
+  --ifm-button-background-color: var(--brand-accent);
+  --ifm-button-border-color: color-mix(in srgb, var(--brand-accent) 80%, black);
+  --ifm-button-color: #111;
+}
+
+.button--accent:hover {
+  --ifm-button-background-color: color-mix(in srgb, var(--brand-accent) 88%, white);
+}
+
+/**
+ * ==================================================
+ * Navbar active states
+ * ==================================================
+ */
+.navbar__link--active,
+.navbar__link[aria-current='page'] {
+  color: var(--brand-accent);
+}
+
+.navbar__link--active:hover,
+.navbar__link[aria-current='page']:hover {
+  color: var(--brand-accent);
+}
+
+/**
+ * ==================================================
+ * Global tweaks
+ * ==================================================
+ */
+code {
+  background: color-mix(in srgb, var(--ifm-pre-background) 80%, white);
+  border: 1px solid color-mix(in srgb, var(--ifm-color-primary) 20%, transparent);
+}

@@ -1,0 +1,28 @@
+{
+  "extends": [
+    "@cbnventures/foundation/tsconfig/dx-essentials.json",
+    "@cbnventures/foundation/tsconfig/dx-strict.json",
+    "@cbnventures/foundation/tsconfig/fw-docusaurus.json"
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "./build",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "rootDir": "./",
+    "tsBuildInfoFile": "./.tsbuildinfo"
+  },
+  "include": [
+    "./docusaurus.config.ts",
+    "./sidebars.ts",
+    "./src/**/*"
+  ],
+  "exclude": [
+    "./.docusaurus/**",
+    "./build/**",
+    "./node_modules/**"
+  ]
+}

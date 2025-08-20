@@ -1,0 +1,42 @@
+{
+  "name": "docs",
+  "private": true,
+  "scripts": {
+    "dev": "npm-run-all --parallel dev:*",
+    "dev:start": "docusaurus start",
+    "prod": "npm-run-all --sequential prod:*",
+    "prod:serve": "docusaurus serve ./",
+    "build": "npm-run-all --sequential build:*",
+    "build:build": "docusaurus build",
+    "check": "npm-run-all --parallel check:*",
+    "check:lint": "eslint ./ --ext .js,.jsx,.mjs,.cjs,.ts,.tsx,.mts,.cts",
+    "check:types": "tsc --noEmit",
+    "clean": "npm-run-all --parallel clean:*",
+    "clean:clear": "docusaurus clear"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@docusaurus/core": "3.8.1",
+    "@docusaurus/preset-classic": "3.8.1",
+    "@easyops-cn/docusaurus-search-local": "0.52.1",
+    "@iconify/react": "6.0.0",
+    "@mdx-js/react": "3.1.0",
+    "prism-react-renderer": "2.4.1",
+    "react": "19.1.1",
+    "react-dom": "19.1.1"
+  },
+  "devDependencies": {
+    "@cbnventures/foundation": "file:../../packages/foundation",
+    "@docusaurus/module-type-aliases": "3.8.1",
+    "@docusaurus/types": "3.8.1",
+    "@types/node": "24.3.0",
+    "@types/react": "19.1.10",
+    "@types/react-dom": "19.1.7",
+    "docusaurus-plugin-module-alias": "0.0.2",
+    "eslint": "9.33.0",
+    "npm-run-all": "4.1.5",
+    "typescript": "5.6.3"
+  }
+}
