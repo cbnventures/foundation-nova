@@ -1,8 +1,7 @@
 {
-  "label": "ESLint",
-  "position": 2,
+  "label": "Vite",
   "collapsible": true,
-  "collapsed": false,
+  "collapsed": true,
   "link": {
     "type": "generated-index"
   }
