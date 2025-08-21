@@ -15,7 +15,6 @@ jobs:
     timeout-minutes: 5
     permissions:
       contents: "read"
-      id-token: "write"
     env:
       WORKING_DIR: "./packages/foundation-nova"
     steps:
@@ -36,7 +35,7 @@ jobs:
         working-directory: "${{ env.WORKING_DIR }}"
 
       - name: "Publish package to npm"
-        run: "npm publish --provenance"
+        run: "npm publish"
         working-directory: "${{ env.WORKING_DIR }}"
         env:
           NODE_AUTH_TOKEN: "${{ secrets.NODE_AUTH_TOKEN }}"
