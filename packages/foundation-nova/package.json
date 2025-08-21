@@ -1,7 +1,7 @@
 {
   "name": "@cbnventures/foundation-nova",
   "displayName": "Foundation Nova",
-  "version": "1.0.0",
+  "version": "0.1.1",
   "description": "Scripts, templates, and project configuration for the common JavaScript and TypeScript developer",
   "main": "",
   "exports": {
@@ -89,7 +89,9 @@
   "bugs": {
     "url": "https://github.com/cbnventures/foundation-nova/issues"
   },
-  "files": [],
+  "files": [
+    "./build"
+  ],
   "homepage": "https://github.com/cbnventures/foundation-nova",
   "engines": {
     "node": ">=20"

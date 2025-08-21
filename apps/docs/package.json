@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "npm-run-all --parallel dev:*",
-    "dev:start": "docusaurus start",
+    "dev:start": "docusaurus start --port 9999",
     "prod": "npm-run-all --sequential prod:*",
     "prod:serve": "docusaurus serve ./",
     "build": "npm-run-all --sequential build:*",

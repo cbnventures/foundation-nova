@@ -1,0 +1,48 @@
+name: "Publish to GitHub Pages"
+
+run-name: "Publishing ${{ github.event.release.tag_name }} to GitHub Pages"
+
+on:
+  release:
+    types: [ "published" ]
+
+permissions:
+  { }
+
+jobs:
+  publish-to-github-pages:
+    runs-on: "ubuntu-latest"
+    timeout-minutes: 5
+    permissions:
+      contents: "read"
+      id-token: "write"
+      pages: "write"
+    env:
+      WORKING_DIR: "./apps/docs"
+    steps:
+      - name: "Checkout repository"
+        uses: "actions/checkout@v4"
+
+      - name: "Setup Node.js"
+        uses: "actions/setup-node@v4"
+        with:
+          node-version-file: "${{ env.WORKING_DIR }}/package.json"
+
+      - name: "Install packages"
+        run: "npm install"
+        working-directory: "${{ env.WORKING_DIR }}"
+
+      - name: "Build project"
+        run: "npm run build"
+        working-directory: "${{ env.WORKING_DIR }}"
+
+      - name: "Setup GitHub Pages"
+        uses: "actions/configure-pages@v5"
+
+      - name: "Upload artifact to GitHub Pages"
+        uses: "actions/upload-pages-artifact@v3"
+        with:
+          path: "${{ env.WORKING_DIR }}/build"
+
+      - name: "Deploy to GitHub Pages"
+        uses: "actions/deploy-pages@v4"

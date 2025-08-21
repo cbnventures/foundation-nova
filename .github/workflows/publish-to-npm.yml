@@ -1,0 +1,42 @@
+name: "Publish to npm"
+
+run-name: "Publishing ${{ github.event.release.tag_name }} to npm"
+
+on:
+  release:
+    types: [ "published" ]
+
+permissions:
+  { }
+
+jobs:
+  publish-to-npm:
+    runs-on: "ubuntu-latest"
+    timeout-minutes: 5
+    permissions:
+      contents: "read"
+      id-token: "write"
+    env:
+      WORKING_DIR: "./packages/foundation-nova"
+    steps:
+      - name: "Checkout repository"
+        uses: "actions/checkout@v4"
+
+      - name: "Setup Node.js"
+        uses: "actions/setup-node@v4"
+        with:
+          node-version-file: "${{ env.WORKING_DIR }}/package.json"
+
+      - name: "Install packages"
+        run: "npm install"
+        working-directory: "${{ env.WORKING_DIR }}"
+
+      - name: "Build project"
+        run: "npm run build"
+        working-directory: "${{ env.WORKING_DIR }}"
+
+      - name: "Publish package to npm"
+        run: "npm publish --provenance"
+        working-directory: "${{ env.WORKING_DIR }}"
+        env:
+          NODE_AUTH_TOKEN: "${{ secrets.NODE_AUTH_TOKEN }}"

@@ -13,11 +13,15 @@ on:
       - "closed"
 
 permissions:
-  issues: "write"
+  { }
 
 jobs:
   check-issues:
     runs-on: "ubuntu-latest"
+    timeout-minutes: 1
+    permissions:
+      contents: "read"
+      issues: "write"
     steps:
       - name: "Checkout repository"
         uses: "actions/checkout@v4"

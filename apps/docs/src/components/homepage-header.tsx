@@ -24,7 +24,7 @@ export function HomepageHeader() {
           {siteConfig.tagline}
         </p>
         <div style={styles['buttons']}>
-          <Link className="button button--secondary button--lg" to="/docs/getting-started/">
+          <Link className="button button--secondary button--lg" to="/docs/quickstart/">
             Get Started 👏
           </Link>
         </div>
