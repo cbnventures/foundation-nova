@@ -8,4 +8,77 @@ tags:
   - initialization
 ---
 
-Coming soon
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Setup
+
+Foundation Nova supports two starting paths. Use the runner for a one-off. Install locally for configs you can commit.
+
+## Requirements
+
+- Node.js <abbr title="Long-Term Support">LTS</abbr>
+- <abbr title="Node Package Manager">npm</abbr>
+
+:::tip Quick Check
+Run this command to check your Node.js LTS, npm, operating system, installed browsers, and other dev tools without downloading or installing this package:
+
+```bash
+npx @cbnventures/foundation-nova@latest versions
+```
+:::
+
+## Choose Your Path
+
+Choose **Run once (npx)** to try Nova or make a one-off change, or **Install locally** to use preset configs and run commands any time.
+
+<Tabs groupId="setup-mode">
+  <TabItem value="runner" label="Run once (npx)">
+
+    View the built-in help from the command below, or see **[CLI](/docs/cli/)**.
+
+    ```bash
+    npx @cbnventures/foundation-nova@latest
+    ```
+
+  </TabItem>
+  <TabItem value="local" label="Install locally">
+
+    First, Install Nova.
+
+    ```bash
+    npm i -D @cbnventures/foundation-nova@latest
+    ```
+
+    Second, configure **TypeScript** though the `tsconfig.json` file and see **[TSConfig best practices](/docs/configuration/tsconfig/best-practices)**.
+
+    ```json
+    {
+      "extends": [
+      "./src/presets/tsconfig/dx-essentials.json",
+      "./src/presets/tsconfig/dx-strict.json"
+      ]
+    }
+    ```
+
+    Third, configure **ESLint** through the `eslint.config.mjs` file and see **[ESLint best practices](/docs/configuration/eslint/best-practices)**.
+
+    ```javascript
+    import { dxCodeStyle, scopeIgnores } from '@cbnventures/foundation-nova/eslint';
+
+    export default [
+      ...scopeIgnores,
+      ...dxCodeStyle,
+    ];
+    ```
+
+  </TabItem>
+</Tabs>
+
+---
+
+## Next Steps
+
+- See **[CLI](/docs/cli/)** for generators and project scaffolding.
+- See **[Configuration](/docs/configuration/)** to choose ESLint and TypeScript scenarios.
+- See **[Examples](/docs/examples/)** for sample configurations and layouts.

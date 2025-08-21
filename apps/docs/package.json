@@ -9,7 +9,7 @@
     "build": "npm-run-all --sequential build:*",
     "build:build": "docusaurus build",
     "check": "npm-run-all --parallel check:*",
-    "check:lint": "eslint ./ --ext .js,.jsx,.mjs,.cjs,.ts,.tsx,.mts,.cts",
+    "check:lint": "eslint ./ --ext .js,.ts,.jsx,.tsx,.mjs,.mts,.cjs,.cts",
     "check:types": "tsc --noEmit",
     "clean": "npm-run-all --parallel clean:*",
     "clean:clear": "docusaurus clear"

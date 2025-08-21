@@ -8,4 +8,60 @@ tags:
   - basics
 ---
 
-Coming soon
+# Overview
+
+**Foundation Nova** is the JavaScript and TypeScript edition of **Foundation**. It provides strict presets and guided tooling so you can build with confidence and predictability.
+
+## Why Nova?
+
+- **Strong defaults** that lower setup overhead and reduce drift.
+- **Strict linting and typing** that catch defects early and keep code dependable.
+- **Guided generators** that scaffold and maintain files.
+- **Freedom with guardrails** lets you override when needed while sensible restrictions prevent risky patterns.
+- **Consistent <abbr title="developer experience">DX</abbr>** across repos.
+
+## Designed For…
+
+- Teams that prefer **strict code** with **[Airbnb-style](https://github.com/airbnb/javascript) familiarity**.
+- Projects that need **predictable builds** and **low setup overhead**.
+- Developers who want **clear rules** with **override control** when needed.
+
+## Our Values ✨
+
+- **Automatic** — Setup configures itself when possible with minimal <abbr title="development and operations">DevOps</abbr>, so you set it and move on.
+- **Explicit** — Configuration is visible and explained with no hidden magic.
+- **Independence** — Repository owners control their configurations with no global state.
+- **Predictable** — The same inputs produce the same outputs.
+- **Stable modern** — Modern features that are stable and supported, not a beta playground.
+
+## Scope and Boundaries
+
+- **Node.js <abbr title="Long-Term Support">LTS</abbr> first** — Nova tracks the latest long-term support baselines for Node.js.
+- **Modern modules** — Nova targets ESM-based builds and excludes legacy "script" pipelines.
+- **No experimental-only features** — Stability over hype.
+
+## Preset Configurations
+
+### ESLint presets
+
+- **Inspired by Airbnb** for familiar strictness and strong defaults. See [eslint-config-airbnb](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb).
+- **Defect-first rules** put correctness and safety before style. Style rules stay when they improve clarity or maintainability.
+- **Scenario-based** presets match your intent: library, browser app, Node service, or framework. No one-size-fits-all "base".
+- **Overridable** letting you adapt rules to context while guardrails stay intact.
+
+### TypeScript presets
+
+- **Strict by default** so types act as a safety net, not a suggestion.
+- **Module centric** and aligned with modern ESM toolchains.
+- **Predictable resolution** with clear, consistent imports across environments.
+- **Pragmatic JS interop** to keep mixed JS and TS repos coherent.
+- **No brittle caches** because correctness beats fragile speed hacks.
+- **Clarity over magic** with fewer knobs and explicit behavior.
+- **Verifiable configs** with outputs you can inspect and trust.
+
+### Configuration Ownership
+
+- **Compositional presets** are designed to work with fundamentals rather than fight them.
+- **Scenario first** means you pick the preset that matches what you are building and add options as needed.
+- **Final say** belongs to your repository so local config can override Nova when required.
+- **Balance** means some freedom to grow while guardrails prevent risky or disliked patterns.

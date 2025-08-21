@@ -1,0 +1,130 @@
+---
+id: glossary
+title: Glossary
+sidebar_position: 3
+tags:
+  - cli
+  - usage
+  - automation
+---
+
+# Glossary
+
+Short, practical definitions for newer developers. Tables list the familiar term first, also known as, then the definition.
+
+## Fundamentals
+
+| Term       | Also known as                     | Definition                                                                                                         |
+|------------|-----------------------------------|--------------------------------------------------------------------------------------------------------------------|
+| **API**    | application programming interface | A defined interface for one program to request data or actions from another.                                       |
+| **SDK**    | software development kit          | A bundle of libraries, tools, and examples for working with an API or platform.                                    |
+| **CLI**    | command line interface            | A program you run in the terminal by typing commands to perform tasks.                                             |
+| **LTS**    | long term support                 | A release line that keeps receiving security and bug fixes for an extended period of time.                         |
+| **SemVer** | semantic versioning               | Version numbers as MAJOR.MINOR.PATCH where breaking changes bump MAJOR, features bump MINOR, and fixes bump PATCH. |
+
+## Packages and Dependencies
+
+| Term                       | Also known as | Definition                                                                                                         |
+|----------------------------|---------------|--------------------------------------------------------------------------------------------------------------------|
+| **Dependency**             | runtime dep   | A package your app needs when it runs.                                                                             |
+| **Development dependency** | dev dep       | A package used for build, test, or tooling, not at runtime.                                                        |
+| **Peer dependency**        | peer dep      | A package your project must install because a library you use expects to use your copy, with a compatible version. |
+| **lockfile**               | package lock  | A file that pins exact versions so installs are repeatable.                                                        |
+
+## JavaScript and TypeScript
+
+| Term                   | Also known as      | Definition                                                                                                                        |
+|------------------------|--------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| **ESM**                | ECMAScript Modules | Modern JavaScript modules that use `import` and `export`.                                                                         |
+| **CommonJS**           | CJS                | Older Node.js modules that use `require` and `module.exports`.                                                                    |
+| **compile**            | —                  | Translate source code to a lower-level form such as machine code or bytecode (e.g., C++ → machine code, Python → bytecode).       |
+| **transpile**          | source-to-source   | Convert code to a similar-level language or version (e.g., TypeScript → JavaScript).                                              |
+| **polyfill**           | shim               | Runtime code that adds a missing browser feature or platform API.                                                                 |
+| **type narrowing**     | refinement         | Make a type more specific after a check (e.g., `typeof`, `in`, truthy checks).                                                    |
+| **union type**         | `A \| B`           | A value can be one of several types (e.g., soup `OR` salad).                                                                      |
+| **intersection type**  | `A & B`            | A value must satisfy multiple types at once (e.g., numbers that are even `AND` prime).                                            |
+| **nominal typing**     | name based typing  | Requires the same declared type or an explicit relation (e.g., `UserId` is not assignable to `PostId` even if both are `string`). |
+| **structural typing**  | duck typing        | Compatible by shape, not by name (e.g., `{ x: number; y: number }` is assignable to `Coordinates`).                               |
+| **ambient types**      | global types       | Type declarations available globally without imports.                                                                             |
+| **`any` vs `unknown`** | —                  | `any` disables type safety; `unknown` forces explicit type checking before use.                                                   |
+| **`never`**            | impossible type    | A type with no possible values.                                                                                                   |
+
+## Builds and Tooling
+
+| Term               | Also known as         | Definition                                                                                  |
+|--------------------|-----------------------|---------------------------------------------------------------------------------------------|
+| **bundle**         | build artifact        | Combine many source files into one or a few files the browser or Node.js can load.          |
+| **minify**         | —                     | Remove comments and whitespace and shorten names to shrink files.                           |
+| **tree shaking**   | dead code elimination | Remove code that is never imported or used.                                                 |
+| **code splitting** | lazy chunks           | Break the app into chunks and load them on demand or by route.                              |
+| **source map**     | `.map` file           | Link compiled or minified code back to the original files for debugging.                    |
+| **watch mode**     | auto rebuild          | Rebuild automatically when files change.                                                    |
+| **hot reload**     | HMR                   | Swap updated modules into a running app without a full page reload, often preserving state. |
+
+## Module Behavior
+
+| Term                     | Also known as        | Definition                                                                                                          |
+|--------------------------|----------------------|---------------------------------------------------------------------------------------------------------------------|
+| **`exports` field**      | package exports      | A map of entry points that a package exposes to importers (projects that use that package).                         |
+| **conditional exports**  | env specific exports | Choose different entry files by environment or import kind (e.g., `import` → `index.mjs`, `require` → `index.cjs`). |
+| **side-effect import**   | setup import         | Run the module's top-level code and import nothing (e.g., `import './polyfills';`).                                 |
+| **value named import**   | named import         | Import specific exports as bindings (e.g., `import { parse } from './util';`).                                      |
+| **value default import** | default import       | Import the module's default export as one binding (e.g., `import parse from './util';`).                            |
+| **type-only import**     | type import          | Import types only and erase them at build time in TypeScript (e.g., `import type { User } from './types';`).        |
+| **top level await**      | TLA                  | Use `await` in an ESM module's top scope.                                                                           |
+
+## Runtime and Browser
+
+| Term              | Also known as           | Definition                                                                                |
+|-------------------|-------------------------|-------------------------------------------------------------------------------------------|
+| **event loop**    | —                       | The system that runs one task at a time and schedules what runs next.                     |
+| **blocking code** | synchronous stall       | Long synchronous work that stops the event loop so clicks and timers wait.                |
+| **hydration**     | reattach on client      | Client JavaScript takes over server-rendered HTML and wires up events.                    |
+| **CSR**           | client side rendering   | Render the UI in the browser after the JavaScript bundle loads.                           |
+| **SSR**           | server side rendering   | Render HTML on the server for each request, then hydrate in the browser.                  |
+| **SSG**           | static site generation  | Pre-render HTML at build time and serve static files.                                     |
+| **CORS**          | cross origin requests   | Browser rule that blocks cross-site requests unless the server opts in with CORS headers. |
+| **CSP**           | content security policy | Browser rule that allows only approved scripts and resources.                             |
+
+## Git and Workflow
+
+| Term             | Also known as | Definition                                                                       |
+|------------------|---------------|----------------------------------------------------------------------------------|
+| **commit**       | revision      | A saved snapshot of changes in the repository.                                   |
+| **branch**       | —             | A movable line of work that points to a commit.                                  |
+| **merge**        | merge commit  | Combine changes from one branch into another, creating a merge commit if needed. |
+| **rebase**       | —             | Move commits to a new base and replay them to keep history linear.               |
+| **fast forward** | FF merge      | A merge that only moves the branch pointer to a later commit with no new commit. |
+| **tag**          | release tag   | A named pointer to a specific commit, often used for releases.                   |
+
+## Testing
+
+| Term                 | Also known as         | Definition                                                                                          |
+|----------------------|-----------------------|-----------------------------------------------------------------------------------------------------|
+| **unit test**        | spec, component test  | Tests one function or module in isolation with dependencies mocked.                                 |
+| **integration test** | —                     | Tests how multiple parts work together across real boundaries.                                      |
+| **end to end test**  | E2E                   | Drives the app like a user from UI to backend in a real environment.                                |
+| **mock**             | stub, fake            | A stand-in function or object with controlled behavior for a dependency.                            |
+| **fixture**          | test data             | Fixed sample data or files used to set up a repeatable test.                                        |
+| **flaky test**       | nondeterministic test | Sometimes passes and sometimes fails without code changes, often due to timing or external systems. |
+
+## Performance and <abbr title="user experience">UX</abbr>
+
+| Term                | Also known as        | Definition                                                                                  |
+|---------------------|----------------------|---------------------------------------------------------------------------------------------|
+| **debounce**        | —                    | Wait to run until input has been idle for a short time (e.g., search box).                  |
+| **throttle**        | rate limit           | Run at most once every set interval (e.g., scroll handler).                                 |
+| **critical path**   | —                    | Assets that must load before the page can render or accept input.                           |
+| **render blocking** | blocking resource    | A resource that delays first paint until it finishes (often CSS or synchronous JavaScript). |
+| **a11y**            | accessibility        | Practices that make the app usable with keyboard and assistive tech.                        |
+| **i18n**            | internationalization | Prepare for multiple locales by extracting strings and using locale-aware formats.          |
+| **l10n**            | localization         | Provide locale-specific content and formatting for a target audience.                       |
+| **t9n**             | translation          | Translate UI strings between languages.                                                     |
+
+## Security
+
+| Term             | Also known as              | Definition                                                                                         |
+|------------------|----------------------------|----------------------------------------------------------------------------------------------------|
+| **XSS**          | cross site scripting       | Attacker supplied script runs in the user's browser due to unsafe or unescaped content.            |
+| **CSRF**         | cross site request forgery | A logged in user's browser is tricked into sending a request to your site using their credentials. |
+| **sanitization** | input cleansing            | Remove or escape untrusted input before using it in HTML, URLs, queries, or file paths.            |

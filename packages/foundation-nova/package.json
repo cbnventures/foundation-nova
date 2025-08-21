@@ -1,25 +1,12 @@
 {
   "name": "@cbnventures/foundation-nova",
   "displayName": "Foundation Nova",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Scripts, templates, and project configuration for the common JavaScript and TypeScript developer",
   "main": "",
   "exports": {
     "./eslint": "./build/presets/eslint/index.mjs",
-    "./eslint/dx-code-style": "./build/presets/eslint/dx-code-style.mjs",
-    "./eslint/env-browser": "./build/presets/eslint/env-browser.mjs",
-    "./eslint/env-edge": "./build/presets/eslint/env-edge.mjs",
-    "./eslint/env-node": "./build/presets/eslint/env-node.mjs",
-    "./eslint/env-service-workers": "./build/presets/eslint/env-service-workers.mjs",
-    "./eslint/env-web-workers": "./build/presets/eslint/env-web-workers.mjs",
-    "./eslint/fw-docusaurus": "./build/presets/eslint/fw-docusaurus.mjs",
-    "./eslint/fw-expressjs": "./build/presets/eslint/fw-expressjs.mjs",
-    "./eslint/fw-nextjs": "./build/presets/eslint/fw-nextjs.mjs",
-    "./eslint/lang-javascript": "./build/presets/eslint/lang-javascript.mjs",
-    "./eslint/lang-typescript": "./build/presets/eslint/lang-typescript.mjs",
-    "./eslint/platform-cloudflare-workers": "./build/presets/eslint/platform-cloudflare-workers.mjs",
-    "./eslint/scope-ignores": "./build/presets/eslint/scope-ignores.mjs",
-    "./eslint/tool-vite": "./build/presets/eslint/tool-vite.mjs",
+    "./eslint/*": "./build/presets/eslint/*.mjs",
     "./tsconfig/dx-essentials.json": "./build/presets/tsconfig/dx-essentials.json",
     "./tsconfig/dx-strict.json": "./build/presets/tsconfig/dx-strict.json",
     "./tsconfig/env-browser.json": "./build/presets/tsconfig/env-browser.json",
@@ -44,7 +31,7 @@
     "build:fix": "tsc-alias -p tsconfig.json",
     "build:copy": "copyfiles -u 3 \"src/presets/tsconfig/**/*.json\" ./build/presets/tsconfig",
     "check": "npm-run-all --sequential check:*",
-    "check:lint": "eslint ./ --ext .js,.jsx,.mjs,.cjs,.ts,.tsx,.mts,.cts",
+    "check:lint": "eslint ./ --ext .js,.ts,.jsx,.tsx,.mjs,.mts,.cjs,.cts",
     "check:types": "tsc --noEmit",
     "clean": "npm-run-all --parallel clean:*",
     "clean:clear": "rimraf ./build"
@@ -92,7 +79,7 @@
   "files": [
     "./build"
   ],
-  "homepage": "https://github.com/cbnventures/foundation-nova",
+  "homepage": "https://cbnventures.github.io/foundation-nova/",
   "engines": {
     "node": ">=20"
   },

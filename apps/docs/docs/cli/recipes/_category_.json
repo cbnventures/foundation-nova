@@ -1,5 +1,6 @@
 {
-  "label": "Amazon Web Services (AWS)",
+  "label": "Recipes",
+  "position": 3,
   "collapsible": true,
   "collapsed": true,
   "link": {
