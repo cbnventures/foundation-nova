@@ -1,12 +1,13 @@
 {
-  "name": "foundation-nova",
+  "name": "monorepo-foundation-nova",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "turbo run dev",
     "prod": "turbo run prod",
     "build": "npm-run-all --sequential build:*",
     "build:turbo": "turbo run build",
-    "build:copy": "npx tsx ./scripts/copy-build-files.ts",
+    "build:copy": "tsx ./tools/copy-build-files.ts",
     "check": "turbo run check",
     "deploy": "turbo run deploy",
     "clean": "turbo run clean",
@@ -16,9 +17,11 @@
     "node": ">=20"
   },
   "devDependencies": {
+    "@cbnventures/foundation-nova": "file:./packages/foundation-nova",
     "@changesets/cli": "2.29.5",
     "@types/node": "24.3.0",
     "npm-run-all": "4.1.5",
+    "tsx": "4.20.4",
     "turbo": "2.5.6"
   },
   "packageManager": "npm@10.8.2",

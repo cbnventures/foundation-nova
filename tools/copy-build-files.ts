@@ -2,6 +2,15 @@ import * as fs from 'node:fs';
 import * as fsp from 'node:fs/promises';
 import * as path from 'node:path';
 
+import type {
+  BuildCopierCopyDirectoryDestinationPath,
+  BuildCopierCopyDirectoryReturns,
+  BuildCopierCopyDirectorySourcePath,
+  BuildCopierGetWorkspacesReturns,
+  BuildCopierListSubdirectoriesReturns,
+  BuildCopierListSubdirectoriesRootDirectory,
+} from './types/copy-build-files.d.ts';
+
 /**
  * Build Copier.
  *
@@ -22,19 +31,21 @@ class BuildCopier {
         const applications = this.listSubdirectories(workspace);
 
         for (const application of applications) {
-          const sourceDirectory = path.join(workspace, application, "build");
+          const sourceDirectory = path.join(workspace, application, 'build');
 
           if (!fs.existsSync(sourceDirectory) || !fs.statSync(sourceDirectory).isDirectory()) {
             continue;
           }
 
           const workspaceName = path.basename(workspace);
-          const destinationDirectory = path.join("build", `${workspaceName}-${application}`);
+          const destinationDirectory = path.join('build', `${workspaceName}-${application}`);
 
           copyTasks.push(
             this
               .copyDirectory(sourceDirectory, destinationDirectory)
-              .then(() => console.log(`Copied "${sourceDirectory}" -> "${destinationDirectory}"`))
+              .then(() => {
+                console.log(`Copied "${sourceDirectory}" -> "${destinationDirectory}"`);
+              }),
           );
         }
       }
@@ -52,13 +63,13 @@ class BuildCopier {
   /**
    * Build Copier - List subdirectories.
    *
-   * @param {string} rootDirectory - Root directory.
+   * @param {BuildCopierListSubdirectoriesRootDirectory} rootDirectory - Root directory.
    *
-   * @returns {string[]}
+   * @returns {BuildCopierListSubdirectoriesReturns}
    *
    * @since 1.0.0
    */
-  private listSubdirectories(rootDirectory: string): string[] {
+  private listSubdirectories(rootDirectory: BuildCopierListSubdirectoriesRootDirectory): BuildCopierListSubdirectoriesReturns {
     try {
       return fs
         .readdirSync(rootDirectory, {
@@ -74,11 +85,11 @@ class BuildCopier {
   /**
    * Build Copier - Get workspaces.
    *
-   * @returns {Promise<string[]>}
+   * @returns {BuildCopierGetWorkspacesReturns}
    *
    * @since 1.0.0
    */
-  private async getWorkspaces(): Promise<string[]> {
+  private async getWorkspaces(): BuildCopierGetWorkspacesReturns {
     const packageJsonFilePath = path.resolve(process.cwd(), 'package.json');
     const packageJsonContents = await fsp.readFile(packageJsonFilePath, 'utf8');
     const packageJson = JSON.parse(packageJsonContents);
@@ -101,14 +112,14 @@ class BuildCopier {
   /**
    * Build Copier - Copy directory.
    *
-   * @param {string} sourcePath      - Source path.
-   * @param {string} destinationPath - Destination path.
+   * @param {BuildCopierCopyDirectorySourcePath}      sourcePath      - Source path.
+   * @param {BuildCopierCopyDirectoryDestinationPath} destinationPath - Destination path.
    *
-   * @returns {Promise<void>}
+   * @returns {BuildCopierCopyDirectoryReturns}
    *
    * @since 1.0.0
    */
-  private async copyDirectory(sourcePath: string, destinationPath: string): Promise<void> {
+  private async copyDirectory(sourcePath: BuildCopierCopyDirectorySourcePath, destinationPath: BuildCopierCopyDirectoryDestinationPath): BuildCopierCopyDirectoryReturns {
     await fsp.cp(sourcePath, destinationPath, {
       recursive: true,
     });

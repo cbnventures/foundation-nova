@@ -1,9 +1,13 @@
 {
   "name": "@cbnventures/foundation-nova",
   "displayName": "Foundation Nova",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Scripts, templates, and project configuration for the common JavaScript and TypeScript developer",
   "main": "",
+  "bin": {
+    "foundation-nova": "./build/cli/index.js",
+    "nova": "./build/cli/index.js"
+  },
   "exports": {
     "./eslint": "./build/presets/eslint/index.mjs",
     "./eslint/*": "./build/presets/eslint/*.mjs",
@@ -23,18 +27,20 @@
   "type": "module",
   "private": false,
   "scripts": {
-    "dev": "npm-run-all --sequential dev:*",
+    "dev": "npm-run-all --parallel dev:*",
     "dev:watch": "tsc --project tsconfig.json --watch",
+    "dev:fix-alias": "tsc-alias -p tsconfig.json -w",
     "build": "npm-run-all --sequential build:*",
     "build:clean": "npm run clean",
     "build:build": "tsc --project tsconfig.json --outDir ./build",
-    "build:fix": "tsc-alias -p tsconfig.json",
-    "build:copy": "copyfiles -u 3 \"src/presets/tsconfig/**/*.json\" ./build/presets/tsconfig",
+    "build:fix-alias": "tsc-alias -p tsconfig.json",
+    "build:fix-perms": "shx chmod +x ./build/cli/index.js",
+    "build:copy-tsconfig": "shx cp -r \"./src/presets/tsconfig\" \"./build/presets/tsconfig\"",
     "check": "npm-run-all --sequential check:*",
     "check:lint": "eslint ./ --ext .js,.ts,.jsx,.tsx,.mjs,.mts,.cjs,.cts",
     "check:types": "tsc --noEmit",
     "clean": "npm-run-all --parallel clean:*",
-    "clean:clear": "rimraf ./build"
+    "clean:clear": "shx rm -rf ./build"
   },
   "types": "",
   "repository": {
@@ -86,6 +92,7 @@
   "dependencies": {
     "@eslint/js": "9.33.0",
     "@stylistic/eslint-plugin": "5.2.3",
+    "commander": "14.0.0",
     "eslint-plugin-import": "2.32.0",
     "eslint-plugin-jsx-a11y": "6.10.2",
     "eslint-plugin-react": "7.37.5",
@@ -94,13 +101,13 @@
     "typescript-eslint": "8.39.1"
   },
   "devDependencies": {
+    "@commander-js/extra-typings": "14.0.0",
     "@types/eslint-plugin-jsx-a11y": "6.10.0",
     "@types/node": "24.2.1",
-    "copyfiles": "2.4.1",
     "eslint": "9.33.0",
     "eslint-import-resolver-typescript": "4.4.4",
     "npm-run-all": "4.1.5",
-    "rimraf": "6.0.1",
+    "shx": "0.4.0",
     "tsc-alias": "1.8.16",
     "typescript": "5.9.2"
   },

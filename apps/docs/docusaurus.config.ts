@@ -5,7 +5,7 @@ import type { Config } from '@docusaurus/types';
 import * as docusaurusSearch from '@easyops-cn/docusaurus-search-local';
 import { themes as prismThemes } from 'prism-react-renderer';
 
-import { getFooterLinks, getNavBarItems } from './lib/menu-builder';
+import { MenuBuilder } from './tools/menu-builder';
 
 /**
  * Config.
@@ -91,7 +91,7 @@ const config: Config = {
         src: 'images/logo.svg',
       },
       items: [
-        ...getNavBarItems('docs'),
+        ...MenuBuilder.getNavBarItems('docs'),
         {
           label: 'GitHub',
           position: 'right',
@@ -106,7 +106,7 @@ const config: Config = {
         {
           title: 'Links',
           items: [
-            ...getFooterLinks('docs'),
+            ...MenuBuilder.getFooterLinks('docs'),
           ],
         },
         {

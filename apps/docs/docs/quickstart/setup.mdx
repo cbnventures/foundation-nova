@@ -21,10 +21,10 @@ Foundation Nova supports two starting paths. Use the runner for a one-off. Insta
 - <abbr title="Node Package Manager">npm</abbr>
 
 :::tip Quick Check
-Run this command to check your Node.js LTS, npm, operating system, installed browsers, and other dev tools without downloading or installing this package:
+Run this command below to check the installed versions of your Node.js, npm, operating system, installed browsers, and other dev tools directly:
 
 ```bash
-npx @cbnventures/foundation-nova@latest versions
+npx @cbnventures/foundation-nova ver --all
 ```
 :::
 
@@ -38,7 +38,7 @@ Choose **Run once (npx)** to try Nova or make a one-off change, or **Install loc
     View the built-in help from the command below, or see **[CLI](/docs/cli/)**.
 
     ```bash
-    npx @cbnventures/foundation-nova@latest
+    npx @cbnventures/foundation-nova
     ```
 
   </TabItem>
@@ -47,10 +47,10 @@ Choose **Run once (npx)** to try Nova or make a one-off change, or **Install loc
     First, Install Nova.
 
     ```bash
-    npm i -D @cbnventures/foundation-nova@latest
+    npm i -D @cbnventures/foundation-nova
     ```
 
-    Second, configure **TypeScript** though the `tsconfig.json` file and see **[TSConfig best practices](/docs/configuration/tsconfig/best-practices)**.
+    Second, configure **TypeScript** though the `tsconfig.json` file. See **[TSConfig best practices](/docs/configuration/tsconfig/best-practices)**.
 
     ```json
     {
@@ -61,7 +61,7 @@ Choose **Run once (npx)** to try Nova or make a one-off change, or **Install loc
     }
     ```
 
-    Third, configure **ESLint** through the `eslint.config.mjs` file and see **[ESLint best practices](/docs/configuration/eslint/best-practices)**.
+    Third, configure **ESLint** through the `eslint.config.mjs` file. See **[ESLint best practices](/docs/configuration/eslint/best-practices)**.
 
     ```javascript
     import { dxCodeStyle, scopeIgnores } from '@cbnventures/foundation-nova/eslint';
@@ -70,6 +70,12 @@ Choose **Run once (npx)** to try Nova or make a one-off change, or **Install loc
       ...scopeIgnores,
       ...dxCodeStyle,
     ];
+    ```
+
+    Optionally, you can use the shorthand command for the **[CLI](/docs/cli/)**:
+
+    ```bash
+    npx nova
     ```
 
   </TabItem>

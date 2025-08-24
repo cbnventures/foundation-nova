@@ -33,10 +33,7 @@ const config: FlatConfig = [
   {
     name: 'foundation-nova/lang-typescript/type-declarations',
     files: [
-      '**/*.ts',
-      '**/*.tsx',
-      '**/*.cts',
-      '**/*.mts',
+      '**/*.d.ts',
     ],
     languageOptions: {
       parser: tseslint.parser,
@@ -59,6 +56,13 @@ const config: FlatConfig = [
         'singleline': {
           'delimiter': 'semi',
           'requireLast': false,
+        },
+      }],
+
+      // Enforce line breaks before operators, except for '=' which should be placed directly after the type name.
+      '@stylistic/operator-linebreak': ['error', 'before', {
+        overrides: {
+          '=': 'after',
         },
       }],
     },

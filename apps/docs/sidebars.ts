@@ -1,6 +1,6 @@
 import type { SidebarsConfig } from '@docusaurus/plugin-content-docs';
 
-import { getSidebars } from './lib/menu-builder';
+import { MenuBuilder } from './tools/menu-builder';
 
 /**
  * Sidebars.
@@ -8,7 +8,7 @@ import { getSidebars } from './lib/menu-builder';
  * @since 1.0.0
  */
 const sidebars: SidebarsConfig = {
-  ...getSidebars('docs'),
+  ...MenuBuilder.getSidebars('docs'),
 };
 
 export default sidebars;
