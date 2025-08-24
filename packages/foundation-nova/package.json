@@ -1,6 +1,5 @@
 {
   "name": "@cbnventures/foundation-nova",
-  "displayName": "Foundation Nova",
   "version": "0.2.0",
   "description": "Scripts, templates, and project configuration for the common JavaScript and TypeScript developer",
   "main": "",
@@ -42,7 +41,6 @@
     "clean": "npm-run-all --parallel clean:*",
     "clean:clear": "shx rm -rf ./build"
   },
-  "types": "",
   "repository": {
     "type": "git",
     "url": "git://github.com/cbnventures/foundation-nova.git"

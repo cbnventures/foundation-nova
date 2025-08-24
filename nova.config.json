@@ -1,0 +1,62 @@
+{
+  "project": {
+    "name": {
+      "slug": "foundation-nova",
+      "title": "Foundation Nova"
+    },
+    "description": {
+      "short": "Scripts, templates, and project configuration for the common JavaScript and TypeScript developer",
+      "long": "Foundation Nova is the JavaScript and TypeScript flavor of Foundation, offering strict presets and guided tooling to help you build with confidence, predictability, and minimal setup. It delivers strong defaults, robust linting and typing, and scaffolded project generators — all wrapped in guardrails that keep your workflow safe without sacrificing flexibility."
+    },
+    "keywords": [
+      "eslint",
+      "eslint-config",
+      "eslint-flat-config",
+      "typescript",
+      "tsconfig",
+      "tsconfig-presets",
+      "linting",
+      "code-style",
+      "scripts",
+      "templates",
+      "react",
+      "nextjs",
+      "node",
+      "monorepo"
+    ]
+  },
+  "entities": [
+    {
+      "name": "CBN Ventures",
+      "email": "contact@cbnventures.io",
+      "url": "https://www.cbnventures.io",
+      "role": [
+        "author"
+      ]
+    },
+    {
+      "name": "Jacky Liang",
+      "email": "hello@mrjackyliang.com",
+      "url": "https://www.mrjackyliang.com",
+      "role": [
+        "contributor",
+        "supporter"
+      ]
+    }
+  ],
+  "urls": {
+    "homepage": "https://cbnventures.github.io/foundation-nova/",
+    "repository": "git+https://github.com/cbnventures/foundation-nova.git",
+    "bugs": "https://github.com/cbnventures/foundation-nova/issues",
+    "license": "https://github.com/cbnventures/foundation-nova/blob/HEAD/LICENSE",
+    "logo": "https://cbnventures.github.io/foundation-nova/images/logo.svg",
+    "documentation": "https://cbnventures.github.io/foundation-nova/",
+    "github": "https://github.com/cbnventures/foundation-nova",
+    "npm": "https://www.npmjs.com/package/@cbnventures/foundation-nova",
+    "funding": [
+      "https://github.com/sponsors/cbnventures",
+      "https://www.paypal.com/biz/profile/cbnventures"
+    ]
+  },
+  "options": {}
+}
