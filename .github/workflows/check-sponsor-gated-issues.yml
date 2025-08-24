@@ -1,6 +1,6 @@
 name: "Sponsor Gated Support"
 
-run-name: "Running a task to analyze support issues"
+run-name: "Running a task to check sponsor gated issues"
 
 on:
   issue_comment:
@@ -18,16 +18,13 @@ permissions:
 jobs:
   check-issues:
     runs-on: "ubuntu-latest"
-    timeout-minutes: 1
+    timeout-minutes: 5
     permissions:
       contents: "read"
       issues: "write"
     steps:
       - name: "Checkout repository"
         uses: "actions/checkout@v4"
-
-      - name: "Show current workflow directory"
-        run: "ls -la"
 
       - name: "Check support issues"
         uses: "mrjackyliang/sponsor-gated-support@v1.0.1"

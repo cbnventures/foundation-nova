@@ -41,4 +41,4 @@ To get started, visit [https://cbnventures.github.io/foundation-nova/](https://c
 If you find value in the ongoing development of this project and wish to express your appreciation, you have the option to:
 
 - Become our supporter on [GitHub Sponsors](https://github.com/sponsors/cbnventures)
-- Make a one-time donation through [PayPal](https://www.cbnventures.io/paypal/)
+- Make a one-time donation through [PayPal](https://www.paypal.com/biz/profile/cbnventures)

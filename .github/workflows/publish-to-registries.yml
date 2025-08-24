@@ -1,6 +1,6 @@
-name: "Publish to npm"
+name: "Publish to Registries"
 
-run-name: "Publishing ${{ github.event.release.tag_name }} to npm"
+run-name: "Publishing ${{ github.event.release.tag_name }} to registries"
 
 on:
   release:
@@ -10,13 +10,23 @@ permissions:
   { }
 
 jobs:
-  publish-to-npm:
+  publish-to-registries:
     runs-on: "ubuntu-latest"
-    timeout-minutes: 5
+    timeout-minutes: 10
     permissions:
       contents: "read"
+      packages: "write"
     env:
       WORKING_DIR: "./packages/foundation-nova"
+    strategy:
+      matrix:
+        registries:
+          - name: "npm"
+            registry: "https://registry.npmjs.org"
+            token: "${{ secrets.NODE_AUTH_TOKEN }}"
+          - name: "GitHub Packages"
+            registry: "https://npm.pkg.github.com"
+            token: "${{ secrets.GITHUB_TOKEN }}"
     steps:
       - name: "Checkout repository"
         uses: "actions/checkout@v4"
@@ -25,7 +35,7 @@ jobs:
         uses: "actions/setup-node@v4"
         with:
           node-version-file: "${{ env.WORKING_DIR }}/package.json"
-          registry-url: "https://registry.npmjs.org"
+          registry-url: "${{ matrix.registries.registry }}"
 
       - name: "Install packages"
         run: "npm install"
@@ -35,8 +45,8 @@ jobs:
         run: "npm run build"
         working-directory: "${{ env.WORKING_DIR }}"
 
-      - name: "Publish package to npm"
+      - name: "Publish package to ${{ matrix.registries.name }}"
         run: "npm publish"
         working-directory: "${{ env.WORKING_DIR }}"
         env:
-          NODE_AUTH_TOKEN: "${{ secrets.NODE_AUTH_TOKEN }}"
+          NODE_AUTH_TOKEN: "${{ matrix.registries.token }}"
