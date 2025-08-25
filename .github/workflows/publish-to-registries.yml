@@ -23,10 +23,10 @@ jobs:
         registries:
           - name: "npm"
             registry: "https://registry.npmjs.org"
-            token: "${{ secrets.NODE_AUTH_TOKEN }}"
+            token: "NODE_AUTH_TOKEN"
           - name: "GitHub Packages"
             registry: "https://npm.pkg.github.com"
-            token: "${{ secrets.GITHUB_TOKEN }}"
+            token: "GITHUB_TOKEN"
     steps:
       - name: "Checkout repository"
         uses: "actions/checkout@v4"
@@ -49,4 +49,4 @@ jobs:
         run: "npm publish"
         working-directory: "${{ env.WORKING_DIR }}"
         env:
-          NODE_AUTH_TOKEN: "${{ matrix.registries.token }}"
+          NODE_AUTH_TOKEN: "${{ secrets[matrix.registries.token] }}"
