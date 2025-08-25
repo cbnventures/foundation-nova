@@ -31,7 +31,7 @@ tags:
 1. **Automatic** — All project essentials are provisioned with minimal <abbr title="development and operations">DevOps</abbr> effort. You should not need to wire up basics by hand; the defaults handle it.
 2. **Explicit** — Every configuration detail is visible and precise. If a nuance matters (for example `"."` vs `"./"`, or pairing `module` with `moduleResolution`), it must be written out, not implied.
 3. **Independence** — Configurations (e.g. ESLint, tsconfig) stand on their own. There are no hidden base presets or cross-dependencies filling in values behind the scenes.
-4. **Predictable** — Given the same inputs, the outputs are always the same. Features that introduce non-determinism (e.g. `incremental`, caches, package-lock drift) are disallowed.
+4. **Predictable** — Given the same inputs, the outputs are always the same. Features that introduce non-determinism (e.g. `incremental`, artifact caches, package-lock drift) are disallowed.
 5. **Modern but stable** — Use forward-looking features that are officially supported and reliable. Avoid unstable or experimental options where bugs are still being worked out.
 
 ## Scope and Boundaries
@@ -45,5 +45,5 @@ tags:
 - **Airbnb-inspired** — Strict, familiar defaults adapted from [eslint-config-airbnb](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb).
 - **Pre-curated** — Each preset is a complete config with correctness, safety, and style rules already chosen for you. No need to hand-pick individual rules.
 - **Scenario-based** — Presets are tailored to different intents: *library*, *browser app*, *Node service*, or *framework*. No single "base" config to inherit from.
-- **Compositional** — Designed to work with fundamentals rather than fight them. You pick the preset that matches what you are building and extend it as needed.
+- **Compositional** — Designed to work with runtime fundamentals (e.g., bundler frameworks, node scripts) rather than fight them. You pick the preset that matches what you are building and extend it as needed.
 - **Balanced freedom** — Overrides are allowed so projects can grow, but guardrails prevent risky or disliked patterns.

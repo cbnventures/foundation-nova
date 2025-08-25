@@ -1,17 +1,30 @@
+import { existsSync } from 'fs';
 import os from 'os';
 
+import chalk from 'chalk';
+import Table from 'cli-table3';
+
+import {
+  itemBrandPrettyNames,
+  itemCategoryPrettyNames,
+  itemColumnTitlePrettyNames,
+  itemTypePrettyNames,
+} from '@/lib/item.js';
 import { CHARACTER_LEADING_V } from '@/lib/regex.js';
 import { executeShell, parseLinuxOsReleaseFile, parseWindowsRegistryQuery } from '@/lib/utility.js';
 import type {
+  CLIVersionGetBrowserVerBrowsers,
+  CLIVersionGetBrowserVerReturns,
   CLIVersionGetNodeVerReturns,
   CLIVersionGetOsVerArchitecture,
   CLIVersionGetOsVerBuild,
-  CLIVersionGetOsVerDisplayName,
   CLIVersionGetOsVerKernel,
   CLIVersionGetOsVerName,
   CLIVersionGetOsVerReturns,
-  CLIVersionGetOsVerSystemDetail,
   CLIVersionGetOsVerVersion,
+  CLIVersionPrintList,
+  CLIVersionPrintReturns,
+  CLIVersionRunList,
   CLIVersionRunOptions,
   CLIVersionRunReturns,
 } from '@/types/cli.js';
@@ -32,26 +45,71 @@ export class CLIVersion {
    * @since 1.0.0
    */
   public static run(options: CLIVersionRunOptions): CLIVersionRunReturns {
-    let list = {};
+    let list: CLIVersionRunList = {};
 
-    // Get environment versions related to Node.
+    // Get installation versions for your Node.js copy.
     if (options.node || options.all) {
       list = {
         ...list,
-        ...CLIVersion.getNodeVer(),
+        node: CLIVersion.getNodeVer(),
       };
     }
 
-    // Get environment versions related to your OS.
+    // Get installation versions for your operating system.
     if (options.os || options.all) {
       list = {
         ...list,
-        ...CLIVersion.getOsVer(),
+        os: CLIVersion.getOsVer(),
       };
     }
 
-    // Print out the options to the UI.
-    console.log(list);
+    // Get installation versions for your installed web browsers.
+    if (options.browser || options.all) {
+      list = {
+        ...list,
+        browsers: CLIVersion.getBrowserVer(),
+      };
+    }
+
+    // Print out the versions to the console.
+    CLIVersion.print(list);
+  }
+
+  /**
+   * CLI Version - Print.
+   *
+   * @param {CLIVersionPrintList} list - List.
+   *
+   * @private
+   *
+   * @returns {CLIVersionPrintReturns}
+   *
+   * @since 1.0.0
+   */
+  private static print(list: CLIVersionPrintList): CLIVersionPrintReturns {
+    for (const [key, value] of Object.entries(list)) {
+      const table = new Table({
+        head: [
+          chalk.bold.yellow(itemColumnTitlePrettyNames[`key-${key}`] ?? 'Key'),
+          chalk.bold.yellow(itemColumnTitlePrettyNames[`value-${key}`] ?? 'Value'),
+        ],
+        style: {
+          head: [],
+          border: [],
+        },
+        colWidths: [20, 25],
+      });
+
+      for (const [innerKey, innerValue] of Object.entries(value)) {
+        table.push([
+          itemBrandPrettyNames[innerKey] ?? itemTypePrettyNames[innerKey] ?? '—',
+          innerValue,
+        ]);
+      }
+
+      console.log(`\n${itemCategoryPrettyNames[key]}`);
+      console.log(table.toString());
+    }
   }
 
   /**
@@ -102,14 +160,12 @@ export class CLIVersion {
    * @since 1.0.0
    */
   private static getOsVer(): CLIVersionGetOsVerReturns {
-    const displayName: CLIVersionGetOsVerDisplayName = [];
-    const systemDetail: CLIVersionGetOsVerSystemDetail = [];
     const platform = os.platform();
 
     let name: CLIVersionGetOsVerName = platform;
     let version: CLIVersionGetOsVerVersion = os.version() ?? null;
-    let build: CLIVersionGetOsVerBuild = null;
     let architecture: CLIVersionGetOsVerArchitecture = os.arch();
+    let build: CLIVersionGetOsVerBuild = null;
     let kernel: CLIVersionGetOsVerKernel = os.release();
 
     // macOS.
@@ -140,24 +196,138 @@ export class CLIVersion {
       build = osRelease['BUILD_ID'] ?? null;
     }
 
-    // Build the display name parts.
-    displayName.push(name);
-
-    if (version !== null) {
-      displayName.push(version);
-    }
-
-    // Build the system detail parts.
-    systemDetail.push(`architecture: ${architecture}`);
-
-    if (build !== null) {
-      systemDetail.push(`build: ${build}`);
-    }
-
-    systemDetail.push(`kernel: ${kernel}`);
-
     return {
-      os: `${displayName.join(' ')} (${systemDetail.join(', ')})`,
+      name,
+      version,
+      architecture,
+      build,
+      kernel,
     };
+  }
+
+  /**
+   * CLI Version - Get browser ver.
+   *
+   * @private
+   *
+   * @returns {CLIVersionGetBrowserVerReturns}
+   *
+   * @since 1.0.0
+   */
+  private static getBrowserVer(): CLIVersionGetBrowserVerReturns {
+    const platform = os.platform();
+
+    let browsers: CLIVersionGetBrowserVerBrowsers = {};
+
+    // macOS (must have "./Contents/Info" file and "CFBundleShortVersionString" key).
+    if (platform === 'darwin') {
+      browsers = {
+        ...(existsSync('/Applications/Google Chrome.app')) ? {
+          chrome: executeShell('defaults read "/Applications/Google Chrome.app/Contents/Info" CFBundleShortVersionString'),
+        } : {},
+        ...(existsSync('/Applications/Safari.app')) ? {
+          safari: executeShell('defaults read "/Applications/Safari.app/Contents/Info" CFBundleShortVersionString'),
+        } : {},
+        ...(existsSync('/Applications/Microsoft Edge.app')) ? {
+          edge: executeShell('defaults read "/Applications/Microsoft Edge.app/Contents/Info" CFBundleShortVersionString'),
+        } : {},
+        ...(existsSync('/Applications/Firefox.app')) ? {
+          firefox: executeShell('defaults read "/Applications/Firefox.app/Contents/Info" CFBundleShortVersionString'),
+        } : {},
+        ...(existsSync('/Applications/Opera.app')) ? {
+          opera: executeShell('defaults read "/Applications/Opera.app/Contents/Info" CFBundleShortVersionString'),
+        } : {},
+        ...(existsSync('/Applications/Brave Browser.app')) ? {
+          brave: executeShell('defaults read "/Applications/Brave Browser.app/Contents/Info" CFBundleShortVersionString'),
+        } : {},
+        ...(existsSync('/Applications/Vivaldi.app')) ? {
+          vivaldi: executeShell('defaults read "/Applications/Vivaldi.app/Contents/Info" CFBundleShortVersionString'),
+        } : {},
+        ...(existsSync('/Applications/Orion.app')) ? {
+          orion: executeShell('defaults read "/Applications/Orion.app/Contents/Info" CFBundleShortVersionString'),
+        } : {},
+        ...(existsSync('/Applications/LibreWolf.app')) ? {
+          libreWolf: executeShell('defaults read "/Applications/LibreWolf.app/Contents/Info" CFBundleShortVersionString'),
+        } : {},
+      };
+    }
+
+    // Windows (must be registered into "App Paths" and have "VersionInfo.ProductVersion" key).
+    if (platform === 'win32') {
+      const chromeQuery = parseWindowsRegistryQuery([
+        'HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\chrome.exe',
+        'HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\chrome.exe',
+      ]);
+      const edgeQuery = parseWindowsRegistryQuery([
+        'HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\msedge.exe',
+        'HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\msedge.exe',
+      ]);
+      const firefoxQuery = parseWindowsRegistryQuery([
+        'HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\firefox.exe',
+        'HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\firefox.exe',
+      ]);
+      const operaQuery = parseWindowsRegistryQuery([
+        'HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\opera.exe',
+        'HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\opera.exe',
+      ]);
+      const braveQuery = parseWindowsRegistryQuery([
+        'HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\brave.exe',
+        'HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\brave.exe',
+      ]);
+      const vivaldiQuery = parseWindowsRegistryQuery([
+        'HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\vivaldi.exe',
+        'HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\vivaldi.exe',
+      ]);
+
+      browsers = {
+        ...(chromeQuery['(Default)']?.data !== undefined) ? {
+          'chrome': executeShell(`powershell -NoProfile -Command "(Get-Item '${chromeQuery['(Default)']?.data}').VersionInfo.ProductVersion"`),
+        } : {},
+        ...(edgeQuery['(Default)']?.data !== undefined) ? {
+          'edge': executeShell(`powershell -NoProfile -Command "(Get-Item '${edgeQuery['(Default)']?.data}').VersionInfo.ProductVersion"`),
+        } : {},
+        ...(firefoxQuery['(Default)']?.data !== undefined) ? {
+          'firefox': executeShell(`powershell -NoProfile -Command "(Get-Item '${firefoxQuery['(Default)']?.data}').VersionInfo.ProductVersion"`),
+        } : {},
+        ...(operaQuery['(Default)']?.data !== undefined) ? {
+          'opera': executeShell(`powershell -NoProfile -Command "(Get-Item '${operaQuery['(Default)']?.data}').VersionInfo.ProductVersion"`),
+        } : {},
+        ...(braveQuery['(Default)']?.data !== undefined) ? {
+          'brave': executeShell(`powershell -NoProfile -Command "(Get-Item '${braveQuery['(Default)']?.data}').VersionInfo.ProductVersion"`),
+        } : {},
+        ...(vivaldiQuery['(Default)']?.data !== undefined) ? {
+          'vivaldi': executeShell(`powershell -NoProfile -Command "(Get-Item '${vivaldiQuery['(Default)']?.data}').VersionInfo.ProductVersion"`),
+        } : {},
+      };
+    }
+
+    // Linux (must have a command that exists in PATH).
+    if (platform === 'linux') {
+      browsers = {
+        ...(executeShell('command -v google-chrome')) ? {
+          'chrome': executeShell('google-chrome --version')?.replace('Google Chrome ', '') ?? null,
+        } : {},
+        ...(executeShell('command -v firefox')) ? {
+          'firefox': executeShell('firefox --version')?.replace('Mozilla Firefox ', '') ?? null,
+        } : {},
+        ...(executeShell('command -v brave-browser')) ? {
+          'brave': executeShell('brave-browser --version')?.replace('Brave Browser ', '') ?? null,
+        } : {},
+        ...(executeShell('command -v vivaldi')) ? {
+          'vivaldi': executeShell('vivaldi --version')?.replace('Vivaldi ', '') ?? null,
+        } : {},
+        ...(executeShell('command -v opera')) ? {
+          'opera': executeShell('opera --version') ?? null,
+        } : {},
+        ...(executeShell('command -v microsoft-edge')) ? {
+          'edge': executeShell('microsoft-edge --version')?.replace('Microsoft Edge ', '') ?? null,
+        } : {},
+        ...(executeShell('command -v librewolf')) ? {
+          'libreWolf': executeShell('librewolf --version')?.replace('Mozilla LibreWolf ', '') ?? null,
+        } : {},
+      };
+    }
+
+    return browsers;
   }
 }

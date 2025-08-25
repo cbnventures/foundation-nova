@@ -64,6 +64,7 @@ class CLI {
       .command('ver')
       .description('Show installed version information')
       .option('-a, --all', 'Show all available versions')
+      .option('-b, --browser', 'Show web browser related versions')
       .option('-n, --node', 'Show Node.js related versions')
       .option('-o, --os', 'Show operating system related versions')
       .action(async (options, command) => {

@@ -3,10 +3,12 @@ import { execSync } from 'child_process';
 import { TEXT_REGISTRY_QUERY_LINE_PATTERN, TEXT_LINE_SPLIT, TEXT_QUOTED_STRING_PATTERN } from '@/lib/regex.js';
 import type {
   ExecuteShellCommand,
-  ExecuteShellReturns, ParseLinuxOsReleaseFileOsReleaseEntries, ParseLinuxOsReleaseFileReturns,
+  ExecuteShellReturns,
+  ParseLinuxOsReleaseFileOsReleaseEntries,
+  ParseLinuxOsReleaseFileReturns,
   ParseWindowsRegistryQueryRegistryKeys,
   ParseWindowsRegistryQueryRegistryKeyType,
-  ParseWindowsRegistryQueryRegistryPath,
+  ParseWindowsRegistryQueryRegistryPaths,
   ParseWindowsRegistryQueryReturns,
 } from '@/types/utility.d.ts';
 
@@ -22,7 +24,7 @@ import type {
 export function executeShell(command: ExecuteShellCommand): ExecuteShellReturns {
   try {
     return execSync(command, {
-      encoding: 'utf8',
+      encoding: 'utf-8',
     }).trim();
   } catch {
     return null;
@@ -69,38 +71,48 @@ export function parseLinuxOsReleaseFile(): ParseLinuxOsReleaseFileReturns {
 /**
  * Parse windows registry query.
  *
- * @param {ParseWindowsRegistryQueryRegistryPath} registryPath - Registry path.
+ * @param {ParseWindowsRegistryQueryRegistryPaths} registryPaths - Registry paths.
  *
  * @returns {ParseWindowsRegistryQueryReturns}
  *
  * @since 1.0.0
  */
-export function parseWindowsRegistryQuery(registryPath: ParseWindowsRegistryQueryRegistryPath): ParseWindowsRegistryQueryReturns {
-  const query = executeShell(`reg query "${registryPath}"`) ?? '';
-  const lines = query.split(TEXT_LINE_SPLIT);
+export function parseWindowsRegistryQuery(registryPaths: ParseWindowsRegistryQueryRegistryPaths): ParseWindowsRegistryQueryReturns {
+  const paths = Array.isArray(registryPaths) ? registryPaths : [registryPaths];
 
-  let registryKeys: ParseWindowsRegistryQueryRegistryKeys = {};
+  for (const path of paths) {
+    const query = executeShell(`reg query "${path}" 2>nul`) ?? '';
+    const lines = query.split(TEXT_LINE_SPLIT);
 
-  for (const line of lines) {
-    const matches = line.match(TEXT_REGISTRY_QUERY_LINE_PATTERN);
+    let registryKeys: ParseWindowsRegistryQueryRegistryKeys = {};
 
-    if (matches !== null) {
-      const registryKey = matches[1];
-      const registryKeyType = matches[2];
-      const registryKeyData = matches[3];
+    for (const line of lines) {
+      const matches = line.match(TEXT_REGISTRY_QUERY_LINE_PATTERN);
 
-      if (
-        registryKey !== undefined
-        && registryKeyType !== undefined
-        && registryKeyData !== undefined
-      ) {
-        registryKeys[registryKey] = {
-          type: registryKeyType as ParseWindowsRegistryQueryRegistryKeyType,
-          data: registryKeyData.trim(),
-        };
+      if (matches !== null) {
+        const registryKey = matches[1];
+        const registryKeyType = matches[2];
+        const registryKeyData = matches[3];
+
+        if (
+          registryKey !== undefined
+          && registryKeyType !== undefined
+          && registryKeyData !== undefined
+        ) {
+          registryKeys[registryKey] = {
+            type: registryKeyType as ParseWindowsRegistryQueryRegistryKeyType,
+            data: registryKeyData.trim(),
+          };
+        }
       }
+    }
+
+    // If we parsed any keys for this path, return immediately (fallback behavior).
+    if (Object.keys(registryKeys).length > 0) {
+      return registryKeys;
     }
   }
 
-  return registryKeys;
+  // No results.
+  return {};
 }

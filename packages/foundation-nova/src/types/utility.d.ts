@@ -25,7 +25,7 @@ export type ParseLinuxOsReleaseFileReturns = ParseLinuxOsReleaseFileOsReleaseEnt
  *
  * @since 1.0.0
  */
-export type ParseWindowsRegistryQueryRegistryPath = string;
+export type ParseWindowsRegistryQueryRegistryPaths = string | string[];
 
 export type ParseWindowsRegistryQueryRegistryKeyType =
   'REG_NONE'

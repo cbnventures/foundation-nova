@@ -30,6 +30,15 @@ export type CLIProgram = Command;
 export type CLIRegisterCommandsReturns = void;
 
 /**
+ * CLI Version - Get browser ver.
+ *
+ * @since 1.0.0
+ */
+export type CLIVersionGetBrowserVerBrowsers = Record<string, string | null>;
+
+export type CLIVersionGetBrowserVerReturns = CLIVersionGetBrowserVerBrowsers;
+
+/**
  * CLI Version - Get node ver.
  *
  * @since 1.0.0
@@ -48,25 +57,42 @@ export type CLIVersionGetNodeVerReturns = {
  *
  * @since 1.0.0
  */
-export type CLIVersionGetOsVerDisplayName = string[];
+export type CLIVersionGetOsVerReturnsName = CLIVersionGetOsVerName;
 
-export type CLIVersionGetOsVerSystemDetail = string[];
+export type CLIVersionGetOsVerReturnsVersion = CLIVersionGetOsVerVersion;
+
+export type CLIVersionGetOsVerReturnsArchitecture = CLIVersionGetOsVerArchitecture;
+
+export type CLIVersionGetOsVerReturnsBuild = CLIVersionGetOsVerBuild;
+
+export type CLIVersionGetOsVerReturnsKernel = CLIVersionGetOsVerKernel;
+
+export type CLIVersionGetOsVerReturns = {
+  name: CLIVersionGetOsVerReturnsName;
+  version: CLIVersionGetOsVerReturnsVersion;
+  architecture: CLIVersionGetOsVerReturnsArchitecture;
+  build: CLIVersionGetOsVerReturnsBuild;
+  kernel: CLIVersionGetOsVerReturnsKernel;
+};
 
 export type CLIVersionGetOsVerName = NodeJS.Platform | string;
 
 export type CLIVersionGetOsVerVersion = string | null;
 
-export type CLIVersionGetOsVerBuild = string | null;
-
 export type CLIVersionGetOsVerArchitecture = NodeJS.Architecture;
+
+export type CLIVersionGetOsVerBuild = string | null;
 
 export type CLIVersionGetOsVerKernel = string;
 
-export type CLIVersionGetOsVerReturnsOs = string;
+/**
+ * CLI Version - Print.
+ *
+ * @since 1.0.0
+ */
+export type CLIVersionPrintList = Record<string, Record<string, string | null>>;
 
-export type CLIVersionGetOsVerReturns = {
-  os: CLIVersionGetOsVerReturnsOs;
-};
+export type CLIVersionPrintReturns = void;
 
 /**
  * CLI Version - Run.
@@ -75,8 +101,11 @@ export type CLIVersionGetOsVerReturns = {
  */
 export type CLIVersionRunOptions = {
   all?: true;
+  browser?: true;
   node?: true;
   os?: true;
 };
 
 export type CLIVersionRunReturns = void;
+
+export type CLIVersionRunList = Record<string, Record<string, string | null>>;
