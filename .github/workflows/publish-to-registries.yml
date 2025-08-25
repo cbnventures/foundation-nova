@@ -17,16 +17,15 @@ jobs:
       contents: "read"
       packages: "write"
     env:
+      NODE_AUTH_TOKEN: "${{ matrix.registries.name == 'npm' && secrets.NPM_TOKEN || matrix.registries.name == 'GitHub Packages' && secrets.GITHUB_TOKEN }}"
       WORKING_DIR: "./packages/foundation-nova"
     strategy:
       matrix:
         registries:
           - name: "npm"
             registry: "https://registry.npmjs.org"
-            token: "NODE_AUTH_TOKEN"
           - name: "GitHub Packages"
             registry: "https://npm.pkg.github.com"
-            token: "GITHUB_TOKEN"
     steps:
       - name: "Checkout repository"
         uses: "actions/checkout@v4"
@@ -48,5 +47,3 @@ jobs:
       - name: "Publish package to ${{ matrix.registries.name }}"
         run: "npm publish"
         working-directory: "${{ env.WORKING_DIR }}"
-        env:
-          NODE_AUTH_TOKEN: "${{ secrets[matrix.registries.token] }}"
