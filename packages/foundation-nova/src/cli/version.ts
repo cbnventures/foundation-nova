@@ -16,6 +16,7 @@ import type {
   CLIVersionGetBrowserVerBrowsers,
   CLIVersionGetBrowserVerReturns,
   CLIVersionGetNodeVerReturns,
+  CLIVersionGetNodeVerTools,
   CLIVersionGetOsVerArchitecture,
   CLIVersionGetOsVerBuild,
   CLIVersionGetOsVerKernel,
@@ -102,7 +103,7 @@ export class CLIVersion {
 
       for (const [innerKey, innerValue] of Object.entries(value)) {
         table.push([
-          itemBrandPrettyNames[innerKey] ?? itemTypePrettyNames[innerKey] ?? '—',
+          itemBrandPrettyNames[innerKey] ?? itemTypePrettyNames[innerKey] ?? chalk.grey(innerKey),
           innerValue,
         ]);
       }
@@ -122,16 +123,18 @@ export class CLIVersion {
    * @since 1.0.0
    */
   private static getNodeVer(): CLIVersionGetNodeVerReturns {
-    let nodeJsVersion = null;
-    let npmVersion = null;
+    let tools: CLIVersionGetNodeVerTools = {};
 
     // Attempt to retrieve the Node.js version.
     try {
-      nodeJsVersion = executeShell('node -v');
+      const nodeJsVersion = executeShell('node -v');
 
       // Remove the leading "v" from the version output.
       if (nodeJsVersion !== null) {
-        nodeJsVersion = nodeJsVersion.replace(CHARACTER_LEADING_V, '');
+        tools = {
+          ...tools,
+          nodeJs: nodeJsVersion.replace(CHARACTER_LEADING_V, ''),
+        };
       }
     } catch {
       /* empty */
@@ -139,15 +142,33 @@ export class CLIVersion {
 
     // Attempt to retrieve the Node Package Manager (npm) version.
     try {
-      npmVersion = executeShell('npm -v');
+      const npmVersion = executeShell('npm -v');
+
+      if (npmVersion !== null) {
+        tools = {
+          ...tools,
+          npm: npmVersion,
+        };
+      }
     } catch {
       /* empty */
     }
 
-    return {
-      nodeJs: nodeJsVersion,
-      npm: npmVersion,
-    };
+    // Attempt to retrieve the Yarn version.
+    try {
+      const yarnVersion = executeShell('yarn -v');
+
+      if (yarnVersion !== null) {
+        tools = {
+          ...tools,
+          yarn: yarnVersion,
+        };
+      }
+    } catch {
+      /* empty */
+    }
+
+    return tools;
   }
 
   /**

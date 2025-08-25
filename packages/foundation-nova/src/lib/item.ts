@@ -22,6 +22,7 @@ export const itemBrandPrettyNames: ItemBrandPrettyNames = {
   'orion': 'Orion',
   'safari': 'Apple Safari',
   'vivaldi': 'Vivaldi',
+  'yarn': 'Yarn',
 };
 
 /**

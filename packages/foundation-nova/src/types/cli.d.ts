@@ -34,23 +34,18 @@ export type CLIRegisterCommandsReturns = void;
  *
  * @since 1.0.0
  */
-export type CLIVersionGetBrowserVerBrowsers = Record<string, string | null>;
-
 export type CLIVersionGetBrowserVerReturns = CLIVersionGetBrowserVerBrowsers;
+
+export type CLIVersionGetBrowserVerBrowsers = Record<string, string | null>;
 
 /**
  * CLI Version - Get node ver.
  *
  * @since 1.0.0
  */
-export type CLIVersionGetNodeVerReturnsNodeJs = string | null;
+export type CLIVersionGetNodeVerReturns = CLIVersionGetNodeVerTools;
 
-export type CLIVersionGetNodeVerReturnsNpm = string | null;
-
-export type CLIVersionGetNodeVerReturns = {
-  nodeJs: CLIVersionGetNodeVerReturnsNodeJs;
-  npm: CLIVersionGetNodeVerReturnsNpm;
-};
+export type CLIVersionGetNodeVerTools = Record<string, string>;
 
 /**
  * CLI Version - Get os ver.
