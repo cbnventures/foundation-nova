@@ -15,14 +15,19 @@
     },
     "prod": {
       "cache": false,
-      "dependsOn": [],
+      "dependsOn": [
+        "build"
+      ],
       "inputs": [],
       "outputs": [],
       "persistent": true
     },
     "build": {
       "cache": false,
-      "dependsOn": [],
+      "dependsOn": [
+        "check",
+        "^build"
+      ],
       "inputs": [
         "!./.*/**/*",
         "!./build/**",
@@ -35,7 +40,10 @@
     },
     "check": {
       "cache": false,
-      "dependsOn": [],
+      "dependsOn": [
+        "^check",
+        "^build"
+      ],
       "inputs": [
         "!./.*/**/*",
         "!./build/**",

@@ -2,7 +2,7 @@ import {
   dxCodeStyle,
   langTypescript,
   scopeIgnores,
-} from '@cbnventures/foundation-nova/eslint';
+} from './src/presets/eslint/index.mjs';
 
 export default [
   ...scopeIgnores,

@@ -17,6 +17,7 @@
   "devDependencies": {
     "@cbnventures/foundation-nova": "file:./packages/foundation-nova",
     "@changesets/cli": "2.29.5",
+    "jiti": "2.5.1",
     "turbo": "2.5.6"
   },
   "packageManager": "npm@10.8.2",

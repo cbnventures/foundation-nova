@@ -5,7 +5,7 @@
     "@cbnventures/foundation-nova/tsconfig/fw-docusaurus.json"
   ],
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./",
     "outDir": "./build",
     "paths": {
       "@/*": [
@@ -17,6 +17,7 @@
   },
   "include": [
     "./docusaurus.config.ts",
+    "./eslint.config.mts",
     "./sidebars.ts",
     "./src/**/*"
   ],

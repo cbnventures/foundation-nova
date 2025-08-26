@@ -3,6 +3,8 @@
   "compilerOptions": {
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "declarationMap": true,
     "esModuleInterop": true,
     "lib": [
       "ESNext"
