@@ -12,16 +12,22 @@ import type {
  */
 export const itemBrandPrettyNames: ItemBrandPrettyNames = {
   'brave': 'Brave Browser',
+  'bun': 'Bun',
   'chrome': 'Google Chrome',
   'edge': 'Microsoft Edge',
   'firefox': 'Mozilla Firefox',
+  'java': 'Java',
   'libreWolf': 'Mozilla LibreWolf',
   'nodeJs': 'Node.js',
-  'npm': 'npm',
+  'npm': 'Node Package Manager (npm)',
+  'nvm': 'Node Version Manager (nvm)',
   'opera': 'Opera',
   'orion': 'Orion',
+  'pnpm': 'Performant Node Package Manager (pnpm)',
+  'rust': 'Rust',
   'safari': 'Apple Safari',
   'vivaldi': 'Vivaldi',
+  'volta': 'Volta',
   'yarn': 'Yarn',
 };
 
@@ -32,6 +38,8 @@ export const itemBrandPrettyNames: ItemBrandPrettyNames = {
  */
 export const itemCategoryPrettyNames: ItemCategoryPrettyNames = {
   'browsers': 'Web Browsers',
+  'env': 'Environment Managers',
+  'interpreters': 'Runtimes / Interpreters',
   'node': 'Node.js Environment',
   'os': 'Operating System',
 };
@@ -43,9 +51,13 @@ export const itemCategoryPrettyNames: ItemCategoryPrettyNames = {
  */
 export const itemColumnTitlePrettyNames: ItemColumnTitlePrettyNames = {
   'key-browsers': 'Browser',
+  'key-env': 'Manager',
+  'key-interpreters': 'Program',
   'key-node': 'Tool',
   'key-os': 'Type',
   'value-browsers': 'Version',
+  'value-env': 'Version',
+  'value-interpreters': 'Version',
   'value-node': 'Version',
   'value-os': 'Value',
 };

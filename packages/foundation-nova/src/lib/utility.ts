@@ -3,6 +3,7 @@ import { execSync } from 'child_process';
 import { TEXT_REGISTRY_QUERY_LINE_PATTERN, TEXT_LINE_SPLIT, TEXT_QUOTED_STRING_PATTERN } from '@/lib/regex.js';
 import type {
   ExecuteShellCommand,
+  ExecuteShellOptions,
   ExecuteShellReturns,
   ParseLinuxOsReleaseFileOsReleaseEntries,
   ParseLinuxOsReleaseFileReturns,
@@ -15,16 +16,18 @@ import type {
 /**
  * Execute shell.
  *
- * @param {ExecuteShellCommand} command - Command.
+ * @param {ExecuteShellCommand} command   - Command.
+ * @param {ExecuteShellOptions} [options] - Options.
  *
  * @returns {ExecuteShellReturns}
  *
  * @since 1.0.0
  */
-export function executeShell(command: ExecuteShellCommand): ExecuteShellReturns {
+export function executeShell(command: ExecuteShellCommand, options?: ExecuteShellOptions): ExecuteShellReturns {
   try {
     return execSync(command, {
       encoding: 'utf-8',
+      ...options,
     }).trim();
   } catch {
     return null;

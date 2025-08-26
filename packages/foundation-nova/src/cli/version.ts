@@ -10,19 +10,23 @@ import {
   itemColumnTitlePrettyNames,
   itemTypePrettyNames,
 } from '@/lib/item.js';
-import { CHARACTER_LEADING_V } from '@/lib/regex.js';
+import { CHARACTER_LEADING_V, TEXT_PARENTHESIS_CONTENT, TEXT_RUSTC_VERSION } from '@/lib/regex.js';
 import { executeShell, parseLinuxOsReleaseFile, parseWindowsRegistryQuery } from '@/lib/utility.js';
 import type {
-  CLIVersionGetBrowserVerBrowsers,
-  CLIVersionGetBrowserVerReturns,
-  CLIVersionGetNodeVerReturns,
-  CLIVersionGetNodeVerTools,
-  CLIVersionGetOsVerArchitecture,
-  CLIVersionGetOsVerBuild,
-  CLIVersionGetOsVerKernel,
-  CLIVersionGetOsVerName,
-  CLIVersionGetOsVerReturns,
-  CLIVersionGetOsVerVersion,
+  CLIVersionGetBrowserVersionBrowsers,
+  CLIVersionGetBrowserVersionReturns,
+  CLIVersionGetEnvironmentManagerVersionManagers,
+  CLIVersionGetEnvironmentManagerVersionReturns,
+  CLIVersionGetInterpreterVersionInterpreters,
+  CLIVersionGetInterpreterVersionReturns,
+  CLIVersionGetNodeVersionReturns,
+  CLIVersionGetNodeVersionTools,
+  CLIVersionGetOsVersionArchitecture,
+  CLIVersionGetOsVersionBuild,
+  CLIVersionGetOsVersionKernel,
+  CLIVersionGetOsVersionName,
+  CLIVersionGetOsVersionReturns,
+  CLIVersionGetOsVersionVersion,
   CLIVersionPrintList,
   CLIVersionPrintReturns,
   CLIVersionRunList,
@@ -48,27 +52,43 @@ export class CLIVersion {
   public static run(options: CLIVersionRunOptions): CLIVersionRunReturns {
     let list: CLIVersionRunList = {};
 
-    // Get installation versions for your Node.js copy.
+    // Get installation versions for the installed Node.js copy.
     if (options.node || options.all) {
       list = {
         ...list,
-        node: CLIVersion.getNodeVer(),
+        node: CLIVersion.getNodeVersion(),
       };
     }
 
-    // Get installation versions for your operating system.
+    // Get installation versions for the installed environment managers.
+    if (options.env || options.all) {
+      list = {
+        ...list,
+        env: CLIVersion.getEnvironmentManagerVersion(),
+      };
+    }
+
+    // Get installation versions for the operating system.
     if (options.os || options.all) {
       list = {
         ...list,
-        os: CLIVersion.getOsVer(),
+        os: CLIVersion.getOsVersion(),
       };
     }
 
-    // Get installation versions for your installed web browsers.
+    // Get installation versions for the installed web browsers.
     if (options.browser || options.all) {
       list = {
         ...list,
-        browsers: CLIVersion.getBrowserVer(),
+        browsers: CLIVersion.getBrowserVersion(),
+      };
+    }
+
+    // Get installation versions for the installed interpreters.
+    if (options.interpreter || options.all) {
+      list = {
+        ...list,
+        interpreters: CLIVersion.getInterpreterVersion(),
       };
     }
 
@@ -98,7 +118,6 @@ export class CLIVersion {
           head: [],
           border: [],
         },
-        colWidths: [20, 25],
       });
 
       for (const [innerKey, innerValue] of Object.entries(value)) {
@@ -108,22 +127,22 @@ export class CLIVersion {
         ]);
       }
 
-      console.log(`\n${itemCategoryPrettyNames[key]}`);
+      console.log(`\n${itemCategoryPrettyNames[key] ?? chalk.grey(key)}`);
       console.log(table.toString());
     }
   }
 
   /**
-   * CLI Version - Get node ver.
+   * CLI Version - Get node version.
    *
    * @private
    *
-   * @returns {CLIVersionGetNodeVerReturns}
+   * @returns {CLIVersionGetNodeVersionReturns}
    *
    * @since 1.0.0
    */
-  private static getNodeVer(): CLIVersionGetNodeVerReturns {
-    let tools: CLIVersionGetNodeVerTools = {};
+  private static getNodeVersion(): CLIVersionGetNodeVersionReturns {
+    let tools: CLIVersionGetNodeVersionTools = {};
 
     // Attempt to retrieve the Node.js version.
     try {
@@ -168,26 +187,118 @@ export class CLIVersion {
       /* empty */
     }
 
+    // Attempt to retrieve the Performant Node Package Manager (pnpm) version.
+    try {
+      const pnpmVersion = executeShell('pnpm --version', {
+        env: {
+          ...process.env,
+          COREPACK_ENABLE_STRICT: '0',
+        },
+        stdio: [
+          'ignore',
+          'pipe',
+          'ignore',
+        ],
+      });
+
+      if (pnpmVersion !== null) {
+        tools = {
+          ...tools,
+          pnpm: pnpmVersion,
+        };
+      }
+    } catch {
+      /* empty */
+    }
+
+    // Attempt to retrieve the Bun version.
+    try {
+      const bunVersion = executeShell('bun --version');
+
+      if (bunVersion !== null) {
+        tools = {
+          ...tools,
+          bun: bunVersion,
+        };
+      }
+    } catch {
+      /* empty */
+    }
+
     return tools;
   }
 
   /**
-   * CLI Version - Get os ver.
+   * CLI Version - Get environment manager version.
    *
    * @private
    *
-   * @returns {CLIVersionGetOsVerReturns}
+   * @returns {CLIVersionGetEnvironmentManagerVersionReturns}
    *
    * @since 1.0.0
    */
-  private static getOsVer(): CLIVersionGetOsVerReturns {
+  private static getEnvironmentManagerVersion(): CLIVersionGetEnvironmentManagerVersionReturns {
+    let managers: CLIVersionGetEnvironmentManagerVersionManagers = {};
+
+    // Attempt to retrieve the Node Version Manager (nvm) version.
+    try {
+      let nvmVersion;
+
+      if (os.platform() === 'win32') {
+        nvmVersion = executeShell('nvm --version');
+      } else {
+        const userShell = process.env['SHELL'] || '/bin/bash';
+
+        // Because UNIX just wants to be special in their own way.
+        nvmVersion = executeShell(`${userShell} -lc "nvm --version"`, {
+          env: process.env,
+        });
+      }
+
+      if (nvmVersion !== null) {
+        managers = {
+          ...managers,
+          nvm: nvmVersion,
+        };
+      }
+    } catch {
+      /* empty */
+    }
+
+    // Attempt to retrieve the Volta version.
+    try {
+      const voltaVersion = executeShell('volta --version');
+
+      if (voltaVersion !== null) {
+        managers = {
+          ...managers,
+          volta: voltaVersion,
+        };
+      }
+    } catch {
+      /* empty */
+    }
+
+    return managers;
+  }
+
+  /**
+   * CLI Version - Get os version.
+   *
+   * @private
+   *
+   * @returns {CLIVersionGetOsVersionReturns}
+   *
+   * @since 1.0.0
+   */
+  private static getOsVersion(): CLIVersionGetOsVersionReturns {
     const platform = os.platform();
 
-    let name: CLIVersionGetOsVerName = platform;
-    let version: CLIVersionGetOsVerVersion = os.version() ?? null;
-    let architecture: CLIVersionGetOsVerArchitecture = os.arch();
-    let build: CLIVersionGetOsVerBuild = null;
-    let kernel: CLIVersionGetOsVerKernel = os.release();
+    let name: CLIVersionGetOsVersionName = platform;
+    let version: CLIVersionGetOsVersionVersion = os.version() ?? null;
+    let architecture: CLIVersionGetOsVersionArchitecture = os.arch();
+    let build: CLIVersionGetOsVersionBuild = null;
+    let kernel: CLIVersionGetOsVersionKernel = os.release();
 
     // macOS.
     if (platform === 'darwin') {
@@ -227,18 +338,18 @@ export class CLIVersion {
   }
 
   /**
-   * CLI Version - Get browser ver.
+   * CLI Version - Get browser version.
    *
    * @private
    *
-   * @returns {CLIVersionGetBrowserVerReturns}
+   * @returns {CLIVersionGetBrowserVersionReturns}
    *
    * @since 1.0.0
    */
-  private static getBrowserVer(): CLIVersionGetBrowserVerReturns {
+  private static getBrowserVersion(): CLIVersionGetBrowserVersionReturns {
     const platform = os.platform();
 
-    let browsers: CLIVersionGetBrowserVerBrowsers = {};
+    let browsers: CLIVersionGetBrowserVersionBrowsers = {};
 
     // macOS (must have "./Contents/Info" file and "CFBundleShortVersionString" key).
     if (platform === 'darwin') {
@@ -350,5 +461,89 @@ export class CLIVersion {
     }
 
     return browsers;
+  }
+
+  /**
+   * CLI Version - Get interpreter version.
+   *
+   * @private
+   *
+   * @returns {CLIVersionGetInterpreterVersionReturns}
+   *
+   * @since 1.0.0
+   */
+  private static getInterpreterVersion(): CLIVersionGetInterpreterVersionReturns {
+    let interpreters: CLIVersionGetInterpreterVersionInterpreters = {};
+
+    // Attempt to retrieve the Java version.
+    try {
+      const javaVersion = executeShell('java --version') ?? '';
+      const lines = javaVersion.trim().split('\n');
+
+      if (lines !== undefined) {
+        const [firstLine, secondLine] = lines;
+
+        if (
+          firstLine !== undefined
+          && secondLine !== undefined
+        ) {
+          /**
+           * First line examples:
+           *
+           * "java 21.0.2 2024-01-16 LTS"
+           * "openjdk 21.0.8 2025-07-15 LTS"
+           *
+           * @since 1.0.0
+           */
+          const firstLineSplit = firstLine.split(' ');
+          const distribution = firstLineSplit[0] ?? 'java';
+
+          /**
+           * Second line examples:
+           *
+           * "Java(TM) SE Runtime Environment (build 21.0.2+13-LTS-58)"
+           * "OpenJDK Runtime Environment Temurin-21.0.8+9 (build 21.0.8+9-LTS)"
+           * "OpenJDK Runtime Environment Zulu17.46+19-CA (build 17.0.9+9-LTS)"
+           * "OpenJDK Runtime Environment Corretto-17.0.8.7.1 (build 17.0.8+7-LTS)"
+           * "Eclipse OpenJ9 VM IBM Semeru Runtime Open Edition 17.0.6+10 (build openj9-0.36.0, JCL version 17.0.6+10)"
+           *
+           * @since 1.0.0
+           */
+          const secondLineSplit = secondLine.match(TEXT_PARENTHESIS_CONTENT)?.[1]?.split(', ') ?? '';
+          const build = (secondLineSplit[0]) ? secondLineSplit[0].replace('build ', '') : 'N/A';
+
+          // Build output string.
+          interpreters = {
+            ...interpreters,
+            java: `${distribution} (build: ${build})`,
+          };
+        }
+      }
+    } catch {
+      /* empty */
+    }
+
+    // Attempt to retrieve the Rust version.
+    try {
+      const rustVersion = executeShell('rustc --version');
+
+      if (rustVersion !== null) {
+        const rustVersionMatch = rustVersion.match(TEXT_RUSTC_VERSION);
+
+        const version = rustVersionMatch?.[1];
+        const buildHash = rustVersionMatch?.[2];
+        const buildDate = rustVersionMatch?.[3];
+        const source = rustVersionMatch?.[4] ?? 'rustup';
+
+        interpreters = {
+          ...interpreters,
+          rust: `${version} (build: ${buildHash} ${buildDate}, source: ${source})`,
+        };
+      }
+    } catch {
+      /* empty */
+    }
+
+    return interpreters;
   }
 }

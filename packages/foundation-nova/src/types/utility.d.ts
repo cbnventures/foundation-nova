@@ -1,9 +1,13 @@
+import type { ExecSyncOptionsWithStringEncoding } from 'child_process';
+
 /**
  * Execute shell.
  *
  * @since 1.0.0
  */
 export type ExecuteShellCommand = string;
+
+export type ExecuteShellOptions = Omit<ExecSyncOptionsWithStringEncoding, 'encoding'>;
 
 export type ExecuteShellReturns = string | null;
 

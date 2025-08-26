@@ -30,55 +30,73 @@ export type CLIProgram = Command;
 export type CLIRegisterCommandsReturns = void;
 
 /**
- * CLI Version - Get browser ver.
+ * CLI Version - Get browser version.
  *
  * @since 1.0.0
  */
-export type CLIVersionGetBrowserVerReturns = CLIVersionGetBrowserVerBrowsers;
+export type CLIVersionGetBrowserVersionReturns = CLIVersionGetBrowserVersionBrowsers;
 
-export type CLIVersionGetBrowserVerBrowsers = Record<string, string | null>;
+export type CLIVersionGetBrowserVersionBrowsers = Record<string, string | null>;
 
 /**
- * CLI Version - Get node ver.
+ * CLI Version - Get environment manager version.
  *
  * @since 1.0.0
  */
-export type CLIVersionGetNodeVerReturns = CLIVersionGetNodeVerTools;
+export type CLIVersionGetEnvironmentManagerVersionReturns = CLIVersionGetEnvironmentManagerVersionManagers;
 
-export type CLIVersionGetNodeVerTools = Record<string, string>;
+export type CLIVersionGetEnvironmentManagerVersionManagers = Record<string, string>;
 
 /**
- * CLI Version - Get os ver.
+ * CLI Version - Get interpreter version.
  *
  * @since 1.0.0
  */
-export type CLIVersionGetOsVerReturnsName = CLIVersionGetOsVerName;
+export type CLIVersionGetInterpreterVersionReturns = CLIVersionGetInterpreterVersionInterpreters;
 
-export type CLIVersionGetOsVerReturnsVersion = CLIVersionGetOsVerVersion;
+export type CLIVersionGetInterpreterVersionInterpreters = Record<string, string>;
 
-export type CLIVersionGetOsVerReturnsArchitecture = CLIVersionGetOsVerArchitecture;
+/**
+ * CLI Version - Get node version.
+ *
+ * @since 1.0.0
+ */
+export type CLIVersionGetNodeVersionReturns = CLIVersionGetNodeVersionTools;
 
-export type CLIVersionGetOsVerReturnsBuild = CLIVersionGetOsVerBuild;
+export type CLIVersionGetNodeVersionTools = Record<string, string>;
 
-export type CLIVersionGetOsVerReturnsKernel = CLIVersionGetOsVerKernel;
+/**
+ * CLI Version - Get os version.
+ *
+ * @since 1.0.0
+ */
+export type CLIVersionGetOsVersionReturnsName = CLIVersionGetOsVersionName;
 
-export type CLIVersionGetOsVerReturns = {
-  name: CLIVersionGetOsVerReturnsName;
-  version: CLIVersionGetOsVerReturnsVersion;
-  architecture: CLIVersionGetOsVerReturnsArchitecture;
-  build: CLIVersionGetOsVerReturnsBuild;
-  kernel: CLIVersionGetOsVerReturnsKernel;
+export type CLIVersionGetOsVersionReturnsVersion = CLIVersionGetOsVersionVersion;
+
+export type CLIVersionGetOsVersionReturnsArchitecture = CLIVersionGetOsVersionArchitecture;
+
+export type CLIVersionGetOsVersionReturnsBuild = CLIVersionGetOsVersionBuild;
+
+export type CLIVersionGetOsVersionReturnsKernel = CLIVersionGetOsVersionKernel;
+
+export type CLIVersionGetOsVersionReturns = {
+  name: CLIVersionGetOsVersionReturnsName;
+  version: CLIVersionGetOsVersionReturnsVersion;
+  architecture: CLIVersionGetOsVersionReturnsArchitecture;
+  build: CLIVersionGetOsVersionReturnsBuild;
+  kernel: CLIVersionGetOsVersionReturnsKernel;
 };
 
-export type CLIVersionGetOsVerName = NodeJS.Platform | string;
+export type CLIVersionGetOsVersionName = NodeJS.Platform | string;
 
-export type CLIVersionGetOsVerVersion = string | null;
+export type CLIVersionGetOsVersionVersion = string | null;
 
-export type CLIVersionGetOsVerArchitecture = NodeJS.Architecture;
+export type CLIVersionGetOsVersionArchitecture = NodeJS.Architecture;
 
-export type CLIVersionGetOsVerBuild = string | null;
+export type CLIVersionGetOsVersionBuild = string | null;
 
-export type CLIVersionGetOsVerKernel = string;
+export type CLIVersionGetOsVersionKernel = string;
 
 /**
  * CLI Version - Print.
@@ -97,6 +115,8 @@ export type CLIVersionPrintReturns = void;
 export type CLIVersionRunOptions = {
   all?: true;
   browser?: true;
+  env?: true;
+  interpreter?: true;
   node?: true;
   os?: true;
 };

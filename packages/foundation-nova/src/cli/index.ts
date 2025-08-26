@@ -61,10 +61,13 @@ class CLI {
   private registerCommands(): CLIRegisterCommandsReturns {
     // [env] - Show installed version information.
     this.#program
-      .command('ver')
+      .command('version')
+      .alias('ver')
       .description('Show installed version information')
       .option('-a, --all', 'Show all available versions')
       .option('-b, --browser', 'Show web browser related versions')
+      .option('-e, --env', 'Show environment manager related versions')
+      .option('-i, --interpreter', 'Show interpreter related versions')
       .option('-n, --node', 'Show Node.js related versions')
       .option('-o, --os', 'Show operating system related versions')
       .action(async (options, command) => {
