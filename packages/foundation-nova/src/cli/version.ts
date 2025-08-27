@@ -137,7 +137,7 @@ export class CLIVersion {
 
     // Attempt to retrieve the Node.js version.
     try {
-      const nodeJsVersion = executeShell('node -v', {
+      const nodeJsVersion = executeShell('node --version', {
         stdio: [
           'ignore',
           'pipe',
@@ -158,7 +158,7 @@ export class CLIVersion {
 
     // Attempt to retrieve the Node Package Manager (npm) version.
     try {
-      const npmVersion = executeShell('npm -v', {
+      const npmVersion = executeShell('npm --version', {
         stdio: [
           'ignore',
           'pipe',
@@ -178,7 +178,7 @@ export class CLIVersion {
 
     // Attempt to retrieve the Yarn version.
     try {
-      const yarnVersion = executeShell('yarn -v', {
+      const yarnVersion = executeShell('yarn --version', {
         stdio: [
           'ignore',
           'pipe',
@@ -257,21 +257,10 @@ export class CLIVersion {
 
     // Attempt to retrieve the Node Version Manager (nvm) version.
     try {
-      let nvmVersion;
-
-      if (os.platform() === 'win32') {
-        nvmVersion = executeShell('nvm --version', {
-          stdio: [
-            'ignore',
-            'pipe',
-            'ignore',
-          ],
-        });
-      } else {
+      // Windows has their own version.
+      if (os.platform() !== 'win32') {
         const userShell = process.env['SHELL'] || '/bin/bash';
-
-        // Because UNIX just wants to be special in their own way.
-        nvmVersion = executeShell(`${userShell} -lc "nvm --version"`, {
+        const nvmVersion = executeShell(`${userShell} -lic "nvm --version"`, {
           env: process.env,
           stdio: [
             'ignore',
@@ -279,13 +268,35 @@ export class CLIVersion {
             'ignore',
           ],
         });
-      }
 
-      if (nvmVersion !== null) {
-        managers = {
-          ...managers,
-          nvm: nvmVersion,
-        };
+        if (nvmVersion !== null) {
+          managers = {
+            ...managers,
+            nvm: nvmVersion,
+          };
+        }
+      }
+    } catch {
+      /* empty */
+    }
+
+    // Attempt to retrieve the Node Version Manager for Windows (nvm) version.
+    try {
+      if (os.platform() === 'win32') {
+        const nvmWindowsVersion = executeShell('nvm --version', {
+          stdio: [
+            'ignore',
+            'pipe',
+            'ignore',
+          ],
+        });
+
+        if (nvmWindowsVersion !== null) {
+          managers = {
+            ...managers,
+            nvmWindows: nvmWindowsVersion,
+          };
+        }
       }
     } catch {
       /* empty */
@@ -293,7 +304,9 @@ export class CLIVersion {
 
     // Attempt to retrieve the Volta version.
     try {
-      const voltaVersion = executeShell('volta --version', {
+      const userShell = process.env['SHELL'] || '/bin/bash';
+      const voltaVersion = executeShell(`${userShell} -lic "volta --version"`, {
+        env: process.env,
         stdio: [
           'ignore',
           'pipe',
@@ -514,17 +527,20 @@ export class CLIVersion {
           'pipe',
           'ignore',
         ],
-      }) ?? '';
-      const javaVersionMatch = javaVersion.match(TEXT_JAVA_VERSION);
-      const javaVersionMatchVersion = javaVersionMatch?.[1] ?? 'N/A';
-      const javaVersionMatchDistribution = javaVersionMatch?.[2] ?? 'N/A';
-      const javaVersionMatchBuild = javaVersionMatch?.[4] ?? 'N/A';
+      });
 
-      // Build output string.
-      interpreters = {
-        ...interpreters,
-        java: `${javaVersionMatchVersion} (distro: ${javaVersionMatchDistribution}, build: ${javaVersionMatchBuild})`,
-      };
+      if (javaVersion !== null) {
+        const javaVersionMatch = javaVersion.match(TEXT_JAVA_VERSION);
+        const javaVersionMatchVersion = javaVersionMatch?.[1] ?? 'N/A';
+        const javaVersionMatchDistribution = javaVersionMatch?.[2] ?? 'N/A';
+        const javaVersionMatchBuild = javaVersionMatch?.[4] ?? 'N/A';
+
+        // Build output string.
+        interpreters = {
+          ...interpreters,
+          java: `${javaVersionMatchVersion} (distro: ${javaVersionMatchDistribution}, build: ${javaVersionMatchBuild})`,
+        };
+      }
     } catch {
       /* empty */
     }

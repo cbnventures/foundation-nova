@@ -21,6 +21,7 @@ export const itemBrandPrettyNames: ItemBrandPrettyNames = {
   'nodeJs': 'Node.js',
   'npm': 'Node Package Manager (npm)',
   'nvm': 'Node Version Manager (nvm)',
+  'nvmWindows': 'NVM for Windows',
   'opera': 'Opera',
   'orion': 'Orion',
   'pnpm': 'Performant Node Package Manager (pnpm)',
