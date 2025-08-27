@@ -1,6 +1,6 @@
-name: "Publish to Registries"
+name: "Publish to npm registries"
 
-run-name: "Publishing ${{ github.event.release.tag_name }} to registries"
+run-name: "Publishing ${{ github.event.release.tag_name }} to npm registries"
 
 on:
   release:
@@ -10,7 +10,7 @@ permissions:
   { }
 
 jobs:
-  publish-to-registries:
+  publish-to-npm-registries:
     runs-on: "ubuntu-latest"
     timeout-minutes: 10
     permissions:

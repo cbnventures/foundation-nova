@@ -109,6 +109,11 @@ export class CLIVersion {
    */
   private static print(list: CLIVersionPrintList): CLIVersionPrintReturns {
     for (const [key, value] of Object.entries(list)) {
+      // Skip empty tables.
+      if (Object.keys(value).length === 0) {
+        continue;
+      }
+
       const table = new Table({
         head: [
           chalk.bold.yellow(itemColumnTitlePrettyNames[`key-${key}`] ?? 'Key'),
@@ -146,7 +151,13 @@ export class CLIVersion {
 
     // Attempt to retrieve the Node.js version.
     try {
-      const nodeJsVersion = executeShell('node -v');
+      const nodeJsVersion = executeShell('node -v', {
+        stdio: [
+          'ignore',
+          'pipe',
+          'ignore',
+        ],
+      });
 
       // Remove the leading "v" from the version output.
       if (nodeJsVersion !== null) {
@@ -161,7 +172,13 @@ export class CLIVersion {
 
     // Attempt to retrieve the Node Package Manager (npm) version.
     try {
-      const npmVersion = executeShell('npm -v');
+      const npmVersion = executeShell('npm -v', {
+        stdio: [
+          'ignore',
+          'pipe',
+          'ignore',
+        ],
+      });
 
       if (npmVersion !== null) {
         tools = {
@@ -175,7 +192,13 @@ export class CLIVersion {
 
     // Attempt to retrieve the Yarn version.
     try {
-      const yarnVersion = executeShell('yarn -v');
+      const yarnVersion = executeShell('yarn -v', {
+        stdio: [
+          'ignore',
+          'pipe',
+          'ignore',
+        ],
+      });
 
       if (yarnVersion !== null) {
         tools = {
@@ -213,7 +236,13 @@ export class CLIVersion {
 
     // Attempt to retrieve the Bun version.
     try {
-      const bunVersion = executeShell('bun --version');
+      const bunVersion = executeShell('bun --version', {
+        stdio: [
+          'ignore',
+          'pipe',
+          'ignore',
+        ],
+      });
 
       if (bunVersion !== null) {
         tools = {
@@ -245,13 +274,24 @@ export class CLIVersion {
       let nvmVersion;
 
       if (os.platform() === 'win32') {
-        nvmVersion = executeShell('nvm --version');
+        nvmVersion = executeShell('nvm --version', {
+          stdio: [
+            'ignore',
+            'pipe',
+            'ignore',
+          ],
+        });
       } else {
         const userShell = process.env['SHELL'] || '/bin/bash';
 
         // Because UNIX just wants to be special in their own way.
         nvmVersion = executeShell(`${userShell} -lc "nvm --version"`, {
           env: process.env,
+          stdio: [
+            'ignore',
+            'pipe',
+            'ignore',
+          ],
         });
       }
 
@@ -267,7 +307,13 @@ export class CLIVersion {
 
     // Attempt to retrieve the Volta version.
     try {
-      const voltaVersion = executeShell('volta --version');
+      const voltaVersion = executeShell('volta --version', {
+        stdio: [
+          'ignore',
+          'pipe',
+          'ignore',
+        ],
+      });
 
       if (voltaVersion !== null) {
         managers = {
@@ -477,7 +523,13 @@ export class CLIVersion {
 
     // Attempt to retrieve the Java version.
     try {
-      const javaVersion = executeShell('java --version') ?? '';
+      const javaVersion = executeShell('java --version', {
+        stdio: [
+          'ignore',
+          'pipe',
+          'ignore',
+        ],
+      }) ?? '';
       const lines = javaVersion.trim().split('\n');
 
       if (lines !== undefined) {
@@ -525,7 +577,13 @@ export class CLIVersion {
 
     // Attempt to retrieve the Rust version.
     try {
-      const rustVersion = executeShell('rustc --version');
+      const rustVersion = executeShell('rustc --version', {
+        stdio: [
+          'ignore',
+          'pipe',
+          'ignore',
+        ],
+      });
 
       if (rustVersion !== null) {
         const rustVersionMatch = rustVersion.match(TEXT_RUSTC_VERSION);
