@@ -367,10 +367,9 @@ export class CLIVersion {
     // Linux.
     if (platform === 'linux') {
       const osRelease = parseLinuxOsReleaseFile();
-      const versionId = osRelease['VERSION_ID'];
 
-      name = osRelease['PRETTY_NAME'] ?? osRelease['NAME'] ?? 'Linux';
-      version = (versionId && !name.includes(versionId)) ? versionId : null;
+      name = osRelease['NAME'] ?? 'Linux';
+      version = osRelease['VERSION'] ?? null;
       build = osRelease['BUILD_ID'] ?? null;
     }
 
