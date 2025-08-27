@@ -6,18 +6,18 @@
 export const CHARACTER_LEADING_V = /^v/;
 
 /**
+ * Text java version.
+ *
+ * @since 1.0.0
+ */
+export const TEXT_JAVA_VERSION = /^(?:openjdk|java)\s+(?<javaVersion>\d+(?:\.\d+){0,2})(?:\s+\d{4}-\d{2}-\d{2})?(?:\s+LTS)?[\s\S]*?(?:(?:Runtime Environment|SE Runtime Environment)\s+)?(?:(?<distro>Oracle GraalVM|GraalVM CE|GraalVM|Corretto|Temurin|Zulu|SapMachine|Microsoft|JBR|IBM Semeru Runtime Open Edition|Eclipse OpenJ9(?: VM)?|TencentKonaJDK|KonaJDK)(?:[-\s]?(?<distroVersion>[0-9][A-Za-z0-9.+-]*))?)?\s*\(build\s+(?<build>[^)]+)\)/mi;
+
+/**
  * Text line split.
  *
  * @since 1.0.0
  */
 export const TEXT_LINE_SPLIT = /\r?\n/;
-
-/**
- * Text parenthesis content.
- *
- * @since 1.0.0
- */
-export const TEXT_PARENTHESIS_CONTENT = /\((.+)\)/;
 
 /**
  * Text quoted string pattern.

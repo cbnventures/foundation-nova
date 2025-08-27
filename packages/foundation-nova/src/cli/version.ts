@@ -10,7 +10,7 @@ import {
   itemColumnTitlePrettyNames,
   itemTypePrettyNames,
 } from '@/lib/item.js';
-import { CHARACTER_LEADING_V, TEXT_PARENTHESIS_CONTENT, TEXT_RUSTC_VERSION } from '@/lib/regex.js';
+import { CHARACTER_LEADING_V, TEXT_JAVA_VERSION, TEXT_RUSTC_VERSION } from '@/lib/regex.js';
 import { executeShell, parseLinuxOsReleaseFile, parseWindowsRegistryQuery } from '@/lib/utility.js';
 import type {
   CLIVersionGetBrowserVersionBrowsers,
@@ -50,47 +50,32 @@ export class CLIVersion {
    * @since 1.0.0
    */
   public static run(options: CLIVersionRunOptions): CLIVersionRunReturns {
-    let list: CLIVersionRunList = {};
-
-    // Get installation versions for the installed Node.js copy.
-    if (options.node || options.all) {
-      list = {
-        ...list,
+    const list: CLIVersionRunList = {
+      // Node.js Environment.
+      ...(options.node || options.all) ? {
         node: CLIVersion.getNodeVersion(),
-      };
-    }
+      } : {},
 
-    // Get installation versions for the installed environment managers.
-    if (options.env || options.all) {
-      list = {
-        ...list,
+      // Environment Managers.
+      ...(options.env || options.all) ? {
         env: CLIVersion.getEnvironmentManagerVersion(),
-      };
-    }
+      } : {},
 
-    // Get installation versions for the operating system.
-    if (options.os || options.all) {
-      list = {
-        ...list,
+      // Operating System.
+      ...(options.os || options.all) ? {
         os: CLIVersion.getOsVersion(),
-      };
-    }
+      } : {},
 
-    // Get installation versions for the installed web browsers.
-    if (options.browser || options.all) {
-      list = {
-        ...list,
+      // Web Browsers.
+      ...(options.browser || options.all) ? {
         browsers: CLIVersion.getBrowserVersion(),
-      };
-    }
+      } : {},
 
-    // Get installation versions for the installed interpreters.
-    if (options.interpreter || options.all) {
-      list = {
-        ...list,
+      // Interpreters and Runtimes.
+      ...(options.interpreter || options.all) ? {
         interpreters: CLIVersion.getInterpreterVersion(),
-      };
-    }
+      } : {},
+    };
 
     // Print out the versions to the console.
     CLIVersion.print(list);
@@ -108,16 +93,17 @@ export class CLIVersion {
    * @since 1.0.0
    */
   private static print(list: CLIVersionPrintList): CLIVersionPrintReturns {
-    for (const [key, value] of Object.entries(list)) {
-      // Skip empty tables.
-      if (Object.keys(value).length === 0) {
+    // Each category maps to a rows-by-key object used to render a single two-column table.
+    for (const [category, rowsByKey] of Object.entries(list)) {
+      // Skip empty objects.
+      if (Object.keys(rowsByKey).length === 0) {
         continue;
       }
 
       const table = new Table({
         head: [
-          chalk.bold.yellow(itemColumnTitlePrettyNames[`key-${key}`] ?? 'Key'),
-          chalk.bold.yellow(itemColumnTitlePrettyNames[`value-${key}`] ?? 'Value'),
+          chalk.bold.yellow(itemColumnTitlePrettyNames[`key-${category}`] ?? 'Key'),
+          chalk.bold.yellow(itemColumnTitlePrettyNames[`value-${category}`] ?? 'Value'),
         ],
         style: {
           head: [],
@@ -125,14 +111,14 @@ export class CLIVersion {
         },
       });
 
-      for (const [innerKey, innerValue] of Object.entries(value)) {
+      for (const [rowKey, rowValue] of Object.entries(rowsByKey)) {
         table.push([
-          itemBrandPrettyNames[innerKey] ?? itemTypePrettyNames[innerKey] ?? chalk.grey(innerKey),
-          innerValue,
+          itemBrandPrettyNames[rowKey] ?? itemTypePrettyNames[rowKey] ?? chalk.grey(rowKey),
+          rowValue,
         ]);
       }
 
-      console.log(`\n${itemCategoryPrettyNames[key] ?? chalk.grey(key)}`);
+      console.log(`\n${itemCategoryPrettyNames[category] ?? chalk.grey(category)}`);
       console.log(table.toString());
     }
   }
@@ -529,47 +515,16 @@ export class CLIVersion {
           'ignore',
         ],
       }) ?? '';
-      const lines = javaVersion.trim().split('\n');
+      const javaVersionMatch = javaVersion.match(TEXT_JAVA_VERSION);
+      const javaVersionMatchVersion = javaVersionMatch?.[1] ?? 'N/A';
+      const javaVersionMatchDistribution = javaVersionMatch?.[2] ?? 'N/A';
+      const javaVersionMatchBuild = javaVersionMatch?.[4] ?? 'N/A';
 
-      if (lines !== undefined) {
-        const [firstLine, secondLine] = lines;
-
-        if (
-          firstLine !== undefined
-          && secondLine !== undefined
-        ) {
-          /**
-           * First line examples:
-           *
-           * "java 21.0.2 2024-01-16 LTS"
-           * "openjdk 21.0.8 2025-07-15 LTS"
-           *
-           * @since 1.0.0
-           */
-          const firstLineSplit = firstLine.split(' ');
-          const distribution = firstLineSplit[0] ?? 'java';
-
-          /**
-           * Second line examples:
-           *
-           * "Java(TM) SE Runtime Environment (build 21.0.2+13-LTS-58)"
-           * "OpenJDK Runtime Environment Temurin-21.0.8+9 (build 21.0.8+9-LTS)"
-           * "OpenJDK Runtime Environment Zulu17.46+19-CA (build 17.0.9+9-LTS)"
-           * "OpenJDK Runtime Environment Corretto-17.0.8.7.1 (build 17.0.8+7-LTS)"
-           * "Eclipse OpenJ9 VM IBM Semeru Runtime Open Edition 17.0.6+10 (build openj9-0.36.0, JCL version 17.0.6+10)"
-           *
-           * @since 1.0.0
-           */
-          const secondLineSplit = secondLine.match(TEXT_PARENTHESIS_CONTENT)?.[1]?.split(', ') ?? '';
-          const build = (secondLineSplit[0]) ? secondLineSplit[0].replace('build ', '') : 'N/A';
-
-          // Build output string.
-          interpreters = {
-            ...interpreters,
-            java: `${distribution} (build: ${build})`,
-          };
-        }
-      }
+      // Build output string.
+      interpreters = {
+        ...interpreters,
+        java: `${javaVersionMatchVersion} (distro: ${javaVersionMatchDistribution}, build: ${javaVersionMatchBuild})`,
+      };
     } catch {
       /* empty */
     }
@@ -594,7 +549,7 @@ export class CLIVersion {
 
         interpreters = {
           ...interpreters,
-          rust: `${version} (build: ${buildHash} ${buildDate}, source: ${source})`,
+          rust: `${version} (build hash: ${buildHash}, build date: ${buildDate}, source: ${source})`,
         };
       }
     } catch {

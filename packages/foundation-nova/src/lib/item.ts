@@ -37,9 +37,9 @@ export const itemBrandPrettyNames: ItemBrandPrettyNames = {
  * @since 1.0.0
  */
 export const itemCategoryPrettyNames: ItemCategoryPrettyNames = {
-  'browsers': 'Web Browsers',
+  'browsers': 'Detected Web Browsers',
   'env': 'Environment Managers',
-  'interpreters': 'Runtimes / Interpreters',
+  'interpreters': 'Interpreters / Runtimes',
   'node': 'Node.js Environment',
   'os': 'Operating System',
 };
