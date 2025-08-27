@@ -38,4 +38,4 @@ export const TEXT_REGISTRY_QUERY_LINE_PATTERN = /^\s*(\S+)\s+(REG_\S+)\s+(.*)$/;
  *
  * @since 1.0.0
  */
-export const TEXT_RUSTC_VERSION = /^rustc\s+(\d+\.\d+\.\d+)\s+\((\w+)\s+([\d-]+)\)\s+\(([^)]+)\)$/;
+export const TEXT_RUSTC_VERSION = /^rustc\s+(\d+\.\d+\.\d+)\s+\((\w+)\s+([\d-]+)\)(?:\s+\(([^)]+)\))?$/;

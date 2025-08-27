@@ -304,15 +304,28 @@ export class CLIVersion {
 
     // Attempt to retrieve the Volta version.
     try {
-      const userShell = process.env['SHELL'] || '/bin/bash';
-      const voltaVersion = executeShell(`${userShell} -lic "volta --version"`, {
-        env: process.env,
-        stdio: [
-          'ignore',
-          'pipe',
-          'ignore',
-        ],
-      });
+      let voltaVersion;
+
+      if (os.platform() === 'win32') {
+        voltaVersion = executeShell('volta --version', {
+          stdio: [
+            'ignore',
+            'pipe',
+            'ignore',
+          ],
+        });
+      } else {
+        const userShell = process.env['SHELL'] || '/bin/bash';
+
+        voltaVersion = executeShell(`${userShell} -lic "volta --version"`, {
+          env: process.env,
+          stdio: [
+            'ignore',
+            'pipe',
+            'ignore',
+          ],
+        });
+      }
 
       if (voltaVersion !== null) {
         managers = {
@@ -558,9 +571,9 @@ export class CLIVersion {
       if (rustVersion !== null) {
         const rustVersionMatch = rustVersion.match(TEXT_RUSTC_VERSION);
 
-        const version = rustVersionMatch?.[1];
-        const buildHash = rustVersionMatch?.[2];
-        const buildDate = rustVersionMatch?.[3];
+        const version = rustVersionMatch?.[1] ?? 'N/A';
+        const buildHash = rustVersionMatch?.[2] ?? 'N/A';
+        const buildDate = rustVersionMatch?.[3] ?? 'N/A';
         const source = rustVersionMatch?.[4] ?? 'rustup';
 
         interpreters = {
