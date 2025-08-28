@@ -25,18 +25,14 @@ import type {
 export function executeShell(command: ExecuteShellCommand): ExecuteShellReturns {
   let fullCommand;
 
-  // Build one launcher string per OS that mimics a real user session.
-  if (os.platform() !== 'win32') {
+  if (os.platform() === 'win32') {
+    fullCommand = `${command} 2>&1`;
+  } else {
     // Use the user's login shell so profiles load, like Terminal.
     const shell = process.env['SHELL'] || ((os.platform() === 'darwin') ? '/bin/zsh' : '/bin/bash');
     const payload = `${command} 2>&1`.replace(/'/g, '\'\\\'\'');
 
     fullCommand = `${shell} -l -i -c '${payload}'`;
-  } else {
-    // Use Command Prompt with startup behavior (AutoRun) via an inner cmd.
-    const payloadWin = `${command} 2>&1`.replace(/"/g, '""');
-
-    fullCommand = `cmd /s /c "${payloadWin}"`;
   }
 
   try {
