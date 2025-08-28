@@ -28,7 +28,7 @@ export function executeShell(command: ExecuteShellCommand): ExecuteShellReturns 
   // Build one launcher string per OS that mimics a real user session.
   if (os.platform() !== 'win32') {
     // Use the user's login shell so profiles load, like Terminal.
-    const shell = process.env['SHELL'] ?? (os.platform() === 'darwin') ? '/bin/zsh' : '/bin/bash';
+    const shell = process.env['SHELL'] || ((os.platform() === 'darwin') ? '/bin/zsh' : '/bin/bash');
     const payload = `${command} 2>&1`.replace(/'/g, '\'\\\'\'');
 
     fullCommand = `${shell} -l -i -c '${payload}'`;
