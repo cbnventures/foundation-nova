@@ -40,6 +40,8 @@ export function executeShell(command: ExecuteShellCommand): ExecuteShellReturns 
   }
 
   try {
+    console.log(fullCommand); // todo
+
     const out = execSync(fullCommand, {
       encoding: 'utf8',
       stdio: [
@@ -51,6 +53,10 @@ export function executeShell(command: ExecuteShellCommand): ExecuteShellReturns 
       timeout: 15000,
       env: {
         ...process.env,
+        ...(os.platform() === 'win32') ? {
+          // Workaround to make Volta's commands available to Node.js.
+          PATH: `C:\\Program Files\\Volta\\;${process.env['PATH']}`,
+        } : {},
         COREPACK_ENABLE_STRICT: '0',
       },
       cwd: process.cwd(),
