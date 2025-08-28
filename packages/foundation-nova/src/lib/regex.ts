@@ -1,11 +1,4 @@
 /**
- * Character leading v.
- *
- * @since 1.0.0
- */
-export const CHARACTER_LEADING_V = /^v/;
-
-/**
  * Text java version.
  *
  * @since 1.0.0
@@ -39,3 +32,10 @@ export const TEXT_REGISTRY_QUERY_LINE_PATTERN = /^\s*(\S+)\s+(REG_\S+)\s+(.*)$/;
  * @since 1.0.0
  */
 export const TEXT_RUSTC_VERSION = /^rustc\s+(\d+\.\d+\.\d+)\s+\((\w+)\s+([\d-]+)\)(?:\s+\(([^)]+)\))?$/;
+
+/**
+ * Text semver.
+ *
+ * @since 1.0.0
+ */
+export const TEXT_SEMVER = /(?<semver>(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-(?:0|[1-9]\d*|\d*[A-Za-z-][0-9A-Za-z-]*)(?:\.(?:0|[1-9]\d*|\d*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?)/;

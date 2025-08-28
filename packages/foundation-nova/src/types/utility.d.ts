@@ -1,5 +1,3 @@
-import type { ExecSyncOptionsWithStringEncoding } from 'child_process';
-
 /**
  * Execute shell.
  *
@@ -7,9 +5,14 @@ import type { ExecSyncOptionsWithStringEncoding } from 'child_process';
  */
 export type ExecuteShellCommand = string;
 
-export type ExecuteShellOptions = Omit<ExecSyncOptionsWithStringEncoding, 'encoding'>;
+export type ExecuteShellReturnsText = string;
 
-export type ExecuteShellReturns = string | null;
+export type ExecuteShellReturnsError = number;
+
+export type ExecuteShellReturns = {
+  text: ExecuteShellReturnsText;
+  error: ExecuteShellReturnsError;
+};
 
 /**
  * Parse linux os release file.

@@ -1,9 +1,9 @@
 import { execSync } from 'child_process';
+import os from 'os';
 
 import { TEXT_REGISTRY_QUERY_LINE_PATTERN, TEXT_LINE_SPLIT, TEXT_QUOTED_STRING_PATTERN } from '@/lib/regex.js';
 import type {
   ExecuteShellCommand,
-  ExecuteShellOptions,
   ExecuteShellReturns,
   ParseLinuxOsReleaseFileOsReleaseEntries,
   ParseLinuxOsReleaseFileReturns,
@@ -16,21 +16,59 @@ import type {
 /**
  * Execute shell.
  *
- * @param {ExecuteShellCommand} command   - Command.
- * @param {ExecuteShellOptions} [options] - Options.
+ * @param {ExecuteShellCommand} command - Command.
  *
  * @returns {ExecuteShellReturns}
  *
  * @since 1.0.0
  */
-export function executeShell(command: ExecuteShellCommand, options?: ExecuteShellOptions): ExecuteShellReturns {
+export function executeShell(command: ExecuteShellCommand): ExecuteShellReturns {
+  let fullCommand;
+
+  // Build one launcher string per OS that mimics a real user session.
+  if (os.platform() !== 'win32') {
+    // Use the user's login shell so profiles load, like Terminal.
+    const shell = process.env['SHELL'] ?? (os.platform() === 'darwin') ? '/bin/zsh' : '/bin/bash';
+    const payload = `${command} 2>&1`.replace(/'/g, '\'\\\'\'');
+
+    fullCommand = `${shell} -l -i -c '${payload}'`;
+  } else {
+    // Use Command Prompt with startup behavior (AutoRun) via an inner cmd.
+    const payloadWin = `${command} 2>&1`.replace(/"/g, '""');
+
+    fullCommand = `cmd /s /c "${payloadWin}"`;
+  }
+
   try {
-    return execSync(command, {
-      encoding: 'utf-8',
-      ...options,
-    }).trim();
+    const out = execSync(fullCommand, {
+      encoding: 'utf8',
+      stdio: [
+        'ignore',
+        'pipe',
+        'pipe',
+      ],
+      windowsHide: true,
+      timeout: 15000,
+      env: {
+        ...process.env,
+        COREPACK_ENABLE_STRICT: '0',
+      },
+      cwd: process.cwd(),
+      maxBuffer: 8 * 1024 * 1024, // 8 MB.
+    });
+
+    return {
+      text: String(out).trimEnd(),
+      error: 0,
+    };
   } catch {
-    return null;
+    let text = '';
+    let code = 1;
+
+    return {
+      text: text.trimEnd(),
+      error: code,
+    };
   }
 }
 
@@ -42,8 +80,8 @@ export function executeShell(command: ExecuteShellCommand, options?: ExecuteShel
  * @since 1.0.0
  */
 export function parseLinuxOsReleaseFile(): ParseLinuxOsReleaseFileReturns {
-  const query = executeShell('cat /etc/os-release') ?? '';
-  const lines = query.split(TEXT_LINE_SPLIT);
+  const query = executeShell('cat /etc/os-release');
+  const lines = query.text.split(TEXT_LINE_SPLIT);
 
   let osReleaseEntries: ParseLinuxOsReleaseFileOsReleaseEntries = {};
 
@@ -84,8 +122,8 @@ export function parseWindowsRegistryQuery(registryPaths: ParseWindowsRegistryQue
   const paths = Array.isArray(registryPaths) ? registryPaths : [registryPaths];
 
   for (const path of paths) {
-    const query = executeShell(`reg query "${path}" 2>nul`) ?? '';
-    const lines = query.split(TEXT_LINE_SPLIT);
+    const query = executeShell(`reg query "${path}"`);
+    const lines = query.text.split(TEXT_LINE_SPLIT);
 
     let registryKeys: ParseWindowsRegistryQueryRegistryKeys = {};
 
