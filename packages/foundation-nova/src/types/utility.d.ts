@@ -7,12 +7,42 @@ export type ExecuteShellCommand = string;
 
 export type ExecuteShellReturnsText = string;
 
-export type ExecuteShellReturnsError = number;
+export type ExecuteShellReturnsErrorCode = number;
 
 export type ExecuteShellReturns = {
   text: ExecuteShellReturnsText;
-  error: ExecuteShellReturnsError;
+  errorCode: ExecuteShellReturnsErrorCode;
 };
+
+/**
+ * Is exec sync error.
+ *
+ * @since 1.0.0
+ */
+export type IsExecSyncErrorError = unknown;
+
+export type IsExecSyncErrorTypeGuardStatus = number | null;
+
+export type IsExecSyncErrorTypeGuardSignal = NodeJS.Signals | null;
+
+export type IsExecSyncErrorTypeGuardStdout = string;
+
+export type IsExecSyncErrorTypeGuardStderr = string;
+
+export type IsExecSyncErrorTypeGuardPid = number;
+
+export type IsExecSyncErrorTypeGuardOutput = Array<string | null>;
+
+export type IsExecSyncErrorTypeGuard = Error & {
+  status?: IsExecSyncErrorTypeGuardStatus;
+  signal?: IsExecSyncErrorTypeGuardSignal;
+  stdout?: IsExecSyncErrorTypeGuardStdout;
+  stderr?: IsExecSyncErrorTypeGuardStderr;
+  pid?: IsExecSyncErrorTypeGuardPid;
+  output?: IsExecSyncErrorTypeGuardOutput;
+};
+
+export type IsExecSyncErrorObject = Record<string, unknown>;
 
 /**
  * Parse linux os release file.

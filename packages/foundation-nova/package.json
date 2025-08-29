@@ -1,6 +1,6 @@
 {
   "name": "@cbnventures/foundation-nova",
-  "version": "0.4.9",
+  "version": "0.4.10",
   "description": "Scripts, templates, and project configuration for the common JavaScript and TypeScript developer",
   "main": "",
   "bin": {

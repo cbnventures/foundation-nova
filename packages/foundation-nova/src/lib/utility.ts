@@ -5,6 +5,9 @@ import { TEXT_REGISTRY_QUERY_LINE_PATTERN, TEXT_LINE_SPLIT, TEXT_QUOTED_STRING_P
 import type {
   ExecuteShellCommand,
   ExecuteShellReturns,
+  IsExecSyncErrorError,
+  IsExecSyncErrorObject,
+  IsExecSyncErrorTypeGuard,
   ParseLinuxOsReleaseFileOsReleaseEntries,
   ParseLinuxOsReleaseFileReturns,
   ParseWindowsRegistryQueryRegistryKeys,
@@ -36,8 +39,6 @@ export function executeShell(command: ExecuteShellCommand): ExecuteShellReturns 
   }
 
   try {
-    console.log(fullCommand); // todo
-
     const out = execSync(fullCommand, {
       encoding: 'utf8',
       stdio: [
@@ -49,8 +50,7 @@ export function executeShell(command: ExecuteShellCommand): ExecuteShellReturns 
       timeout: 15000,
       env: {
         ...process.env,
-        ...(os.platform() === 'win32') ? {
-          // Workaround to make Volta's commands available to Node.js.
+        ...(process.env['PATH'] !== undefined && process.env['_VOLTA_TOOL_RECURSION'] !== undefined) ? {
           PATH: `C:\\Program Files\\Volta\\;${process.env['PATH']}`,
         } : {},
         COREPACK_ENABLE_STRICT: '0',
@@ -60,18 +60,59 @@ export function executeShell(command: ExecuteShellCommand): ExecuteShellReturns 
     });
 
     return {
-      text: String(out).trimEnd(),
-      error: 0,
+      text: out.trimEnd(),
+      errorCode: 0,
     };
-  } catch {
+  } catch (error) {
     let text = '';
     let code = 1;
 
+    if (isExecSyncError(error)) {
+      if (error.stdout !== undefined) {
+        text = `${error.stdout}`;
+      }
+
+      // Concatenate the error message.
+      if (error.stderr !== undefined) {
+        text = (text !== '') ? `${text} ${error.stderr}` : `${error.stderr}`;
+      }
+
+      if (error.status != null) {
+        code = error.status;
+      }
+    }
+
     return {
       text: text.trimEnd(),
-      error: code,
+      errorCode: code,
     };
   }
+}
+
+/**
+ * Is exec sync error.
+ *
+ * @param {IsExecSyncErrorError} error - Error.
+ *
+ * @returns {boolean}
+ *
+ * @since 1.0.0
+ */
+export function isExecSyncError(error: IsExecSyncErrorError): error is IsExecSyncErrorTypeGuard {
+  if (error === null || typeof error !== 'object') {
+    return false;
+  }
+
+  const object = error as IsExecSyncErrorObject;
+  const hasStatus = 'status' in object && (object['status'] === null || typeof object['status'] === 'number');
+  const hasSignal = 'signal' in object && (object['signal'] === null || typeof object['signal'] === 'string');
+  const hasProcessId = 'pid' in object && typeof object['pid'] === 'number';
+  const hasOutput = 'output' in object && Array.isArray(object['output']);
+  const hasStdout = 'stdout' in object && typeof object['stdout'] === 'string';
+  const hasStderr = 'stderr' in object && typeof object['stderr'] === 'string';
+
+  // Treat presence of any canonical "execSync" fields as sufficient.
+  return hasStatus || hasSignal || hasProcessId || hasOutput || hasStdout || hasStderr;
 }
 
 /**

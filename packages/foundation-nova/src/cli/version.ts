@@ -10,6 +10,7 @@ import {
   itemColumnTitlePrettyNames,
   itemTypePrettyNames,
 } from '@/lib/item.js';
+import { TEXT_JAVA_VERSION, TEXT_RUSTC_VERSION, TEXT_SEMVER } from '@/lib/regex.js';
 import { executeShell, parseLinuxOsReleaseFile, parseWindowsRegistryQuery } from '@/lib/utility.js';
 import type {
   CLIVersionGetBrowserVersionBrowsers,
@@ -99,6 +100,7 @@ export class CLIVersion {
         continue;
       }
 
+      // Build the table.
       const table = new Table({
         head: [
           chalk.bold.yellow(itemColumnTitlePrettyNames[`key-${category}`] ?? 'Key'),
@@ -110,6 +112,7 @@ export class CLIVersion {
         },
       });
 
+      // Push data into the table.
       for (const [rowKey, rowValue] of Object.entries(rowsByKey)) {
         table.push([
           itemBrandPrettyNames[rowKey] ?? itemTypePrettyNames[rowKey] ?? chalk.grey(rowKey),
@@ -117,6 +120,7 @@ export class CLIVersion {
         ]);
       }
 
+      // Print the table.
       console.log(`\n${itemCategoryPrettyNames[category] ?? chalk.grey(category)}`);
       console.log(table.toString());
     }
@@ -132,87 +136,72 @@ export class CLIVersion {
    * @since 1.0.0
    */
   private static getNodeVersion(): CLIVersionGetNodeVersionReturns {
+    const nodeJsVersion = executeShell('node --version');
+    const npmVersion = executeShell('npm --version');
+    const yarnVersion = executeShell('yarn --version');
+    const pnpmVersion = executeShell('pnpm --version');
+    const bunVersion = executeShell('bun --version');
+
     let tools: CLIVersionGetNodeVersionTools = {};
 
     // Attempt to retrieve the Node.js version.
-    try {
-      const nodeJsVersion = executeShell('node --version');
+    if (nodeJsVersion.errorCode === 0) {
+      const match = nodeJsVersion.text.match(TEXT_SEMVER)?.[1];
 
-      console.log('nodeJsVersion', nodeJsVersion); // todo
-
-      // Remove the leading "v" from the version output.
-      // if (nodeJsVersion !== null) {
-      //   tools = {
-      //     ...tools,
-      //     nodeJs: nodeJsVersion.replace(CHARACTER_LEADING_V, ''),
-      //   };
-      // }
-    } catch {
-      /* empty */
+      if (match !== undefined) {
+        tools = {
+          ...tools,
+          nodeJs: match,
+        };
+      }
     }
 
     // Attempt to retrieve the Node Package Manager (npm) version.
-    try {
-      const npmVersion = executeShell('npm --version');
+    if (npmVersion.errorCode === 0) {
+      const match = npmVersion.text.match(TEXT_SEMVER)?.[1];
 
-      console.log('npmVersion', npmVersion); // todo
-
-      // if (npmVersion !== null) {
-      //   tools = {
-      //     ...tools,
-      //     npm: npmVersion,
-      //   };
-      // }
-    } catch {
-      /* empty */
+      if (match !== undefined) {
+        tools = {
+          ...tools,
+          npm: match,
+        };
+      }
     }
 
     // Attempt to retrieve the Yarn version.
-    try {
-      const yarnVersion = executeShell('yarn --version');
+    if (yarnVersion.errorCode === 0) {
+      const match = yarnVersion.text.match(TEXT_SEMVER)?.[1];
 
-      console.log('yarnVersion', yarnVersion); // todo
-
-      // if (yarnVersion !== null) {
-      //   tools = {
-      //     ...tools,
-      //     yarn: yarnVersion,
-      //   };
-      // }
-    } catch {
-      /* empty */
+      if (match !== undefined) {
+        tools = {
+          ...tools,
+          yarn: match,
+        };
+      }
     }
 
     // Attempt to retrieve the Performant Node Package Manager (pnpm) version.
-    try {
-      const pnpmVersion = executeShell('pnpm --version');
+    if (pnpmVersion.errorCode === 0) {
+      const match = pnpmVersion.text.match(TEXT_SEMVER)?.[1];
 
-      console.log('pnpmVersion', pnpmVersion); // todo
-
-      // if (pnpmVersion !== null) {
-      //   tools = {
-      //     ...tools,
-      //     pnpm: pnpmVersion,
-      //   };
-      // }
-    } catch {
-      /* empty */
+      if (match !== undefined) {
+        tools = {
+          ...tools,
+          pnpm: match,
+        };
+      }
     }
 
     // Attempt to retrieve the Bun version.
-    try {
-      const bunVersion = executeShell('bun --version');
+    if (bunVersion.errorCode === 0) {
+      const match = bunVersion.text.match(TEXT_SEMVER)?.[1];
 
-      console.log('bunVersion', bunVersion); // todo
-
-      // if (bunVersion !== null) {
-      //   tools = {
-      //     ...tools,
-      //     bun: bunVersion,
-      //   };
-      // }
-    } catch {
-      /* empty */
+      if (match !== undefined) {
+        tools = {
+          ...tools,
+          bun: match,
+        };
+      }
     }
 
     return tools;
@@ -228,59 +217,45 @@ export class CLIVersion {
    * @since 1.0.0
    */
   private static getEnvironmentManagerVersion(): CLIVersionGetEnvironmentManagerVersionReturns {
+    const nvmVersion = executeShell('nvm --version');
+    const voltaVersion = executeShell('volta --version');
+
     let managers: CLIVersionGetEnvironmentManagerVersionManagers = {};
 
     // Attempt to retrieve the Node Version Manager (nvm) version.
-    try {
-      // Windows has their own version.
-      if (os.platform() !== 'win32') {
-        const nvmVersion = executeShell('nvm --version');
+    if (os.platform() !== 'win32' && nvmVersion.errorCode === 0) {
+      const match = nvmVersion.text.match(TEXT_SEMVER)?.[1];
 
-        console.log('nvmVersion', nvmVersion); // todo
-
-        // if (nvmVersion !== null) {
-        //   managers = {
-        //     ...managers,
-        //     nvm: nvmVersion,
-        //   };
-        // }
+      if (match !== undefined) {
+        managers = {
+          ...managers,
+          nvm: match,
+        };
       }
-    } catch {
-      /* empty */
     }
 
-    // Attempt to retrieve the Node Version Manager for Windows (nvm) version.
-    try {
-      if (os.platform() === 'win32') {
-        const nvmWindowsVersion = executeShell('nvm --version');
+    // Attempt to retrieve the Node Version Manager for Windows (nvm-windows) version.
+    if (os.platform() === 'win32' && nvmVersion.errorCode === 0) {
+      const match = nvmVersion.text.match(TEXT_SEMVER)?.[1];
 
-        console.log('nvmWindowsVersion', nvmWindowsVersion); // todo
-
-        // if (nvmWindowsVersion !== null) {
-        //   managers = {
-        //     ...managers,
-        //     nvmWindows: nvmWindowsVersion,
-        //   };
-        // }
+      if (match !== undefined) {
+        managers = {
+          ...managers,
+          nvmWindows: match,
+        };
       }
-    } catch {
-      /* empty */
     }
 
     // Attempt to retrieve the Volta version.
-    try {
-      let voltaVersion = executeShell('volta --version');
+    if (nvmVersion.errorCode === 0) {
+      const match = voltaVersion.text.match(TEXT_SEMVER)?.[1];
 
-      console.log('voltaVersion', voltaVersion); // todo
-
-      // if (voltaVersion !== null) {
-      //   managers = {
-      //     ...managers,
-      //     volta: voltaVersion,
-      //   };
-      // }
-    } catch {
-      /* empty */
+      if (match !== undefined) {
+        managers = {
+          ...managers,
+          volta: match,
+        };
+      }
     }
 
     return managers;
@@ -356,111 +331,74 @@ export class CLIVersion {
 
     // macOS (must have "./Contents/Info" file and "CFBundleShortVersionString" key).
     if (platform === 'darwin') {
-      browsers = {
-        ...(existsSync('/Applications/Google Chrome.app')) ? {
-          chrome: executeShell('defaults read "/Applications/Google Chrome.app/Contents/Info" CFBundleShortVersionString').text,
-        } : {},
-        ...(existsSync('/Applications/Safari.app')) ? {
-          safari: executeShell('defaults read "/Applications/Safari.app/Contents/Info" CFBundleShortVersionString').text,
-        } : {},
-        ...(existsSync('/Applications/Microsoft Edge.app')) ? {
-          edge: executeShell('defaults read "/Applications/Microsoft Edge.app/Contents/Info" CFBundleShortVersionString').text,
-        } : {},
-        ...(existsSync('/Applications/Firefox.app')) ? {
-          firefox: executeShell('defaults read "/Applications/Firefox.app/Contents/Info" CFBundleShortVersionString').text,
-        } : {},
-        ...(existsSync('/Applications/Opera.app')) ? {
-          opera: executeShell('defaults read "/Applications/Opera.app/Contents/Info" CFBundleShortVersionString').text,
-        } : {},
-        ...(existsSync('/Applications/Brave Browser.app')) ? {
-          brave: executeShell('defaults read "/Applications/Brave Browser.app/Contents/Info" CFBundleShortVersionString').text,
-        } : {},
-        ...(existsSync('/Applications/Vivaldi.app')) ? {
-          vivaldi: executeShell('defaults read "/Applications/Vivaldi.app/Contents/Info" CFBundleShortVersionString').text,
-        } : {},
-        ...(existsSync('/Applications/Orion.app')) ? {
-          orion: executeShell('defaults read "/Applications/Orion.app/Contents/Info" CFBundleShortVersionString').text,
-        } : {},
-        ...(existsSync('/Applications/LibreWolf.app')) ? {
-          libreWolf: executeShell('defaults read "/Applications/LibreWolf.app/Contents/Info" CFBundleShortVersionString').text,
-        } : {},
+      const supportedBrowsers = {
+        'chrome': 'Google Chrome.app',
+        'safari': 'Safari.app',
+        'edge': 'Microsoft Edge.app',
+        'firefox': 'Firefox.app',
+        'opera': 'Opera.app',
+        'brave': 'Brave Browser.app',
+        'vivaldi': 'Vivaldi.app',
+        'orion': 'Orion.app',
+        'libreWolf': 'LibreWolf.app',
       };
+
+      for (const supportedBrowser of Object.entries(supportedBrowsers)) {
+        browsers = {
+          ...browsers,
+          ...(existsSync(`/Applications/${supportedBrowser[1]}`)) ? {
+            [supportedBrowser[0]]: executeShell(`defaults read "/Applications/${supportedBrowser[1]}/Contents/Info" CFBundleShortVersionString`).text,
+          } : {},
+        };
+      }
     }
 
     // Windows (must be registered into "App Paths" and have "VersionInfo.ProductVersion" key).
     if (platform === 'win32') {
-      const chromeQuery = parseWindowsRegistryQuery([
-        'HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\chrome.exe',
-        'HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\chrome.exe',
-      ]);
-      const edgeQuery = parseWindowsRegistryQuery([
-        'HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\msedge.exe',
-        'HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\msedge.exe',
-      ]);
-      const firefoxQuery = parseWindowsRegistryQuery([
-        'HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\firefox.exe',
-        'HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\firefox.exe',
-      ]);
-      const operaQuery = parseWindowsRegistryQuery([
-        'HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\opera.exe',
-        'HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\opera.exe',
-      ]);
-      const braveQuery = parseWindowsRegistryQuery([
-        'HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\brave.exe',
-        'HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\brave.exe',
-      ]);
-      const vivaldiQuery = parseWindowsRegistryQuery([
-        'HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\vivaldi.exe',
-        'HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\vivaldi.exe',
-      ]);
-
-      browsers = {
-        ...(chromeQuery['(Default)']?.data !== undefined) ? {
-          'chrome': executeShell(`powershell -Command "(Get-Item '${chromeQuery['(Default)']?.data}').VersionInfo.ProductVersion"`).text,
-        } : {},
-        ...(edgeQuery['(Default)']?.data !== undefined) ? {
-          'edge': executeShell(`powershell -Command "(Get-Item '${edgeQuery['(Default)']?.data}').VersionInfo.ProductVersion"`).text,
-        } : {},
-        ...(firefoxQuery['(Default)']?.data !== undefined) ? {
-          'firefox': executeShell(`powershell -Command "(Get-Item '${firefoxQuery['(Default)']?.data}').VersionInfo.ProductVersion"`).text,
-        } : {},
-        ...(operaQuery['(Default)']?.data !== undefined) ? {
-          'opera': executeShell(`powershell -Command "(Get-Item '${operaQuery['(Default)']?.data}').VersionInfo.ProductVersion"`).text,
-        } : {},
-        ...(braveQuery['(Default)']?.data !== undefined) ? {
-          'brave': executeShell(`powershell -Command "(Get-Item '${braveQuery['(Default)']?.data}').VersionInfo.ProductVersion"`).text,
-        } : {},
-        ...(vivaldiQuery['(Default)']?.data !== undefined) ? {
-          'vivaldi': executeShell(`powershell -Command "(Get-Item '${vivaldiQuery['(Default)']?.data}').VersionInfo.ProductVersion"`).text,
-        } : {},
+      const supportedBrowsers = {
+        'chrome': 'chrome.exe',
+        'edge': 'msedge.exe',
+        'firefox': 'firefox.exe',
+        'opera': 'opera.exe',
+        'brave': 'brave.exe',
+        'vivaldi': 'vivaldi.exe',
       };
+
+      for (const supportedBrowser of Object.entries(supportedBrowsers)) {
+        const query = parseWindowsRegistryQuery([
+          `HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\${supportedBrowser[1]}`,
+          `HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\${supportedBrowser[1]}`,
+        ]);
+
+        browsers = {
+          ...browsers,
+          ...(query['(Default)']?.data !== undefined) ? {
+            [supportedBrowser[0]]: executeShell(`powershell -Command "(Get-Item '${query['(Default)']?.data}').VersionInfo.ProductVersion"`).text,
+          } : {},
+        };
+      }
     }
 
     // Linux (must have a command that exists in PATH).
     if (platform === 'linux') {
-      browsers = {
-        ...(executeShell('command -v google-chrome')) ? { // make sure these return boolean todo
-          'chrome': executeShell('google-chrome --version').text.replace('Google Chrome ', ''),
-        } : {},
-        ...(executeShell('command -v firefox')) ? {
-          'firefox': executeShell('firefox --version').text.replace('Mozilla Firefox ', ''),
-        } : {},
-        ...(executeShell('command -v brave-browser')) ? {
-          'brave': executeShell('brave-browser --version').text.replace('Brave Browser ', ''),
-        } : {},
-        ...(executeShell('command -v vivaldi')) ? {
-          'vivaldi': executeShell('vivaldi --version').text.replace('Vivaldi ', ''),
-        } : {},
-        ...(executeShell('command -v opera')) ? {
-          'opera': executeShell('opera --version').text,
-        } : {},
-        ...(executeShell('command -v microsoft-edge')) ? {
-          'edge': executeShell('microsoft-edge --version').text.replace('Microsoft Edge ', ''),
-        } : {},
-        ...(executeShell('command -v librewolf')) ? {
-          'libreWolf': executeShell('librewolf --version').text.replace('Mozilla LibreWolf ', ''),
-        } : {},
+      const supportedBrowsers = {
+        'chrome': 'google-chrome',
+        'firefox': 'firefox',
+        'brave': 'brave-browser',
+        'vivaldi': 'vivaldi',
+        'opera': 'opera',
+        'edge': 'microsoft-edge',
+        'libreWolf': 'librewolf',
       };
+
+      for (const supportedBrowser of Object.entries(supportedBrowsers)) {
+        browsers = {
+          ...browsers,
+          ...(executeShell(`command -v ${supportedBrowser[1]}`).errorCode === 0) ? {
+            [supportedBrowser[0]]: executeShell(`${supportedBrowser[1]} --version`).text,
+          } : {},
+        };
+      }
     }
 
     return browsers;
@@ -476,51 +414,40 @@ export class CLIVersion {
    * @since 1.0.0
    */
   private static getInterpreterVersion(): CLIVersionGetInterpreterVersionReturns {
+    const javaVersion = executeShell('java --version');
+    const rustVersion = executeShell('rustc --version');
+
     let interpreters: CLIVersionGetInterpreterVersionInterpreters = {};
 
     // Attempt to retrieve the Java version.
-    try {
-      const javaVersion = executeShell('java --version');
+    if (javaVersion.errorCode === 0) {
+      const match = javaVersion.text.match(TEXT_JAVA_VERSION);
+      const matchVersion = match?.[1] ?? 'N/A';
+      const matchDistribution = match?.[2] ?? 'N/A';
+      const matchBuild = match?.[4] ?? 'N/A';
 
-      console.log('javaVersion', javaVersion); // todo
-
-      // if (javaVersion !== null) {
-      //   const javaVersionMatch = javaVersion.match(TEXT_JAVA_VERSION);
-      //   const javaVersionMatchVersion = javaVersionMatch?.[1] ?? 'N/A';
-      //   const javaVersionMatchDistribution = javaVersionMatch?.[2] ?? 'N/A';
-      //   const javaVersionMatchBuild = javaVersionMatch?.[4] ?? 'N/A';
-      //
-      //   // Build output string.
-      //   interpreters = {
-      //     ...interpreters,
-      //     java: `${javaVersionMatchVersion} (distro: ${javaVersionMatchDistribution}, build: ${javaVersionMatchBuild})`,
-      //   };
-      // }
-    } catch {
-      /* empty */
+      if (match !== null) {
+        interpreters = {
+          ...interpreters,
+          java: `${matchVersion} (distro: ${matchDistribution}, build: ${matchBuild})`,
+        };
+      }
     }
 
     // Attempt to retrieve the Rust version.
-    try {
-      const rustVersion = executeShell('rustc --version');
+    if (rustVersion.errorCode === 0) {
+      const match = rustVersion.text.match(TEXT_RUSTC_VERSION);
+      const matchVersion = match?.[1] ?? 'N/A';
+      const matchBuildHash = match?.[2] ?? 'N/A';
+      const matchBuildDate = match?.[3] ?? 'N/A';
+      const matchSource = match?.[4] ?? 'rustup';
 
-      console.log('rustVersion', rustVersion); // todo
-
-      // if (rustVersion !== null) {
-      //   const rustVersionMatch = rustVersion.match(TEXT_RUSTC_VERSION);
-      //
-      //   const version = rustVersionMatch?.[1] ?? 'N/A';
-      //   const buildHash = rustVersionMatch?.[2] ?? 'N/A';
-      //   const buildDate = rustVersionMatch?.[3] ?? 'N/A';
-      //   const source = rustVersionMatch?.[4] ?? 'rustup';
-      //
-      //   interpreters = {
-      //     ...interpreters,
-      //     rust: `${version} (build hash: ${buildHash}, build date: ${buildDate}, source: ${source})`,
-      //   };
-      // }
-    } catch {
-      /* empty */
+      if (match !== null) {
+        interpreters = {
+          ...interpreters,
+          rust: `${matchVersion} (build hash: ${matchBuildHash}, build date: ${matchBuildDate}, source: ${matchSource})`,
+        };
+      }
     }
 
     return interpreters;
