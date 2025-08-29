@@ -10,7 +10,12 @@ import {
   itemColumnTitlePrettyNames,
   itemTypePrettyNames,
 } from '@/lib/item.js';
-import { TEXT_JAVA_VERSION, TEXT_RUSTC_VERSION, TEXT_SEMVER } from '@/lib/regex.js';
+import {
+  TEXT_JAVA_VERSION,
+  TEXT_RUSTC_VERSION,
+  TEXT_SEMVER,
+  TEXT_TRIM_TO_FIRST_DIGIT,
+} from '@/lib/regex.js';
 import { executeShell, parseLinuxOsReleaseFile, parseWindowsRegistryQuery } from '@/lib/utility.js';
 import type {
   CLIVersionGetBrowserVersionBrowsers,
@@ -395,7 +400,7 @@ export class CLIVersion {
         browsers = {
           ...browsers,
           ...(executeShell(`command -v ${supportedBrowser[1]}`).errorCode === 0) ? {
-            [supportedBrowser[0]]: executeShell(`${supportedBrowser[1]} --version`).text,
+            [supportedBrowser[0]]: executeShell(`${supportedBrowser[1]} --version`).text.replace(TEXT_TRIM_TO_FIRST_DIGIT, ''),
           } : {},
         };
       }

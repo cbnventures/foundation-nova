@@ -39,3 +39,10 @@ export const TEXT_RUSTC_VERSION = /^rustc\s+(\d+\.\d+\.\d+)\s+\((\w+)\s+([\d-]+)
  * @since 1.0.0
  */
 export const TEXT_SEMVER = /(?<semver>(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-(?:0|[1-9]\d*|\d*[A-Za-z-][0-9A-Za-z-]*)(?:\.(?:0|[1-9]\d*|\d*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?)/;
+
+/**
+ * Text trim to first digit.
+ *
+ * @since 1.0.0
+ */
+export const TEXT_TRIM_TO_FIRST_DIGIT = /^\D*/;
