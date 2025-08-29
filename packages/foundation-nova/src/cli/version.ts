@@ -288,7 +288,7 @@ export class CLIVersion {
     if (platform === 'darwin') {
       name = executeShell('sw_vers -productName').text ?? 'macOS';
       version = executeShell('sw_vers -productVersion').text ?? version;
-      build = executeShell('sw_vers -buildVersion').text;
+      build = executeShell('sw_vers -buildVersion').text ?? '—';
     }
 
     // Windows.
@@ -299,7 +299,7 @@ export class CLIVersion {
 
       name = registryQuery['ProductName']?.data ?? 'Windows';
       version = registryQuery['DisplayVersion']?.data ?? registryQuery['ReleaseId']?.data ?? version;
-      build = (currentBuild) ? ((updateBuildRevision) ? `${currentBuild}.${updateBuildRevision}` : currentBuild) : null;
+      build = (currentBuild) ? ((updateBuildRevision) ? `${currentBuild}.${updateBuildRevision}` : currentBuild) : '—';
     }
 
     // Linux.
@@ -307,8 +307,8 @@ export class CLIVersion {
       const osRelease = parseLinuxOsReleaseFile();
 
       name = osRelease['NAME'] ?? 'Linux';
-      version = osRelease['VERSION'] ?? null;
-      build = osRelease['BUILD_ID'] ?? null;
+      version = osRelease['VERSION'] ?? '—';
+      build = osRelease['BUILD_ID'] ?? '—';
     }
 
     return {
