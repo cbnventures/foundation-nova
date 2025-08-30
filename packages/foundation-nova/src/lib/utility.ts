@@ -1,24 +1,28 @@
-import { execSync } from 'child_process';
+import { exec } from 'child_process';
+import { promises } from 'fs';
 import os from 'os';
+import { promisify } from 'util';
 
 import {
   CHARACTER_SINGLE_QUOTE,
   LINEBREAK_CRLF_OR_LF,
-  PATTERN_QUOTED_STRING_CAPTURE,
+  PATTERN_DOUBLE_QUOTED_STRING_CAPTURE,
   PATTERN_REGISTRY_QUERY_LINE,
 } from '@/lib/regex.js';
 import type {
   ExecuteShellCommand,
   ExecuteShellReturns,
-  IsExecSyncErrorError,
-  IsExecSyncErrorObject,
-  IsExecSyncErrorTypeGuard,
+  IsExecuteShellErrorError,
+  IsExecuteShellErrorObject,
+  IsExecuteShellErrorTypeGuard,
   ParseLinuxOsReleaseFileOsReleaseEntries,
   ParseLinuxOsReleaseFileReturns,
   ParseWindowsRegistryQueryRegistryKeys,
   ParseWindowsRegistryQueryRegistryKeyType,
   ParseWindowsRegistryQueryRegistryPaths,
   ParseWindowsRegistryQueryReturns,
+  PathExistsPath,
+  PathExistsReturns,
 } from '@/types/utility.d.ts';
 
 /**
@@ -30,7 +34,9 @@ import type {
  *
  * @since 1.0.0
  */
-export function executeShell(command: ExecuteShellCommand): ExecuteShellReturns {
+export async function executeShell(command: ExecuteShellCommand): ExecuteShellReturns {
+  const execAsync = promisify(exec);
+
   let fullCommand;
 
   if (os.platform() === 'win32') {
@@ -44,13 +50,8 @@ export function executeShell(command: ExecuteShellCommand): ExecuteShellReturns 
   }
 
   try {
-    const out = execSync(fullCommand, {
-      encoding: 'utf8',
-      stdio: [
-        'ignore',
-        'pipe',
-        'pipe',
-      ],
+    const { stdout } = await execAsync(fullCommand, {
+      encoding: 'utf-8',
       windowsHide: true,
       timeout: 15000,
       env: {
@@ -64,60 +65,58 @@ export function executeShell(command: ExecuteShellCommand): ExecuteShellReturns 
       maxBuffer: 8 * 1024 * 1024, // 8 MB.
     });
 
+    // "stderr" is already redirected into "stdout" (via "2>&1"), so "text" includes both.
     return {
-      text: out.trimEnd(),
-      errorCode: 0,
+      text: stdout.trim(),
+      code: 0,
     };
   } catch (error) {
     let text = '';
     let code = 1;
 
-    if (isExecSyncError(error)) {
+    if (isExecuteShellError(error)) {
       if (error.stdout !== undefined) {
         text = `${error.stdout}`;
       }
 
-      // Concatenate the error message.
-      if (error.stderr !== undefined) {
-        text = (text !== '') ? `${text} ${error.stderr}` : `${error.stderr}`;
-      }
-
-      if (error.status != null) {
-        code = error.status;
+      if (error.code !== undefined) {
+        code = error.code;
       }
     }
 
     return {
-      text: text.trimEnd(),
-      errorCode: code,
+      text: text.trim(),
+      code: code,
     };
   }
 }
 
 /**
- * Is exec sync error.
+ * Is execute shell error.
  *
- * @param {IsExecSyncErrorError} error - Error.
+ * @param {IsExecuteShellErrorError} error - Error.
  *
  * @returns {boolean}
  *
  * @since 1.0.0
  */
-export function isExecSyncError(error: IsExecSyncErrorError): error is IsExecSyncErrorTypeGuard {
+export function isExecuteShellError(error: IsExecuteShellErrorError): error is IsExecuteShellErrorTypeGuard {
   if (error === null || typeof error !== 'object') {
     return false;
   }
 
-  const object = error as IsExecSyncErrorObject;
-  const hasStatus = 'status' in object && (object['status'] === null || typeof object['status'] === 'number');
-  const hasSignal = 'signal' in object && (object['signal'] === null || typeof object['signal'] === 'string');
-  const hasProcessId = 'pid' in object && typeof object['pid'] === 'number';
-  const hasOutput = 'output' in object && Array.isArray(object['output']);
+  const object = error as IsExecuteShellErrorObject;
+  const hasCmd = 'cmd' in object && typeof object['cmd'] === 'string';
+  const hasKilled = 'killed' in object && typeof object['killed'] === 'boolean';
+  const hasCode = 'code' in object && typeof object['code'] === 'number';
+  const hasSignal = 'signal' in object && typeof object['signal'] === 'string';
+
+  // Worth noting that "stderr" is merged into "stdout" and encoding is forced to "string".
   const hasStdout = 'stdout' in object && typeof object['stdout'] === 'string';
   const hasStderr = 'stderr' in object && typeof object['stderr'] === 'string';
 
-  // Treat presence of any canonical "execSync" fields as sufficient.
-  return hasStatus || hasSignal || hasProcessId || hasOutput || hasStdout || hasStderr;
+  // Treat presence of any canonical "execAsync" fields as sufficient.
+  return hasCmd || hasKilled || hasCode || hasSignal || hasStdout || hasStderr;
 }
 
 /**
@@ -127,8 +126,8 @@ export function isExecSyncError(error: IsExecSyncErrorError): error is IsExecSyn
  *
  * @since 1.0.0
  */
-export function parseLinuxOsReleaseFile(): ParseLinuxOsReleaseFileReturns {
-  const query = executeShell('cat /etc/os-release');
+export async function parseLinuxOsReleaseFile(): ParseLinuxOsReleaseFileReturns {
+  const query = await executeShell('cat /etc/os-release');
   const lines = query.text.split(LINEBREAK_CRLF_OR_LF);
   const osReleaseEntries: ParseLinuxOsReleaseFileOsReleaseEntries = {};
 
@@ -148,7 +147,7 @@ export function parseLinuxOsReleaseFile(): ParseLinuxOsReleaseFileReturns {
     let value = rest.join('=');
 
     // Strip wrapping quotes.
-    value = value.replace(PATTERN_QUOTED_STRING_CAPTURE, '$1');
+    value = value.replace(PATTERN_DOUBLE_QUOTED_STRING_CAPTURE, '$1');
 
     osReleaseEntries[key] = value;
   }
@@ -165,11 +164,11 @@ export function parseLinuxOsReleaseFile(): ParseLinuxOsReleaseFileReturns {
  *
  * @since 1.0.0
  */
-export function parseWindowsRegistryQuery(registryPaths: ParseWindowsRegistryQueryRegistryPaths): ParseWindowsRegistryQueryReturns {
+export async function parseWindowsRegistryQuery(registryPaths: ParseWindowsRegistryQueryRegistryPaths): ParseWindowsRegistryQueryReturns {
   const paths = Array.isArray(registryPaths) ? registryPaths : [registryPaths];
 
   for (const path of paths) {
-    const query = executeShell(`reg query "${path}"`);
+    const query = await executeShell(`reg query "${path}"`);
     const lines = query.text.split(LINEBREAK_CRLF_OR_LF);
     const registryKeys: ParseWindowsRegistryQueryRegistryKeys = {};
 
@@ -202,4 +201,23 @@ export function parseWindowsRegistryQuery(registryPaths: ParseWindowsRegistryQue
 
   // No results.
   return {};
+}
+
+/**
+ * Path exists.
+ *
+ * @param {PathExistsPath} path - Path.
+ *
+ * @returns {PathExistsReturns}
+ *
+ * @since 1.0.0
+ */
+export async function pathExists(path: PathExistsPath): PathExistsReturns {
+  try {
+    await promises.access(path);
+
+    return true;
+  } catch {
+    return false;
+  }
 }

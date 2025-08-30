@@ -1,3 +1,5 @@
+import type { ExecException } from 'child_process';
+
 /**
  * Execute shell.
  *
@@ -7,42 +9,23 @@ export type ExecuteShellCommand = string;
 
 export type ExecuteShellReturnsText = string;
 
-export type ExecuteShellReturnsErrorCode = number;
+export type ExecuteShellReturnsCode = number;
 
-export type ExecuteShellReturns = {
+export type ExecuteShellReturns = Promise<{
   text: ExecuteShellReturnsText;
-  errorCode: ExecuteShellReturnsErrorCode;
-};
+  code: ExecuteShellReturnsCode;
+}>;
 
 /**
- * Is exec sync error.
+ * Is execute shell error.
  *
  * @since 1.0.0
  */
-export type IsExecSyncErrorError = unknown;
+export type IsExecuteShellErrorError = unknown;
 
-export type IsExecSyncErrorTypeGuardStatus = number | null;
+export type IsExecuteShellErrorTypeGuard = IsExecuteShellErrorObject;
 
-export type IsExecSyncErrorTypeGuardSignal = NodeJS.Signals | null;
-
-export type IsExecSyncErrorTypeGuardStdout = string;
-
-export type IsExecSyncErrorTypeGuardStderr = string;
-
-export type IsExecSyncErrorTypeGuardPid = number;
-
-export type IsExecSyncErrorTypeGuardOutput = Array<string | null>;
-
-export type IsExecSyncErrorTypeGuard = Error & {
-  status?: IsExecSyncErrorTypeGuardStatus;
-  signal?: IsExecSyncErrorTypeGuardSignal;
-  stdout?: IsExecSyncErrorTypeGuardStdout;
-  stderr?: IsExecSyncErrorTypeGuardStderr;
-  pid?: IsExecSyncErrorTypeGuardPid;
-  output?: IsExecSyncErrorTypeGuardOutput;
-};
-
-export type IsExecSyncErrorObject = Record<string, unknown>;
+export type IsExecuteShellErrorObject = ExecException;
 
 /**
  * Parse linux os release file.
@@ -55,7 +38,7 @@ export type ParseLinuxOsReleaseFileOsReleaseEntries = {
   [key: string]: ParseLinuxOsReleaseFileOsReleaseEntry;
 };
 
-export type ParseLinuxOsReleaseFileReturns = ParseLinuxOsReleaseFileOsReleaseEntries;
+export type ParseLinuxOsReleaseFileReturns = Promise<ParseLinuxOsReleaseFileOsReleaseEntries>;
 
 /**
  * Parse windows registry query.
@@ -91,4 +74,13 @@ export type ParseWindowsRegistryQueryRegistryKeys = {
   [key: string]: ParseWindowsRegistryQueryRegistryKey;
 };
 
-export type ParseWindowsRegistryQueryReturns = ParseWindowsRegistryQueryRegistryKeys;
+export type ParseWindowsRegistryQueryReturns = Promise<ParseWindowsRegistryQueryRegistryKeys>;
+
+/**
+ * Path exists.
+ *
+ * @since 1.0.0
+ */
+export type PathExistsPath = string;
+
+export type PathExistsReturns = Promise<boolean>;

@@ -27,6 +27,13 @@ export const LINEBREAK_CRLF_OR_LF = /\r?\n/;
 export const PATTERN_ANSI = /\x1B\[[0-?]*[ -/]*[@-~]/;
 
 /**
+ * Pattern - Double quoted string capture.
+ *
+ * @since 1.0.0
+ */
+export const PATTERN_DOUBLE_QUOTED_STRING_CAPTURE = /^"(.*)"$/;
+
+/**
  * Pattern - Java version line.
  *
  * @since 1.0.0
@@ -39,13 +46,6 @@ export const PATTERN_JAVA_VERSION_LINE = /^(?:openjdk|java)\s+(?<javaVersion>\d+
  * @since 1.0.0
  */
 export const PATTERN_LEADING_NON_DIGITS = /^\D*/;
-
-/**
- * Pattern - Quoted string capture.
- *
- * @since 1.0.0
- */
-export const PATTERN_QUOTED_STRING_CAPTURE = /^"(.*)"$/;
 
 /**
  * Pattern - Registry query line.
@@ -67,3 +67,10 @@ export const PATTERN_RUSTC_VERSION_LINE = /^rustc\s+(\d+\.\d+\.\d+)\s+\((\w+)\s+
  * @since 1.0.0
  */
 export const PATTERN_SEMVER = /(?<semver>(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-(?:0|[1-9]\d*|\d*[A-Za-z-][0-9A-Za-z-]*)(?:\.(?:0|[1-9]\d*|\d*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?)/;
+
+/**
+ * Pattern - Single quoted string capture.
+ *
+ * @since 1.0.0
+ */
+export const PATTERN_SINGLE_QUOTED_STRING_CAPTURE = /^'(.*)'$/;

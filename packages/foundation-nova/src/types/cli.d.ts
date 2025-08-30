@@ -34,7 +34,7 @@ export type CLIRegisterCommandsReturns = void;
  *
  * @since 1.0.0
  */
-export type CLIVersionGetBrowserVersionReturns = CLIVersionGetBrowserVersionBrowsers;
+export type CLIVersionGetBrowserVersionReturns = Promise<CLIVersionGetBrowserVersionBrowsers>;
 
 export type CLIVersionGetBrowserVersionBrowsers = Record<string, string>;
 
@@ -43,7 +43,7 @@ export type CLIVersionGetBrowserVersionBrowsers = Record<string, string>;
  *
  * @since 1.0.0
  */
-export type CLIVersionGetEnvironmentManagerVersionReturns = CLIVersionGetEnvironmentManagerVersionManagers;
+export type CLIVersionGetEnvironmentManagerVersionReturns = Promise<CLIVersionGetEnvironmentManagerVersionManagers>;
 
 export type CLIVersionGetEnvironmentManagerVersionManagers = Record<string, string>;
 
@@ -52,7 +52,7 @@ export type CLIVersionGetEnvironmentManagerVersionManagers = Record<string, stri
  *
  * @since 1.0.0
  */
-export type CLIVersionGetInterpreterVersionReturns = CLIVersionGetInterpreterVersionInterpreters;
+export type CLIVersionGetInterpreterVersionReturns = Promise<CLIVersionGetInterpreterVersionInterpreters>;
 
 export type CLIVersionGetInterpreterVersionInterpreters = Record<string, string>;
 
@@ -61,7 +61,7 @@ export type CLIVersionGetInterpreterVersionInterpreters = Record<string, string>
  *
  * @since 1.0.0
  */
-export type CLIVersionGetNodeVersionReturns = CLIVersionGetNodeVersionTools;
+export type CLIVersionGetNodeVersionReturns = Promise<CLIVersionGetNodeVersionTools>;
 
 export type CLIVersionGetNodeVersionTools = Record<string, string>;
 
@@ -80,13 +80,13 @@ export type CLIVersionGetOsVersionReturnsBuild = CLIVersionGetOsVersionBuild;
 
 export type CLIVersionGetOsVersionReturnsKernel = CLIVersionGetOsVersionKernel;
 
-export type CLIVersionGetOsVersionReturns = {
+export type CLIVersionGetOsVersionReturns = Promise<{
   name: CLIVersionGetOsVersionReturnsName;
   version: CLIVersionGetOsVersionReturnsVersion;
   architecture: CLIVersionGetOsVersionReturnsArchitecture;
   build: CLIVersionGetOsVersionReturnsBuild;
   kernel: CLIVersionGetOsVersionReturnsKernel;
-};
+}>;
 
 export type CLIVersionGetOsVersionName = NodeJS.Platform | string;
 
@@ -121,6 +121,8 @@ export type CLIVersionRunOptions = {
   os?: true;
 };
 
-export type CLIVersionRunReturns = void;
+export type CLIVersionRunReturns = Promise<void>;
+
+export type CLIVersionRunTasks = Promise<[keyof CLIVersionRunList, Record<string, string>]>[];
 
 export type CLIVersionRunList = Record<string, Record<string, string>>;
