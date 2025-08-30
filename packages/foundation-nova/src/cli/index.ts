@@ -31,7 +31,7 @@ class CLI {
    *
    * @since 1.0.0
    */
-  constructor() {
+  public constructor() {
     (async () => {
       this.#program
         .name('foundation-nova')
@@ -65,11 +65,11 @@ class CLI {
       .alias('ver')
       .description('Show installed version information')
       .option('-a, --all', 'Show all available versions')
-      .option('-b, --browser', 'Show web browser related versions')
-      .option('-e, --env', 'Show environment manager related versions')
-      .option('-i, --interpreter', 'Show interpreter related versions')
-      .option('-n, --node', 'Show Node.js related versions')
-      .option('-o, --os', 'Show operating system related versions')
+      .option('-b, --browser', 'Show web browser versions')
+      .option('-e, --env', 'Show environment manager versions')
+      .option('-i, --interpreter', 'Show interpreter / runtime versions')
+      .option('-n, --node', 'Show Node.js and related package manager versions')
+      .option('-o, --os', 'Show operating system details')
       .action(async (options, command) => {
         await this.executeSubcommand<typeof options>(options, command, CLIVersion.run);
       });

@@ -1,4 +1,5 @@
 import stylistic from '@stylistic/eslint-plugin';
+import regexpPlugin from 'eslint-plugin-regexp';
 
 import type { FlatConfig } from '@/types/index.d.ts';
 
@@ -147,6 +148,29 @@ const config: FlatConfig = [
 
       // Enforce quoting all or none of the keys in an object so some properties don't look out of place.
       '@stylistic/quote-props': ['error', 'consistent'],
+    },
+  },
+  {
+    name: 'foundation-nova/dx-code-style/regex-flags',
+    files: [
+      '**/*.js',
+      '**/*.ts',
+      '**/*.jsx',
+      '**/*.tsx',
+      '**/*.cjs',
+      '**/*.cts',
+      '**/*.mjs',
+      '**/*.mts',
+    ],
+    plugins: {
+      'regexp': regexpPlugin,
+    },
+    rules: {
+      // Keep patterns reusable and do not put flags on literals so callers choose flags to use with "RegExp".
+      'no-restricted-syntax': ['error', {
+        selector: 'Literal[regex][regex.flags=/./]',
+        message: 'Do not use flags on regex literals. Add flags with RegExp("pattern", "flags") at the call site instead.',
+      }],
     },
   },
   {

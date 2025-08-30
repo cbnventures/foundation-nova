@@ -3,7 +3,7 @@ import type {
   ItemCategoryPrettyNames,
   ItemColumnTitlePrettyNames,
   ItemTypePrettyNames,
-} from '@/types/item.js';
+} from '@/types/item.d.ts';
 
 /**
  * Item brand pretty names.
@@ -23,7 +23,6 @@ export const itemBrandPrettyNames: ItemBrandPrettyNames = {
   'nvm': 'Node Version Manager (nvm)',
   'nvmWindows': 'NVM for Windows',
   'opera': 'Opera',
-  'orion': 'Orion',
   'pnpm': 'Performant Node Package Manager (pnpm)',
   'rust': 'Rust',
   'safari': 'Apple Safari',
@@ -38,10 +37,10 @@ export const itemBrandPrettyNames: ItemBrandPrettyNames = {
  * @since 1.0.0
  */
 export const itemCategoryPrettyNames: ItemCategoryPrettyNames = {
-  'browsers': 'Detected Web Browsers',
+  'browsers': 'Web Browsers',
   'env': 'Environment Managers',
   'interpreters': 'Interpreters / Runtimes',
-  'node': 'Node.js Environment',
+  'node': 'Node.js + Tools',
   'os': 'Operating System',
 };
 

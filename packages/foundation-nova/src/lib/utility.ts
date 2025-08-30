@@ -1,7 +1,12 @@
 import { execSync } from 'child_process';
 import os from 'os';
 
-import { TEXT_REGISTRY_QUERY_LINE_PATTERN, TEXT_LINE_SPLIT, TEXT_QUOTED_STRING_PATTERN } from '@/lib/regex.js';
+import {
+  CHARACTER_SINGLE_QUOTE,
+  LINEBREAK_CRLF_OR_LF,
+  PATTERN_QUOTED_STRING_CAPTURE,
+  PATTERN_REGISTRY_QUERY_LINE,
+} from '@/lib/regex.js';
 import type {
   ExecuteShellCommand,
   ExecuteShellReturns,
@@ -33,7 +38,7 @@ export function executeShell(command: ExecuteShellCommand): ExecuteShellReturns 
   } else {
     // Use the user's login shell so profiles load, like Terminal.
     const shell = process.env['SHELL'] || ((os.platform() === 'darwin') ? '/bin/zsh' : '/bin/bash');
-    const payload = `${command} 2>&1`.replace(/'/g, '\'\\\'\'');
+    const payload = `${command} 2>&1`.replace(new RegExp(CHARACTER_SINGLE_QUOTE, 'g'), '\'\\\'\'');
 
     fullCommand = `${shell} -l -i -c '${payload}'`;
   }
@@ -124,9 +129,8 @@ export function isExecSyncError(error: IsExecSyncErrorError): error is IsExecSyn
  */
 export function parseLinuxOsReleaseFile(): ParseLinuxOsReleaseFileReturns {
   const query = executeShell('cat /etc/os-release');
-  const lines = query.text.split(TEXT_LINE_SPLIT);
-
-  let osReleaseEntries: ParseLinuxOsReleaseFileOsReleaseEntries = {};
+  const lines = query.text.split(LINEBREAK_CRLF_OR_LF);
+  const osReleaseEntries: ParseLinuxOsReleaseFileOsReleaseEntries = {};
 
   for (const line of lines) {
     // Skip empty or commented lines.
@@ -144,7 +148,7 @@ export function parseLinuxOsReleaseFile(): ParseLinuxOsReleaseFileReturns {
     let value = rest.join('=');
 
     // Strip wrapping quotes.
-    value = value.replace(TEXT_QUOTED_STRING_PATTERN, '$1');
+    value = value.replace(PATTERN_QUOTED_STRING_CAPTURE, '$1');
 
     osReleaseEntries[key] = value;
   }
@@ -166,12 +170,11 @@ export function parseWindowsRegistryQuery(registryPaths: ParseWindowsRegistryQue
 
   for (const path of paths) {
     const query = executeShell(`reg query "${path}"`);
-    const lines = query.text.split(TEXT_LINE_SPLIT);
-
-    let registryKeys: ParseWindowsRegistryQueryRegistryKeys = {};
+    const lines = query.text.split(LINEBREAK_CRLF_OR_LF);
+    const registryKeys: ParseWindowsRegistryQueryRegistryKeys = {};
 
     for (const line of lines) {
-      const matches = line.match(TEXT_REGISTRY_QUERY_LINE_PATTERN);
+      const matches = line.match(PATTERN_REGISTRY_QUERY_LINE);
 
       if (matches !== null) {
         const registryKey = matches[1];

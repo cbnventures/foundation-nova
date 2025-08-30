@@ -1,10 +1,275 @@
 ---
 id: check-versions
-title: Check Versions
+title: Check System Versions
+description: Display installed versions of common developer tools and environments.
 tags:
   - versions
   - cli
   - system
 ---
 
-Coming soon
+import {Icon} from '@iconify/react';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import CodeBlock from '@theme/CodeBlock';
+
+## Summary
+
+The `version` command collects system information across developer tools, operating systems, browsers, and interpreters.
+
+It outputs results in a consistent, easy-to-read format that can be copied directly into issues or documentation.
+
+:::tip
+The output is **Markdown-ready**. Copy and paste the tables directly into GitHub issues or documentation without extra formatting.
+:::
+
+## Why Use This Command?
+
+Manually checking version numbers across multiple tools is slow and error-prone. This command provides a single, reliable snapshot by:
+
+- Checking multiple categories at once (Node.js, package managers, OS, browsers, interpreters).
+- Producing uniform tables so no details are missed.
+- Working across macOS, Windows, and Linux with platform-specific detection.
+- Giving maintainers a clear system profile when you report a bug.
+
+Use it whenever you need to share system information without running several commands.
+
+## Use Cases
+
+- **Bug reporting** — Quickly attach system information to GitHub issues without manually running multiple commands.
+- **Team collaboration** — Share consistent system snapshots with teammates for debugging or onboarding.
+- **CI/CD pipelines** — Record system information in build logs or artifacts for reproducibility.
+- **System verification** — Confirm that required tools are installed and up to date before starting development.
+
+## Requirements
+
+- **Supported systems** — macOS, Windows, and Linux are fully tested.
+- **Permissions** — Runs under standard user accounts; no elevated privileges required.
+- **Network access** — Not needed; all checks are performed locally.
+
+## Usage
+
+You can run this command in two ways:
+
+<Tabs>
+  <TabItem value="npx" label="npx (no install)" default>
+
+    ```bash
+    npx --yes @cbnventures/foundation-nova@latest version --all
+    ```
+
+    **Note:** If you prefer the shorter `nova` command, see the [Setup and Configure](/docs/quickstart/setup) guide for installation instructions.
+
+  </TabItem>
+  <TabItem value="nova" label="nova (installed)">
+
+    ```bash
+    nova version --all
+    ```
+
+    **Note:** If Nova is installed **only locally** (inside a project), the command will work **only within that project's directory**. See the [npm docs](https://docs.npmjs.com/cli/configuring-npm/folders) for details.
+
+  </TabItem>
+</Tabs>
+
+## Options
+
+| Flag                | Description                                       |
+|---------------------|---------------------------------------------------|
+| `-a, --all`         | Show all available versions                       |
+| `-b, --browser`     | Show web browser versions                         |
+| `-e, --env`         | Show environment manager versions                 |
+| `-i, --interpreter` | Show interpreter / runtime versions               |
+| `-n, --node`        | Show Node.js and related package manager versions |
+| `-o, --os`          | Show operating system details                     |
+
+## Categories
+
+Each option enables checks for a specific category of tools or system information.
+
+### Node.js + Tools
+
+- Node.js
+- Node Package Manager (npm)
+- Yarn
+- Performant Node Package Manager (pnpm)
+- Bun
+
+### Environment Managers
+
+- Node Version Manager (nvm)
+- NVM for Windows
+- Volta
+
+**Note**: On Windows, **NVM for Windows** is identified separately from **Node Version Manager**, since the original `nvm` only works in POSIX-compliant shells (macOS / Linux).
+
+### Operating System
+
+- OS Name (e.g., macOS, Windows, Linux distros)
+- OS Version (if available)
+- OS Architecture (e.g., x64, arm64)
+- OS Build number (if available)
+- OS Kernel
+
+<details>
+  <summary>Platform-specific details</summary>
+  <ul>
+    <li><strong>macOS</strong>: Uses <code>sw_vers</code>.</li>
+    <li><strong>Windows</strong>: Reads from the Windows Registry.</li>
+    <li><strong>Linux</strong>: Reads <code>/etc/os-release</code>.</li>
+  </ul>
+</details>
+
+### Web Browsers
+
+|                                                      | **macOS** | **Windows** | **Linux** |
+|------------------------------------------------------|:---------:|:-----------:|:---------:|
+| <Icon icon="logos:chrome" /> **Chrome**              |     ✅     |      ✅      |     ✅     |
+| <Icon icon="logos:safari" /> **Safari**              |     ✅     |     N/A     |    N/A    |
+| <Icon icon="logos:microsoft-edge" /> **Edge**        |     ✅     |      ✅      |     ✅     |
+| <Icon icon="logos:firefox" /> **Firefox**            |     ✅     |      ✅      |     ✅     |
+| <Icon icon="logos:opera" /> **Opera**                |     ✅     |      ✅      |     ✅     |
+| <Icon icon="logos:brave" /> **Brave**                |     ✅     |      ✅      |     ✅     |
+| <Icon icon="logos:vivaldi-icon" /> **Vivaldi**       |     ✅     |      ✅      |     ✅     |
+| <Icon icon="simple-icons:librewolf" /> **LibreWolf** |     ✅     |     ⚠️      |     ✅     |
+
+:::note Legend
+- ✅ — Detected on this platform
+- **N/A** — Not available on this operating system
+- ⚠️ — Intentionally excluded
+:::
+
+<details>
+  <summary>Platform-specific details</summary>
+  <ul>
+    <li><strong>macOS</strong>: Reads from App bundles.</li>
+    <li><strong>Windows</strong>: Reads from the Windows Registry.</li>
+    <li><strong>Linux</strong>: Reads from the PATH.</li>
+  </ul>
+</details>
+
+### Interpreters / Runtimes
+
+- Java (version, distribution, build info)
+- Rust (version, build hash, build date, source)
+
+## Examples
+
+<Tabs>
+  <TabItem value="npx" label="npx (no install)" default>
+    <div className="row">
+      <div className="col col--6 margin-bottom--sm">
+        <CodeBlock language="bash" title="All">
+          {`npx --yes @cbnventures/foundation-nova@latest version --all`}
+        </CodeBlock>
+      </div>
+      <div className="col col--6 margin-bottom--sm">
+        <CodeBlock language="bash" title="Operating System">
+          {`npx --yes @cbnventures/foundation-nova@latest version --os`}
+        </CodeBlock>
+      </div>
+      <div className="col col--6 margin-bottom--sm">
+        <CodeBlock language="bash" title="Node.js + Tools">
+          {`npx --yes @cbnventures/foundation-nova@latest version --node`}
+        </CodeBlock>
+      </div>
+      <div className="col col--6 margin-bottom--sm">
+        <CodeBlock language="bash" title="Web Browsers">
+          {`npx --yes @cbnventures/foundation-nova@latest version --browser`}
+        </CodeBlock>
+      </div>
+      <div className="col col--6 margin-bottom--sm">
+        <CodeBlock language="bash" title="Interpreters / Runtimes">
+          {`npx --yes @cbnventures/foundation-nova@latest version --interpreter`}
+        </CodeBlock>
+      </div>
+      <div className="col col--6 margin-bottom--sm">
+        <CodeBlock language="bash" title="Environment Managers">
+          {`npx --yes @cbnventures/foundation-nova@latest version --env`}
+        </CodeBlock>
+      </div>
+    </div>
+  </TabItem>
+  <TabItem value="nova" label="nova (installed)">
+    <div className="row">
+      <div className="col col--6 margin-bottom--sm">
+        <CodeBlock language="bash" title="All">
+          {`nova version --all`}
+        </CodeBlock>
+      </div>
+      <div className="col col--6 margin-bottom--sm">
+        <CodeBlock language="bash" title="Operating System">
+          {`nova version --os`}
+        </CodeBlock>
+      </div>
+      <div className="col col--6 margin-bottom--sm">
+        <CodeBlock language="bash" title="Node.js + Tools">
+          {`nova version --node`}
+        </CodeBlock>
+      </div>
+      <div className="col col--6 margin-bottom--sm">
+        <CodeBlock language="bash" title="Web Browsers">
+          {`nova version --browser`}
+        </CodeBlock>
+      </div>
+      <div className="col col--6 margin-bottom--sm">
+        <CodeBlock language="bash" title="Interpreters / Runtimes">
+          {`nova version --interpreter`}
+        </CodeBlock>
+      </div>
+      <div className="col col--6 margin-bottom--sm">
+        <CodeBlock language="bash" title="Environment Managers">
+          {`nova version --env`}
+        </CodeBlock>
+      </div>
+    </div>
+  </TabItem>
+</Tabs>
+
+## Output Reference
+
+<Tabs>
+  <TabItem value="raw-node" label="Raw (actual output)" default>
+    <CodeBlock language="text">
+{`Node.js + Package Managers
+| Tool                                   | Version                    |
+|----------------------------------------|----------------------------|
+| Node.js                                | 20.19.4                    |
+| Node Package Manager (npm)             | 10.8.2                     |
+| Yarn                                   | 1.22.22                    |
+| Performant Node Package Manager (pnpm) | 10.15.0                    |
+| Bun                                    | 1.2.21                     |`}
+    </CodeBlock>
+  </TabItem>
+  <TabItem value="rendered-node" label="Rendered (preview)">
+    | Tool                                   | Version                    |
+    |----------------------------------------|----------------------------|
+    | Node.js                                | 20.19.4                    |
+    | Node Package Manager (npm)             | 10.8.2                     |
+    | Yarn                                   | 1.22.22                    |
+    | Performant Node Package Manager (pnpm) | 10.15.0                    |
+    | Bun                                    | 1.2.21                     |
+  </TabItem>
+</Tabs>
+
+## Exit Codes & Troubleshooting
+
+
+### Exit Codes
+
+| Code | Meaning | Result                                              |
+|------|---------|-----------------------------------------------------|
+| `0`  | Success | At least one category was checked and results shown |
+| `1`  | Error   | Help text displayed                                 |
+
+### Troubleshooting
+
+- **Empty categories** — If a tool is not installed on your system, it will not appear in the output table.
+- **Permission issues** — Elevated privileges are **not** required. If errors occur, check your PATH instead of using `sudo`.
+- **Browser detection** — Certain browsers (e.g., LibreWolf) are platform-specific or may not be supported. Refer to [the table](/docs/cli/utilities/check-versions#web-browsers) above to confirm availability.
+
+## Security / Privacy
+
+- Operates **entirely on the local machine**; no data is sent externally.
+- Collects only tool names, versions, and OS metadata (e.g., architecture, build, kernel).
+- Does **not** expose sensitive files, credentials, or environment variables.

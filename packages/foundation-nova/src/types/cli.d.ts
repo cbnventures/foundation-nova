@@ -36,7 +36,7 @@ export type CLIRegisterCommandsReturns = void;
  */
 export type CLIVersionGetBrowserVersionReturns = CLIVersionGetBrowserVersionBrowsers;
 
-export type CLIVersionGetBrowserVersionBrowsers = Record<string, string | null>;
+export type CLIVersionGetBrowserVersionBrowsers = Record<string, string>;
 
 /**
  * CLI Version - Get environment manager version.
@@ -90,11 +90,11 @@ export type CLIVersionGetOsVersionReturns = {
 
 export type CLIVersionGetOsVersionName = NodeJS.Platform | string;
 
-export type CLIVersionGetOsVersionVersion = string | null;
+export type CLIVersionGetOsVersionVersion = string;
 
 export type CLIVersionGetOsVersionArchitecture = NodeJS.Architecture;
 
-export type CLIVersionGetOsVersionBuild = string | null;
+export type CLIVersionGetOsVersionBuild = string;
 
 export type CLIVersionGetOsVersionKernel = string;
 
@@ -103,7 +103,7 @@ export type CLIVersionGetOsVersionKernel = string;
  *
  * @since 1.0.0
  */
-export type CLIVersionPrintList = Record<string, Record<string, string | null>>;
+export type CLIVersionPrintList = Record<string, Record<string, string>>;
 
 export type CLIVersionPrintReturns = void;
 
@@ -123,4 +123,4 @@ export type CLIVersionRunOptions = {
 
 export type CLIVersionRunReturns = void;
 
-export type CLIVersionRunList = Record<string, Record<string, string | null>>;
+export type CLIVersionRunList = Record<string, Record<string, string>>;

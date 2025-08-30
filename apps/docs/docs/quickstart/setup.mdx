@@ -1,6 +1,7 @@
 ---
 id: setup
 title: Setup and Configure
+description: Set up and configure Foundation Nova with quick checks, installation options, and best-practice TypeScript and ESLint presets.
 sidebar_position: 2
 tags:
   - setup
@@ -21,24 +22,39 @@ Foundation Nova supports two starting paths. Use the runner for a one-off. Insta
 - <abbr title="Node Package Manager">npm</abbr>
 
 :::tip Quick Check
-Run this command below to check the installed versions of your Node.js, npm, operating system, installed browsers, and other dev tools directly:
+Run this command below to check the installed versions of your Node.js, package managers, operating system, installed browsers, and other dev tools directly:
 
 ```bash
-npx @cbnventures/foundation-nova@latest version --all
+npx --yes @cbnventures/foundation-nova@latest version --all
 ```
 :::
 
 ## Choose Your Path
 
-Choose **Run once (npx)** to try Nova or make a one-off change, or **Install into project** to use preset configs and run commands any time.
+Choose **Run once (npx)** to try Nova or make a one-off change, **Install globally**, or **Install into project** to use preset configs and run commands any time.
 
 <Tabs groupId="setup-mode">
-  <TabItem value="runner" label="Run once (npx)">
+  <TabItem value="once" label="Run once (npx)">
 
     View the built-in help from the command below, or see **[CLI](/docs/cli/)**.
 
     ```bash
-    npx @cbnventures/foundation-nova@latest
+    npx --yes @cbnventures/foundation-nova@latest
+    ```
+
+  </TabItem>
+  <TabItem value="global" label="Install globally">
+
+    View the built-in help from the command below, or see **[CLI](/docs/cli/)**.
+
+    ```bash
+    npm i -g @cbnventures/foundation-nova@latest
+    ```
+
+    You can use the shorthand command for the **[CLI](/docs/cli/)** after installation:
+
+    ```bash
+    nova
     ```
 
   </TabItem>

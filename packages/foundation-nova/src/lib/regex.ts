@@ -1,48 +1,69 @@
 /**
- * Text java version.
+ * Character - Pipe.
  *
  * @since 1.0.0
  */
-export const TEXT_JAVA_VERSION = /^(?:openjdk|java)\s+(?<javaVersion>\d+(?:\.\d+){0,2})(?:\s+\d{4}-\d{2}-\d{2})?(?:\s+LTS)?[\s\S]*?(?:(?:Runtime Environment|SE Runtime Environment)\s+)?(?:(?<distro>Oracle GraalVM|GraalVM CE|GraalVM|Corretto|Temurin|Zulu|SapMachine|Microsoft|JBR|IBM Semeru Runtime Open Edition|Eclipse OpenJ9(?: VM)?|TencentKonaJDK|KonaJDK)(?:[-\s]?(?<distroVersion>[0-9][A-Za-z0-9.+-]*))?)?\s*\(build\s+(?<build>[^)]+)\)/mi;
+export const CHARACTER_PIPE = /\|/;
 
 /**
- * Text line split.
+ * Character - Single quote.
  *
  * @since 1.0.0
  */
-export const TEXT_LINE_SPLIT = /\r?\n/;
+export const CHARACTER_SINGLE_QUOTE = /'/;
 
 /**
- * Text quoted string pattern.
+ * Line break - CRLF or LF.
  *
  * @since 1.0.0
  */
-export const TEXT_QUOTED_STRING_PATTERN = /^"(.*)"$/;
+export const LINEBREAK_CRLF_OR_LF = /\r?\n/;
 
 /**
- * Text registry query line pattern.
+ * Pattern - ANSI.
  *
  * @since 1.0.0
  */
-export const TEXT_REGISTRY_QUERY_LINE_PATTERN = /^\s*(\S+)\s+(REG_\S+)\s+(.*)$/;
+export const PATTERN_ANSI = /\x1B\[[0-?]*[ -/]*[@-~]/;
 
 /**
- * Text rustc version.
+ * Pattern - Java version line.
  *
  * @since 1.0.0
  */
-export const TEXT_RUSTC_VERSION = /^rustc\s+(\d+\.\d+\.\d+)\s+\((\w+)\s+([\d-]+)\)(?:\s+\(([^)]+)\))?$/;
+export const PATTERN_JAVA_VERSION_LINE = /^(?:openjdk|java)\s+(?<javaVersion>\d+(?:\.\d+){0,2})(?:\s+\d{4}-\d{2}-\d{2})?(?:\s+LTS)?[\s\S]*?(?:(?:Runtime Environment|SE Runtime Environment)\s+)?(?:(?<distro>Oracle GraalVM|GraalVM CE|GraalVM|Corretto|Temurin|Zulu|SapMachine|Microsoft|JBR|IBM Semeru Runtime Open Edition|Eclipse OpenJ9(?: VM)?|TencentKonaJDK|KonaJDK)(?:[-\s]?(?<distroVersion>[0-9][A-Za-z0-9.+-]*))?)?\s*\(build\s+(?<build>[^)]+)\)/;
 
 /**
- * Text semver.
+ * Pattern - Leading non-digits.
  *
  * @since 1.0.0
  */
-export const TEXT_SEMVER = /(?<semver>(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-(?:0|[1-9]\d*|\d*[A-Za-z-][0-9A-Za-z-]*)(?:\.(?:0|[1-9]\d*|\d*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?)/;
+export const PATTERN_LEADING_NON_DIGITS = /^\D*/;
 
 /**
- * Text trim to first digit.
+ * Pattern - Quoted string capture.
  *
  * @since 1.0.0
  */
-export const TEXT_TRIM_TO_FIRST_DIGIT = /^\D*/;
+export const PATTERN_QUOTED_STRING_CAPTURE = /^"(.*)"$/;
+
+/**
+ * Pattern - Registry query line.
+ *
+ * @since 1.0.0
+ */
+export const PATTERN_REGISTRY_QUERY_LINE = /^\s*(\S+)\s+(REG_\S+)\s+(.*)$/;
+
+/**
+ * Pattern - Rustc version line.
+ *
+ * @since 1.0.0
+ */
+export const PATTERN_RUSTC_VERSION_LINE = /^rustc\s+(\d+\.\d+\.\d+)\s+\((\w+)\s+([\d-]+)\)(?:\s+\(([^)]+)\))?$/;
+
+/**
+ * Pattern - Semver.
+ *
+ * @since 1.0.0
+ */
+export const PATTERN_SEMVER = /(?<semver>(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-(?:0|[1-9]\d*|\d*[A-Za-z-][0-9A-Za-z-]*)(?:\.(?:0|[1-9]\d*|\d*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?)/;

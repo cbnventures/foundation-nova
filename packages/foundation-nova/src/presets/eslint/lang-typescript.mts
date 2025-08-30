@@ -28,7 +28,35 @@ const config: FlatConfig = [
     plugins: {
       '@typescript-eslint': tseslint.plugin,
     },
-    rules: {},
+    rules: {
+      ...tseslint.configs.eslintRecommended.rules,
+    },
+  },
+  {
+    name: 'foundation-nova/lang-typescript/classes',
+    files: [
+      '**/*.ts',
+      '**/*.tsx',
+      '**/*.cts',
+      '**/*.mts',
+    ],
+    languageOptions: {
+      parser: tseslint.parser,
+      parserOptions: {
+        sourceType: 'module',
+        ecmaVersion: 'latest',
+        project: true,
+      },
+    },
+    plugins: {
+      '@typescript-eslint': tseslint.plugin,
+    },
+    rules: {
+      // Require explicit accessibility modifiers on all class members to improve clarity.
+      '@typescript-eslint/explicit-member-accessibility': ['error', {
+        accessibility: 'explicit',
+      }],
+    },
   },
   {
     name: 'foundation-nova/lang-typescript/type-declarations',

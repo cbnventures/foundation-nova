@@ -2,7 +2,6 @@ import { existsSync } from 'fs';
 import os from 'os';
 
 import chalk from 'chalk';
-import Table from 'cli-table3';
 
 import {
   itemBrandPrettyNames,
@@ -10,11 +9,12 @@ import {
   itemColumnTitlePrettyNames,
   itemTypePrettyNames,
 } from '@/lib/item.js';
+import { MarkdownTable } from '@/lib/markdown-table.js';
 import {
-  TEXT_JAVA_VERSION,
-  TEXT_RUSTC_VERSION,
-  TEXT_SEMVER,
-  TEXT_TRIM_TO_FIRST_DIGIT,
+  PATTERN_JAVA_VERSION_LINE,
+  PATTERN_LEADING_NON_DIGITS,
+  PATTERN_RUSTC_VERSION_LINE,
+  PATTERN_SEMVER,
 } from '@/lib/regex.js';
 import { executeShell, parseLinuxOsReleaseFile, parseWindowsRegistryQuery } from '@/lib/utility.js';
 import type {
@@ -37,7 +37,7 @@ import type {
   CLIVersionRunList,
   CLIVersionRunOptions,
   CLIVersionRunReturns,
-} from '@/types/cli.js';
+} from '@/types/cli.d.ts';
 
 /**
  * CLI Version.
@@ -56,7 +56,7 @@ export class CLIVersion {
    */
   public static run(options: CLIVersionRunOptions): CLIVersionRunReturns {
     const list: CLIVersionRunList = {
-      // Node.js Environment.
+      // Node.js + Tools.
       ...(options.node || options.all) ? {
         node: CLIVersion.getNodeVersion(),
       } : {},
@@ -76,7 +76,7 @@ export class CLIVersion {
         browsers: CLIVersion.getBrowserVersion(),
       } : {},
 
-      // Interpreters and Runtimes.
+      // Interpreters / Runtimes.
       ...(options.interpreter || options.all) ? {
         interpreters: CLIVersion.getInterpreterVersion(),
       } : {},
@@ -106,28 +106,25 @@ export class CLIVersion {
       }
 
       // Build the table.
-      const table = new Table({
-        head: [
-          chalk.bold.yellow(itemColumnTitlePrettyNames[`key-${category}`] ?? 'Key'),
-          chalk.bold.yellow(itemColumnTitlePrettyNames[`value-${category}`] ?? 'Value'),
-        ],
-        style: {
-          head: [],
-          border: [],
-        },
+      const table = new MarkdownTable([
+        chalk.bold.yellow(itemColumnTitlePrettyNames[`key-${category}`] ?? 'Key'),
+        chalk.bold.yellow(itemColumnTitlePrettyNames[`value-${category}`] ?? 'Value'),
+      ], {
+        padDelimiterRow: false,
+        minimumColumnWidth: 20,
       });
 
       // Push data into the table.
       for (const [rowKey, rowValue] of Object.entries(rowsByKey)) {
-        table.push([
+        table.addRow([
           itemBrandPrettyNames[rowKey] ?? itemTypePrettyNames[rowKey] ?? chalk.grey(rowKey),
           rowValue,
         ]);
       }
 
       // Print the table.
-      console.log(`\n${itemCategoryPrettyNames[category] ?? chalk.grey(category)}`);
-      console.log(table.toString());
+      console.info(`\n${itemCategoryPrettyNames[category] ?? chalk.grey(category)}`);
+      console.info(table.render());
     }
   }
 
@@ -151,7 +148,7 @@ export class CLIVersion {
 
     // Attempt to retrieve the Node.js version.
     if (nodeJsVersion.errorCode === 0) {
-      const match = nodeJsVersion.text.match(TEXT_SEMVER)?.[1];
+      const match = nodeJsVersion.text.match(PATTERN_SEMVER)?.[1];
 
       if (match !== undefined) {
         tools = {
@@ -163,7 +160,7 @@ export class CLIVersion {
 
     // Attempt to retrieve the Node Package Manager (npm) version.
     if (npmVersion.errorCode === 0) {
-      const match = npmVersion.text.match(TEXT_SEMVER)?.[1];
+      const match = npmVersion.text.match(PATTERN_SEMVER)?.[1];
 
       if (match !== undefined) {
         tools = {
@@ -175,7 +172,7 @@ export class CLIVersion {
 
     // Attempt to retrieve the Yarn version.
     if (yarnVersion.errorCode === 0) {
-      const match = yarnVersion.text.match(TEXT_SEMVER)?.[1];
+      const match = yarnVersion.text.match(PATTERN_SEMVER)?.[1];
 
       if (match !== undefined) {
         tools = {
@@ -187,7 +184,7 @@ export class CLIVersion {
 
     // Attempt to retrieve the Performant Node Package Manager (pnpm) version.
     if (pnpmVersion.errorCode === 0) {
-      const match = pnpmVersion.text.match(TEXT_SEMVER)?.[1];
+      const match = pnpmVersion.text.match(PATTERN_SEMVER)?.[1];
 
       if (match !== undefined) {
         tools = {
@@ -199,7 +196,7 @@ export class CLIVersion {
 
     // Attempt to retrieve the Bun version.
     if (bunVersion.errorCode === 0) {
-      const match = bunVersion.text.match(TEXT_SEMVER)?.[1];
+      const match = bunVersion.text.match(PATTERN_SEMVER)?.[1];
 
       if (match !== undefined) {
         tools = {
@@ -229,7 +226,7 @@ export class CLIVersion {
 
     // Attempt to retrieve the Node Version Manager (nvm) version.
     if (os.platform() !== 'win32' && nvmVersion.errorCode === 0) {
-      const match = nvmVersion.text.match(TEXT_SEMVER)?.[1];
+      const match = nvmVersion.text.match(PATTERN_SEMVER)?.[1];
 
       if (match !== undefined) {
         managers = {
@@ -241,7 +238,7 @@ export class CLIVersion {
 
     // Attempt to retrieve the Node Version Manager for Windows (nvm-windows) version.
     if (os.platform() === 'win32' && nvmVersion.errorCode === 0) {
-      const match = nvmVersion.text.match(TEXT_SEMVER)?.[1];
+      const match = nvmVersion.text.match(PATTERN_SEMVER)?.[1];
 
       if (match !== undefined) {
         managers = {
@@ -253,7 +250,7 @@ export class CLIVersion {
 
     // Attempt to retrieve the Volta version.
     if (nvmVersion.errorCode === 0) {
-      const match = voltaVersion.text.match(TEXT_SEMVER)?.[1];
+      const match = voltaVersion.text.match(PATTERN_SEMVER)?.[1];
 
       if (match !== undefined) {
         managers = {
@@ -277,12 +274,12 @@ export class CLIVersion {
    */
   private static getOsVersion(): CLIVersionGetOsVersionReturns {
     const platform = os.platform();
+    const architecture: CLIVersionGetOsVersionArchitecture = os.arch();
+    const kernel: CLIVersionGetOsVersionKernel = os.release();
 
     let name: CLIVersionGetOsVersionName = platform;
-    let version: CLIVersionGetOsVersionVersion = os.version() ?? null;
-    let architecture: CLIVersionGetOsVersionArchitecture = os.arch();
-    let build: CLIVersionGetOsVersionBuild = null;
-    let kernel: CLIVersionGetOsVersionKernel = os.release();
+    let version: CLIVersionGetOsVersionVersion = os.version();
+    let build: CLIVersionGetOsVersionBuild = '—';
 
     // macOS.
     if (platform === 'darwin') {
@@ -344,7 +341,6 @@ export class CLIVersion {
         'opera': 'Opera.app',
         'brave': 'Brave Browser.app',
         'vivaldi': 'Vivaldi.app',
-        'orion': 'Orion.app',
         'libreWolf': 'LibreWolf.app',
       };
 
@@ -400,7 +396,7 @@ export class CLIVersion {
         browsers = {
           ...browsers,
           ...(executeShell(`command -v ${supportedBrowser[1]}`).errorCode === 0) ? {
-            [supportedBrowser[0]]: executeShell(`${supportedBrowser[1]} --version`).text.replace(TEXT_TRIM_TO_FIRST_DIGIT, ''),
+            [supportedBrowser[0]]: executeShell(`${supportedBrowser[1]} --version`).text.replace(PATTERN_LEADING_NON_DIGITS, ''),
           } : {},
         };
       }
@@ -426,7 +422,7 @@ export class CLIVersion {
 
     // Attempt to retrieve the Java version.
     if (javaVersion.errorCode === 0) {
-      const match = javaVersion.text.match(TEXT_JAVA_VERSION);
+      const match = javaVersion.text.match(new RegExp(PATTERN_JAVA_VERSION_LINE, 'mi'));
       const matchVersion = match?.[1] ?? 'N/A';
       const matchDistribution = match?.[2] ?? 'N/A';
       const matchBuild = match?.[4] ?? 'N/A';
@@ -441,7 +437,7 @@ export class CLIVersion {
 
     // Attempt to retrieve the Rust version.
     if (rustVersion.errorCode === 0) {
-      const match = rustVersion.text.match(TEXT_RUSTC_VERSION);
+      const match = rustVersion.text.match(PATTERN_RUSTC_VERSION_LINE);
       const matchVersion = match?.[1] ?? 'N/A';
       const matchBuildHash = match?.[2] ?? 'N/A';
       const matchBuildDate = match?.[3] ?? 'N/A';
