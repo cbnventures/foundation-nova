@@ -42,24 +42,10 @@ export async function executeShell(command: ExecuteShellCommand): ExecuteShellRe
   if (os.platform() === 'win32') {
     fullCommand = `${command} 2>&1`;
   } else {
-    // Use the user's login shell so profiles load, like Terminal.
     const shell = process.env['SHELL'] || ((os.platform() === 'darwin') ? '/bin/zsh' : '/bin/bash');
     const payload = `${command} 2>&1`.replace(new RegExp(CHARACTER_SINGLE_QUOTE, 'g'), '\'\\\'\'');
-    const prelude = [
-      // Disable job control inside child shell (bash).
-      'if [ -n "$BASH_VERSION" ]; then set +m; fi;',
 
-      // Disable job control inside child shell (zsh).
-      'if [ -n "$ZSH_VERSION" ]; then setopt no_monitor 2>/dev/null; fi;',
-
-      // Ignore TTY stop signals (belt and suspenders).
-      'trap "" TTOU TTIN TSTP 2>/dev/null;',
-
-      // Avoid pagers and prompts during probes.
-      'export CI=1 PAGER=cat LESS=-FIRX;',
-    ].join(' ');
-
-    fullCommand = `${shell} -l -i -c '${prelude} ${payload}'`;
+    fullCommand = `set +m; PAGER=cat; CI=1; ${shell} -l -i -c '${payload}'`;
   }
 
   try {
