@@ -46,7 +46,7 @@ export async function executeShell(command: ExecuteShellCommand): ExecuteShellRe
     const shell = process.env['SHELL'] || ((os.platform() === 'darwin') ? '/bin/zsh' : '/bin/bash');
     const payload = `${command} 2>&1`.replace(new RegExp(CHARACTER_SINGLE_QUOTE, 'g'), '\'\\\'\'');
 
-    fullCommand = `${shell} -l -i -c '${payload}'`;
+    fullCommand = `${shell} -l -c '${payload}'`;
   }
 
   try {
