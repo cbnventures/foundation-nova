@@ -90,6 +90,9 @@ export async function executeShell(command: ExecuteShellCommand): ExecuteShellRe
     }
   }
 
+  // todo convert this to a debug command.
+  console.info('fullCommand', fullCommand);
+
   try {
     const { stdout } = await execAsync(fullCommand, {
       encoding: 'utf-8',
@@ -106,6 +109,12 @@ export async function executeShell(command: ExecuteShellCommand): ExecuteShellRe
       },
       cwd: process.cwd(),
       maxBuffer: 8 * 1024 * 1024, // 8 MB.
+    });
+
+    // todo convert this to a debug command.
+    console.info('ok response', {
+      text: stdout.trim(),
+      code: 0,
     });
 
     // "stderr" is already redirected into "stdout" (via "2>&1"), so "text" includes both.
@@ -126,6 +135,12 @@ export async function executeShell(command: ExecuteShellCommand): ExecuteShellRe
         code = error.code;
       }
     }
+
+    // todo convert this to a debug command.
+    console.info('fail response', {
+      text: text.trim(),
+      code: 0,
+    });
 
     return {
       text: text.trim(),
