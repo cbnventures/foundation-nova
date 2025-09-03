@@ -1,6 +1,13 @@
 import type { ExecException } from 'child_process';
 
 /**
+ * Detect unix shell.
+ *
+ * @since 1.0.0
+ */
+export type DetectUnixShellReturns = string;
+
+/**
  * Execute shell.
  *
  * @since 1.0.0
@@ -15,6 +22,15 @@ export type ExecuteShellReturns = Promise<{
   text: ExecuteShellReturnsText;
   code: ExecuteShellReturnsCode;
 }>;
+
+/**
+ * Is command exists.
+ *
+ * @since 1.0.0
+ */
+export type IsCommandExistsCommand = string;
+
+export type IsCommandExistsReturns = Promise<boolean>;
 
 /**
  * Is execute shell error.

@@ -20,6 +20,8 @@ import type {
   MarkdownTablePadDelimiterRow,
   MarkdownTableRenderReturns,
   MarkdownTableRows,
+  MarkdownTableStripAnsiColorsReturns,
+  MarkdownTableStripAnsiColorsString,
 } from '@/types/markdown-table.d.ts';
 
 /**
@@ -71,7 +73,7 @@ export class MarkdownTable {
 
     // In case you need to think about it, each array is mapped out like a row.
     this.#headers = headers.map((header) => String(header));
-    this.#minimumColumnWidth = options?.minimumColumnWidth ?? 3;
+    this.#minimumColumnWidth = Math.max(3, options?.minimumColumnWidth ?? 3);
     this.#padDelimiterRow = options?.padDelimiterRow ?? false;
     this.#rows = [];
   }
@@ -150,7 +152,7 @@ export class MarkdownTable {
       (_, columnIndex) => {
         // Return the column width that is the largest.
         return Math.max(this.#minimumColumnWidth, ...rows.map((row) => {
-          return this.escapeCell(row[columnIndex] ?? '').length;
+          return this.escapeCell(this.stripAnsiColors(row[columnIndex] ?? '')).length;
         }));
       },
     );
@@ -169,10 +171,7 @@ export class MarkdownTable {
    * @since 1.0.0
    */
   private padCell(string: MarkdownTablePadCellString, width: MarkdownTablePadCellWidth): MarkdownTablePadCellReturns {
-    // Calculate the correct length of the string.
-    const stripAnsiColors = string.replace(new RegExp(PATTERN_ANSI, 'g'), '');
-
-    return `${string}${' '.repeat(Math.max(0, width - stripAnsiColors.length))}`;
+    return `${string}${' '.repeat(Math.max(0, width - this.stripAnsiColors(string).length))}`;
   }
 
   /**
@@ -218,5 +217,20 @@ export class MarkdownTable {
     const rowBody = columnCells.join(delimiter);
 
     return (usePaddedDelimiter) ? `| ${rowBody} |` : `|-${rowBody}-|`;
+  }
+
+  /**
+   * Markdown Table - Strip ansi colors.
+   *
+   * @param {MarkdownTableStripAnsiColorsString} string - String.
+   *
+   * @private
+   *
+   * @returns {MarkdownTableStripAnsiColorsReturns}
+   *
+   * @since 1.0.0
+   */
+  private stripAnsiColors(string: MarkdownTableStripAnsiColorsString): MarkdownTableStripAnsiColorsReturns {
+    return string.replace(new RegExp(PATTERN_ANSI, 'g'), '');
   }
 }

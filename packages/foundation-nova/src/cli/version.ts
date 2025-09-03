@@ -121,7 +121,7 @@ export class CLIVersion {
         chalk.bold.yellow(itemColumnTitlePrettyNames[`value-${category}`] ?? 'Value'),
       ], {
         padDelimiterRow: false,
-        minimumColumnWidth: 20,
+        minimumColumnWidth: 10,
       });
 
       // Push data into the table.
@@ -244,14 +244,14 @@ export class CLIVersion {
 
     let managers: CLIVersionGetEnvironmentManagerVersionManagers = {};
 
-    // Attempt to retrieve the Node Version Manager (nvm) version.
+    // Attempt to retrieve the Node Version Manager (nvm-posix) version.
     if (os.platform() !== 'win32' && nvmVersion.code === 0) {
       const match = nvmVersion.text.match(PATTERN_SEMVER)?.[1];
 
       if (match !== undefined) {
         managers = {
           ...managers,
-          nvm: match,
+          nvmPosix: match,
         };
       }
     }
@@ -269,7 +269,7 @@ export class CLIVersion {
     }
 
     // Attempt to retrieve the Volta version.
-    if (nvmVersion.code === 0) {
+    if (voltaVersion.code === 0) {
       const match = voltaVersion.text.match(PATTERN_SEMVER)?.[1];
 
       if (match !== undefined) {

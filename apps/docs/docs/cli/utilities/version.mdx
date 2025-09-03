@@ -1,6 +1,6 @@
 ---
-id: check-versions
-title: Check System Versions
+id: version
+title: Check Installed Versions
 description: Display installed versions of common developer tools and environments.
 tags:
   - versions
@@ -13,14 +13,14 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import CodeBlock from '@theme/CodeBlock';
 
+Generate Markdown-ready tables of version information only for your OS, developer tools, package managers, browsers, and runtimes in one run.
+
 ## Summary
 
-The `version` command collects system information across developer tools, operating systems, browsers, and interpreters.
+The `version` command standardizes results for quick copy and paste into issues or docs. It collects version data for developer tools, operating systems, major browsers, and language runtimes.
 
-It outputs results in a consistent, easy-to-read format that can be copied directly into issues or documentation.
-
-:::tip
-The output is **Markdown-ready**. Copy and paste the tables directly into GitHub when filing for an issue.
+:::tip Filing a GitHub Issue?
+Paste the tables as is. The output is **Markdown-ready** for quick reports.
 :::
 
 ## Why Use This Command?
@@ -51,23 +51,23 @@ Use it whenever you need to share system information without running several com
 
 You can run this command in two ways:
 
-<Tabs>
-  <TabItem value="npx" label="npx (no install)" default>
-
-    ```bash
-    npx --yes @cbnventures/foundation-nova@latest version --all
-    ```
-
-    **Note:** If you prefer the shorter `nova` command, see the [Setup and Configure](/docs/quickstart/setup) guide for installation instructions.
-
-  </TabItem>
-  <TabItem value="nova" label="nova (installed)">
+<Tabs groupId="install-state">
+  <TabItem value="nova" label="nova (installed)" default>
 
     ```bash
     nova version --all
     ```
 
     **Note:** If Nova is installed **only locally** (inside a project), the command will work **only within that project's directory**. See the [npm docs](https://docs.npmjs.com/cli/configuring-npm/folders) for details.
+
+  </TabItem>
+  <TabItem value="npx" label="npx (no install)">
+
+    ```bash
+    npx --yes @cbnventures/foundation-nova@latest version --all
+    ```
+
+    **Note:** If you prefer the shorter `nova` command, see the [Setup and Configure](/docs/quickstart/setup) guide for installation instructions.
 
   </TabItem>
 </Tabs>
@@ -155,42 +155,8 @@ Each option enables checks for a specific category of tools or system informatio
 
 ## Examples
 
-<Tabs>
-  <TabItem value="npx" label="npx (no install)" default>
-    <div className="row">
-      <div className="col col--6 margin-bottom--sm">
-        <CodeBlock language="bash" title="All">
-          {`npx --yes @cbnventures/foundation-nova@latest version --all`}
-        </CodeBlock>
-      </div>
-      <div className="col col--6 margin-bottom--sm">
-        <CodeBlock language="bash" title="Operating System">
-          {`npx --yes @cbnventures/foundation-nova@latest version --os`}
-        </CodeBlock>
-      </div>
-      <div className="col col--6 margin-bottom--sm">
-        <CodeBlock language="bash" title="Node.js + Tools">
-          {`npx --yes @cbnventures/foundation-nova@latest version --node`}
-        </CodeBlock>
-      </div>
-      <div className="col col--6 margin-bottom--sm">
-        <CodeBlock language="bash" title="Web Browsers">
-          {`npx --yes @cbnventures/foundation-nova@latest version --browser`}
-        </CodeBlock>
-      </div>
-      <div className="col col--6 margin-bottom--sm">
-        <CodeBlock language="bash" title="Interpreters / Runtimes">
-          {`npx --yes @cbnventures/foundation-nova@latest version --interpreter`}
-        </CodeBlock>
-      </div>
-      <div className="col col--6 margin-bottom--sm">
-        <CodeBlock language="bash" title="Environment Managers">
-          {`npx --yes @cbnventures/foundation-nova@latest version --env`}
-        </CodeBlock>
-      </div>
-    </div>
-  </TabItem>
-  <TabItem value="nova" label="nova (installed)">
+<Tabs groupId="install-state">
+  <TabItem value="nova" label="nova (installed)" default>
     <div className="row">
       <div className="col col--6 margin-bottom--sm">
         <CodeBlock language="bash" title="All">
@@ -224,50 +190,74 @@ Each option enables checks for a specific category of tools or system informatio
       </div>
     </div>
   </TabItem>
+  <TabItem value="npx" label="npx (no install)">
+    <div className="row">
+      <div className="col col--6 margin-bottom--sm">
+        <CodeBlock language="bash" title="All">
+          {`npx --yes @cbnventures/foundation-nova@latest version --all`}
+        </CodeBlock>
+      </div>
+      <div className="col col--6 margin-bottom--sm">
+        <CodeBlock language="bash" title="Operating System">
+          {`npx --yes @cbnventures/foundation-nova@latest version --os`}
+        </CodeBlock>
+      </div>
+      <div className="col col--6 margin-bottom--sm">
+        <CodeBlock language="bash" title="Node.js + Tools">
+          {`npx --yes @cbnventures/foundation-nova@latest version --node`}
+        </CodeBlock>
+      </div>
+      <div className="col col--6 margin-bottom--sm">
+        <CodeBlock language="bash" title="Web Browsers">
+          {`npx --yes @cbnventures/foundation-nova@latest version --browser`}
+        </CodeBlock>
+      </div>
+      <div className="col col--6 margin-bottom--sm">
+        <CodeBlock language="bash" title="Interpreters / Runtimes">
+          {`npx --yes @cbnventures/foundation-nova@latest version --interpreter`}
+        </CodeBlock>
+      </div>
+      <div className="col col--6 margin-bottom--sm">
+        <CodeBlock language="bash" title="Environment Managers">
+          {`npx --yes @cbnventures/foundation-nova@latest version --env`}
+        </CodeBlock>
+      </div>
+    </div>
+  </TabItem>
 </Tabs>
 
 ## Output Reference
 
-<Tabs>
+<Tabs groupId="examples">
   <TabItem value="raw-node" label="Raw (terminal output)" default>
     <CodeBlock language="text">
-{`Node.js + Package Managers
-| Tool                                   | Version                    |
-|----------------------------------------|----------------------------|
-| Node.js                                | 20.19.4                    |
-| Node Package Manager (npm)             | 10.8.2                     |
-| Yarn                                   | 1.22.22                    |
-| Performant Node Package Manager (pnpm) | 10.15.0                    |
-| Bun                                    | 1.2.21                     |`}
+{`Node.js + Tools
+| Tool                                   | Version    |
+|----------------------------------------|------------|
+| Node.js                                | 20.19.4    |
+| Node Package Manager (npm)             | 10.8.2     |
+| Yarn                                   | 1.22.22    |
+| Performant Node Package Manager (pnpm) | 10.15.0    |
+| Bun                                    | 1.2.21     |`}
     </CodeBlock>
   </TabItem>
   <TabItem value="rendered-node" label="Rendered (preview)">
-    Node.js + Package Managers
-    | Tool                                   | Version                    |
-    |----------------------------------------|----------------------------|
-    | Node.js                                | 20.19.4                    |
-    | Node Package Manager (npm)             | 10.8.2                     |
-    | Yarn                                   | 1.22.22                    |
-    | Performant Node Package Manager (pnpm) | 10.15.0                    |
-    | Bun                                    | 1.2.21                     |
+    Node.js + Tools
+    | Tool                                   | Version    |
+    |----------------------------------------|------------|
+    | Node.js                                | 20.19.4    |
+    | Node Package Manager (npm)             | 10.8.2     |
+    | Yarn                                   | 1.22.22    |
+    | Performant Node Package Manager (pnpm) | 10.15.0    |
+    | Bun                                    | 1.2.21     |
   </TabItem>
 </Tabs>
 
-## Exit Codes & Troubleshooting
-
-
-### Exit Codes
-
-| Code | Meaning | Result                                              |
-|------|---------|-----------------------------------------------------|
-| `0`  | Success | At least one category was checked and results shown |
-| `1`  | Error   | Help text displayed                                 |
-
-### Troubleshooting
+## Troubleshooting
 
 - **Empty categories** — If a tool is not installed on your system, it will not appear in the output table.
 - **Permission issues** — Elevated privileges are **not** required. If errors occur, check your PATH instead of using `sudo`.
-- **Browser detection** — Certain browsers (e.g., LibreWolf) are platform-specific or may not be supported. Refer to [the table](/docs/cli/utilities/check-versions#web-browsers) above to confirm availability.
+- **Browser detection** — Certain browsers (e.g., LibreWolf) are platform-specific or may not be supported. Refer to [the table](/docs/cli/utilities/version#web-browsers) above to confirm availability.
 
 ## Security / Privacy
 

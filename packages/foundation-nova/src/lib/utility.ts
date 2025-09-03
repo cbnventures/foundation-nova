@@ -1,4 +1,4 @@
-import { exec } from 'child_process';
+import { exec, spawn } from 'child_process';
 import { promises } from 'fs';
 import os from 'os';
 import { promisify } from 'util';
@@ -10,8 +10,11 @@ import {
   PATTERN_REGISTRY_QUERY_LINE,
 } from '@/lib/regex.js';
 import type {
+  DetectUnixShellReturns,
   ExecuteShellCommand,
   ExecuteShellReturns,
+  IsCommandExistsCommand,
+  IsCommandExistsReturns,
   IsExecuteShellErrorError,
   IsExecuteShellErrorObject,
   IsExecuteShellErrorTypeGuard,
@@ -26,6 +29,36 @@ import type {
 } from '@/types/utility.d.ts';
 
 /**
+ * Detect unix shell.
+ *
+ * @returns {DetectUnixShellReturns}
+ *
+ * @since 1.0.0
+ */
+export function detectUnixShell(): DetectUnixShellReturns {
+  const platform = os.platform();
+
+  let shell = process.env['SHELL'] ?? '/bin/sh';
+
+  // macOS.
+  if (platform === 'darwin') {
+    shell = '/bin/zsh';
+  }
+
+  // Linux.
+  if (platform === 'linux') {
+    shell = '/bin/bash';
+  }
+
+  // IBM AIX and Solaris / illumos.
+  if (['aix', 'sunos'].includes(platform)) {
+    shell = '/bin/ksh';
+  }
+
+  return shell;
+}
+
+/**
  * Execute shell.
  *
  * @param {ExecuteShellCommand} command - Command.
@@ -36,16 +69,25 @@ import type {
  */
 export async function executeShell(command: ExecuteShellCommand): ExecuteShellReturns {
   const execAsync = promisify(exec);
+  const platform = os.platform();
 
   let fullCommand;
 
-  if (os.platform() === 'win32') {
-    fullCommand = `${command} 2>&1`;
+  if (platform === 'win32') {
+    fullCommand = `cmd.exe /d /s /c '${command} 2>&1'`;
   } else {
-    const shell = process.env['SHELL'] || ((os.platform() === 'darwin') ? '/bin/zsh' : '/bin/bash');
+    const shell = detectUnixShell();
     const payload = `${command} 2>&1`.replace(new RegExp(CHARACTER_SINGLE_QUOTE, 'g'), '\'\\\'\'');
 
-    fullCommand = `set +m; PAGER=cat; CI=1; ${shell} -l -i -c '${payload}'; set -m;`;
+    if (shell === '/bin/sh') {
+      // todo test on /bin/sh. need to create our own beautiful console logger.
+      console.warn('"executeShell" running in compatibility mode. Some versions may not be detected.');
+
+      fullCommand = `${shell} -c '${payload}'`;
+    } else {
+      // Make the execution look like a normal interactive shell, but without interactivity side effects.
+      fullCommand = `set +m; ${shell} -l -i -c '${payload}'; set -m;`;
+    }
   }
 
   try {
@@ -58,7 +100,9 @@ export async function executeShell(command: ExecuteShellCommand): ExecuteShellRe
         ...(process.env['PATH'] !== undefined && process.env['_VOLTA_TOOL_RECURSION'] !== undefined) ? {
           PATH: `C:\\Program Files\\Volta\\;${process.env['PATH']}`,
         } : {},
-        COREPACK_ENABLE_STRICT: '0',
+        ...(await isCommandExists('corepack')) ? {
+          COREPACK_ENABLE_STRICT: '0',
+        } : {},
       },
       cwd: process.cwd(),
       maxBuffer: 8 * 1024 * 1024, // 8 MB.
@@ -88,6 +132,33 @@ export async function executeShell(command: ExecuteShellCommand): ExecuteShellRe
       code: code,
     };
   }
+}
+
+/**
+ * Is command exists.
+ *
+ * @param {IsCommandExistsCommand} command - Command.
+ *
+ * @returns {IsCommandExistsReturns}
+ *
+ * @since 1.0.0
+ */
+export async function isCommandExists(command: IsCommandExistsCommand): IsCommandExistsReturns {
+  return new Promise((resolve) => {
+    const childProcess = spawn(command, {
+      stdio: 'ignore',
+    });
+
+    // If the command is missing from PATH, Node emits an "error" (ENOENT).
+    childProcess.once('error', () => {
+      return resolve(false);
+    });
+
+    // If the command exists.
+    childProcess.once('exit', () => {
+      return resolve(true);
+    });
+  });
 }
 
 /**

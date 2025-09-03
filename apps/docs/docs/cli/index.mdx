@@ -1,6 +1,7 @@
 ---
 id: overview
 title: Overview
+description: What the Foundation Nova CLI is, how commands are grouped, and how to run them.
 sidebar_position: 1
 tags:
   - overview
@@ -8,4 +9,119 @@ tags:
   - basics
 ---
 
-Coming soon
+import CodeBlock from '@theme/CodeBlock';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+The Nova CLI lets you generate files, apply recipes, scaffold projects, and run utilities. Keep commands explicit and build them one section at a time.
+
+:::tip Step by step
+Not sure what to type? Build the command **one section at a time**.
+
+Start with `nova`, then the **command** and **subcommand** (if available), and finally the **options** like `--all` or `-a`. Each step shows **inline guidance** so you don't wonder what to do next.
+:::
+
+## Get Started
+
+<Tabs groupId="install-state">
+  <TabItem value="nova" label="nova (installed)" default>
+    <CodeBlock language="bash" title="Utility commands">
+      {`nova \<command\> \<option\>`}
+    </CodeBlock>
+    <CodeBlock language="bash" title="Feature commands">
+      {`nova \<command\> \<subcommand\> \<option\>`}
+    </CodeBlock>
+  </TabItem>
+  <TabItem value="npx" label="npx (no install)">
+    <CodeBlock language="bash" title="Utility commands">
+      {`npx --yes @cbnventures/foundation-nova@latest \<command\> \<option\>`}
+    </CodeBlock>
+    <CodeBlock language="bash" title="Feature commands">
+      {`npx --yes @cbnventures/foundation-nova@latest \<command\> \<subcommand\> \<option\>`}
+    </CodeBlock>
+  </TabItem>
+</Tabs>
+
+- **Options are explicit**. You always type the option (**flags / switches**) you want, like `--all` or `-a`. No hidden defaults. This makes the command easy to learn.
+- **Build it step by step**. Start with `nova`. Add the **command**. Add the **subcommand** if needed. Finish with **options** like `--all` or `-a`. Repeat until it feels natural.
+
+## Commands
+
+All commands below **show a help screen first when run without options**, so you can explore safely and avoid accidental runs.
+
+### Generators
+
+Create **semi-tailored** versions of supported vendor and project essentials, populated with values from `nova.config.json` at the monorepo root.
+
+:::info
+All commands in "Generators" are shaped as `nova generate <command>` or `nova gen <command>`.
+:::
+
+| Command                                                                             | What It Does                                                                                                                  |
+|-------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| [`aws amplify`](/docs/cli/generators/aws/amplify)                                   | Creates a `amplify.yml` file for [AWS Amplify](https://aws.amazon.com/amplify/) deployments                                   |
+| [`cloudflare workers`](/docs/cli/generators/cloudflare/workers)                     | Creates a `wrangler.toml` file for [Cloudflare Workers](https://workers.cloudflare.com/) deployments                          |
+| [`docker compose`](/docs/cli/generators/docker/docker-compose)                      | Creates a `docker-compose.yml` file for [Docker](https://docs.docker.com/compose/) builds                                     |
+| [`docker file`](/docs/cli/generators/docker/dockerfile)                             | Creates a `Dockerfile` file for [Docker](https://docs.docker.com/reference/dockerfile/) builds                                |
+| [`docusaurus config`](/docs/cli/generators/docusaurus/config)                       | Creates a `docusaurus.config.ts` file for [Docusaurus](https://docusaurus.io/) configuration                                  |
+| [`github funding`](/docs/cli/generators/github/funding)                             | Creates a `./github/FUNDING.yml` file for [GitHub](https://github.com/) to enable sponsor links                               |
+| [`github issue-template`](/docs/cli/generators/github/issue-template)               | Creates a `./github/ISSUE_TEMPLATE` directory for [GitHub](https://github.com/) to create issue templates                     |
+| [`github workflows`](/docs/cli/generators/github/workflows)                         | Creates a `./github/workflows` directory for [GitHub](https://github.com/) to enable CI/CD automation                         |
+| [`must-haves dotenv-file`](/docs/cli/generators/must-haves/dotenv-file)             | Creates a `.env` file for managing local environment secrets across your project                                              |
+| [`must-haves editorconfig-file`](/docs/cli/generators/must-haves/editorconfig-file) | Creates a `.editorconfig` file for managing consistent coding styles                                                          |
+| [`must-haves gitignore-file`](/docs/cli/generators/must-haves/gitignore-file)       | Creates a `.gitignore` file for managing files that should be excluded from Git commits                                       |
+| [`must-haves install-hooks`](/docs/cli/generators/must-haves/install-hooks)         | Creates a `post-install.ts` file for expanding on post-install controls                                                       |
+| [`must-haves license-file`](/docs/cli/generators/must-haves/license-file)           | Creates a `LICENSE` file for managing project license agreements                                                              |
+| [`must-haves readme-file`](/docs/cli/generators/must-haves/readme-file)             | Creates a `README.md` file for managing welcome introductions for your project                                                |
+| [`nextjs config`](/docs/cli/generators/nextjs/config)                               | Creates a `next.config.mjs` file for [Next.js](https://nextjs.org/docs/app/api-reference/config/next-config-js) configuration |
+| [`vite config`](/docs/cli/generators/vite/config)                                   | Creates a `vite.config.mjs` file for [Vite](https://vite.dev/config/) configuration                                           |
+
+### Recipes
+
+Apply **scripted edits** that automate routine maintenance, using values from `nova.config.json` at the monorepo root.
+
+:::info
+All commands in "Recipes" are shaped as `nova receipe <command>` or `nova rcp <command>`.
+:::
+
+| Command                                                  | What It Does                                                                                               |
+|----------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
+| [`freeze-deps`](/docs/cli/recipes/freeze-deps)           | Freezes `package.json` dependencies to prevent unwanted version changes or "It works on my machine" issues |
+| [`sync-pkg-manager`](/docs/cli/recipes/sync-pkg-manager) | Syncs the preferred package manager to be used across the entire repository                                |
+
+### Scaffolding
+
+Bootstrap **full project starters** for popular builders and tools. All scaffolds are built as a monorepo, and includes Docusaurus built-in.
+
+:::info
+All commands in "Scaffolding" are shaped as `nova scaffold <command>` or `nova scaf <command>`.
+:::
+
+| Command                                  | Project Type |
+|------------------------------------------|--------------|
+| [`nextjs`](/docs/cli/scaffolding/nextjs) | Next.js      |
+
+### Utilities
+
+Tools for **diagnostics**, **quick checks**, and **developer helpers**.
+
+:::info
+All commands in "Utilities" are shaped as `nova <command>`.
+:::
+
+| Command                                       | Shorthand | What It Does                                                                                                       |
+|-----------------------------------------------|-----------|--------------------------------------------------------------------------------------------------------------------|
+| [`initalize`](/docs/cli/utilities/initialize) | `init`    | Generate a brand new `nova.config.json` configuration file for use with `nova generate` and `nova recipe` commands |
+| [`version`](/docs/cli/utilities/version)      | `ver`     | Generate a Markdown-ready snapshot of your development stack versions (e.g., `node --version`)                     |
+
+## Troubleshooting
+
+### Exit Codes
+
+| Code | Meaning | Result                           |
+|------|---------|----------------------------------|
+| `0`  | Success | Response of the executed command |
+| `1`  | Error   | Help text displayed              |
+
+### Quick Fixes
+- Prefer **explicit command, subcommands, and options** for clarity, fewer mistakes, and predictable behavior. For example, `nova version --all` instead of `nova ver -a`.

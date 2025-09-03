@@ -76,6 +76,17 @@ export type MarkdownTableHeaders = string[];
 export type MarkdownTableMinimumColumnWidth = number;
 
 /**
+ * Markdown Table - Pad cell.
+ *
+ * @since 1.0.0
+ */
+export type MarkdownTablePadCellString = string;
+
+export type MarkdownTablePadCellWidth = number;
+
+export type MarkdownTablePadCellReturns = string;
+
+/**
  * Markdown Table - Pad delimiter row.
  *
  * @since 1.0.0
@@ -97,12 +108,10 @@ export type MarkdownTableRenderReturns = string;
 export type MarkdownTableRows = string[][];
 
 /**
- * Markdown Table - Pad cell.
+ * Markdown Table - Strip ansi colors.
  *
  * @since 1.0.0
  */
-export type MarkdownTablePadCellString = string;
+export type MarkdownTableStripAnsiColorsString = string;
 
-export type MarkdownTablePadCellWidth = number;
-
-export type MarkdownTablePadCellReturns = string;
+export type MarkdownTableStripAnsiColorsReturns = string;

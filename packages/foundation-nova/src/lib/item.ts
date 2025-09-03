@@ -20,7 +20,7 @@ export const itemBrandPrettyNames: ItemBrandPrettyNames = {
   'libreWolf': 'Mozilla LibreWolf',
   'nodeJs': 'Node.js',
   'npm': 'Node Package Manager (npm)',
-  'nvm': 'Node Version Manager (nvm)',
+  'nvmPosix': 'Node Version Manager (nvm)',
   'nvmWindows': 'NVM for Windows',
   'opera': 'Opera',
   'pnpm': 'Performant Node Package Manager (pnpm)',
