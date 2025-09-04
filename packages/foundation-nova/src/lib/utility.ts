@@ -77,7 +77,7 @@ export async function executeShell(command: ExecuteShellCommand): ExecuteShellRe
   const execAsync = promisify(exec);
   const shell = detectShell();
 
-  let fullCommand = `${command} 2>&1`;
+  let fullCommand = command;
 
   const quotePosix = (string: ExecuteShellQuotePosixString) => `'${string.replace(new RegExp(CHARACTER_SINGLE_QUOTE, 'g'), '\'\\\'\'')}'`;
   const quoteWindows = (string: ExecuteShellQuoteWindowsString) => `"${string.replace(new RegExp(CHARACTER_DOUBLE_QUOTE, 'g'), '\\"')}"`;
@@ -111,7 +111,10 @@ export async function executeShell(command: ExecuteShellCommand): ExecuteShellRe
   console.info('fullCommand', fullCommand);
 
   try {
-    const { stdout } = await execAsync(fullCommand, {
+    const {
+      stdout,
+      stderr,
+    } = await execAsync(fullCommand, {
       encoding: 'utf-8',
       windowsHide: true,
       timeout: 15000,
@@ -133,22 +136,28 @@ export async function executeShell(command: ExecuteShellCommand): ExecuteShellRe
 
     // todo convert this to a debug command.
     console.info('ok response', {
-      text: stdout.trim(),
+      textOut: stdout.trim(),
+      textError: stderr.trim(),
       code: 0,
     });
 
-    // "stderr" is already redirected into "stdout" (via "2>&1"), so "text" includes both.
     return {
-      text: stdout.trim(),
+      textOut: stdout.trim(),
+      textError: stderr.trim(),
       code: 0,
     };
   } catch (error) {
-    let text = '';
+    let textOut = '';
+    let textError = '';
     let code = 1;
 
     if (isExecuteShellError(error)) {
       if (error.stdout !== undefined) {
-        text = `${error.stdout}`;
+        textOut = `${error.stdout}`;
+      }
+
+      if (error.stderr !== undefined) {
+        textError = `${error.stderr}`;
       }
 
       if (error.code !== undefined) {
@@ -158,12 +167,14 @@ export async function executeShell(command: ExecuteShellCommand): ExecuteShellRe
 
     // todo convert this to a debug command.
     console.info('fail response', {
-      text: text.trim(),
+      textOut: textOut.trim(),
+      textError: textError.trim(),
       code: 0,
     });
 
     return {
-      text: text.trim(),
+      textOut: textOut.trim(),
+      textError: textError.trim(),
       code: code,
     };
   }
@@ -233,7 +244,7 @@ export function isExecuteShellError(error: IsExecuteShellErrorError): error is I
  */
 export async function parseLinuxOsReleaseFile(): ParseLinuxOsReleaseFileReturns {
   const query = await executeShell('cat /etc/os-release');
-  const lines = query.text.split(LINEBREAK_CRLF_OR_LF);
+  const lines = query.textOut.split(LINEBREAK_CRLF_OR_LF);
   const osReleaseEntries: ParseLinuxOsReleaseFileOsReleaseEntries = {};
 
   for (const line of lines) {
@@ -274,7 +285,7 @@ export async function parseWindowsRegistryQuery(registryPaths: ParseWindowsRegis
 
   for (const path of paths) {
     const query = await executeShell(`reg query "${path}"`);
-    const lines = query.text.split(LINEBREAK_CRLF_OR_LF);
+    const lines = query.textOut.split(LINEBREAK_CRLF_OR_LF);
     const registryKeys: ParseWindowsRegistryQueryRegistryKeys = {};
 
     for (const line of lines) {

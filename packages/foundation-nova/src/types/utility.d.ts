@@ -19,12 +19,15 @@ export type DetectShellReturns =
  */
 export type ExecuteShellCommand = string;
 
-export type ExecuteShellReturnsText = string;
+export type ExecuteShellReturnsOut = string;
+
+export type ExecuteShellReturnsError = string;
 
 export type ExecuteShellReturnsCode = number;
 
 export type ExecuteShellReturns = Promise<{
-  text: ExecuteShellReturnsText;
+  textOut: ExecuteShellReturnsOut;
+  textError: ExecuteShellReturnsError;
   code: ExecuteShellReturnsCode;
 }>;
 

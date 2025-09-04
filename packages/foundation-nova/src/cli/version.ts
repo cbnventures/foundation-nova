@@ -166,7 +166,7 @@ export class CLIVersion {
 
     // Attempt to retrieve the Node.js version.
     if (nodeJsVersion.code === 0) {
-      const match = nodeJsVersion.text.match(PATTERN_SEMVER)?.[1];
+      const match = nodeJsVersion.textOut.match(PATTERN_SEMVER)?.[1];
 
       if (match !== undefined) {
         tools = {
@@ -178,7 +178,7 @@ export class CLIVersion {
 
     // Attempt to retrieve the Node Package Manager (npm) version.
     if (npmVersion.code === 0) {
-      const match = npmVersion.text.match(PATTERN_SEMVER)?.[1];
+      const match = npmVersion.textOut.match(PATTERN_SEMVER)?.[1];
 
       if (match !== undefined) {
         tools = {
@@ -190,7 +190,7 @@ export class CLIVersion {
 
     // Attempt to retrieve the Yarn version.
     if (yarnVersion.code === 0) {
-      const match = yarnVersion.text.match(PATTERN_SEMVER)?.[1];
+      const match = yarnVersion.textOut.match(PATTERN_SEMVER)?.[1];
 
       if (match !== undefined) {
         tools = {
@@ -202,7 +202,7 @@ export class CLIVersion {
 
     // Attempt to retrieve the Performant Node Package Manager (pnpm) version.
     if (pnpmVersion.code === 0) {
-      const match = pnpmVersion.text.match(PATTERN_SEMVER)?.[1];
+      const match = pnpmVersion.textOut.match(PATTERN_SEMVER)?.[1];
 
       if (match !== undefined) {
         tools = {
@@ -214,7 +214,7 @@ export class CLIVersion {
 
     // Attempt to retrieve the Bun version.
     if (bunVersion.code === 0) {
-      const match = bunVersion.text.match(PATTERN_SEMVER)?.[1];
+      const match = bunVersion.textOut.match(PATTERN_SEMVER)?.[1];
 
       if (match !== undefined) {
         tools = {
@@ -246,7 +246,7 @@ export class CLIVersion {
 
     // Attempt to retrieve the Node Version Manager (nvm-posix) version.
     if (os.platform() !== 'win32' && nvmVersion.code === 0) {
-      const match = nvmVersion.text.match(PATTERN_SEMVER)?.[1];
+      const match = nvmVersion.textOut.match(PATTERN_SEMVER)?.[1];
 
       if (match !== undefined) {
         managers = {
@@ -258,7 +258,7 @@ export class CLIVersion {
 
     // Attempt to retrieve the Node Version Manager for Windows (nvm-windows) version.
     if (os.platform() === 'win32' && nvmVersion.code === 0) {
-      const match = nvmVersion.text.match(PATTERN_SEMVER)?.[1];
+      const match = nvmVersion.textOut.match(PATTERN_SEMVER)?.[1];
 
       if (match !== undefined) {
         managers = {
@@ -270,7 +270,7 @@ export class CLIVersion {
 
     // Attempt to retrieve the Volta version.
     if (voltaVersion.code === 0) {
-      const match = voltaVersion.text.match(PATTERN_SEMVER)?.[1];
+      const match = voltaVersion.textOut.match(PATTERN_SEMVER)?.[1];
 
       if (match !== undefined) {
         managers = {
@@ -309,9 +309,9 @@ export class CLIVersion {
         executeShell('sw_vers -buildVersion'),
       ]);
 
-      name = productName.text ?? 'macOS';
-      version = productVersion.text ?? version;
-      build = buildVersion.text ?? '—';
+      name = productName.textOut ?? 'macOS';
+      version = productVersion.textOut ?? version;
+      build = buildVersion.textOut ?? '—';
     }
 
     // Windows.
@@ -389,7 +389,7 @@ export class CLIVersion {
             return null;
           }
 
-          const version = versionResponse.text.trim();
+          const version = versionResponse.textOut.trim();
 
           return [key, version] as const;
         }),
@@ -437,7 +437,7 @@ export class CLIVersion {
           exePath = exePath.replace(PATTERN_DOUBLE_QUOTED_STRING_CAPTURE, '$1');
 
           // Get the product version through the PowerShell command via Command Prompt.
-          const version = (await executeShell(`powershell -Command "(Get-Item '${exePath}').VersionInfo.ProductVersion"`)).text.trim();
+          const version = (await executeShell(`powershell -Command "(Get-Item '${exePath}').VersionInfo.ProductVersion"`)).textOut.trim();
 
           return [key, version] as const;
         }),
@@ -481,7 +481,7 @@ export class CLIVersion {
             return null;
           }
 
-          const version = versionResponse.text.trim().replace(PATTERN_LEADING_NON_DIGITS, '');
+          const version = versionResponse.textOut.trim().replace(PATTERN_LEADING_NON_DIGITS, '');
 
           return [key, version] as const;
         }),
@@ -519,7 +519,7 @@ export class CLIVersion {
 
     // Attempt to retrieve the Java version.
     if (javaVersion.code === 0) {
-      const match = javaVersion.text.match(new RegExp(PATTERN_JAVA_VERSION_LINE, 'mi'));
+      const match = javaVersion.textOut.match(new RegExp(PATTERN_JAVA_VERSION_LINE, 'mi'));
       const matchVersion = match?.[1] ?? 'N/A';
       const matchDistribution = match?.[2] ?? 'N/A';
       const matchBuild = match?.[4] ?? 'N/A';
@@ -534,7 +534,7 @@ export class CLIVersion {
 
     // Attempt to retrieve the Rust version.
     if (rustVersion.code === 0) {
-      const match = rustVersion.text.match(PATTERN_RUSTC_VERSION_LINE);
+      const match = rustVersion.textOut.match(PATTERN_RUSTC_VERSION_LINE);
       const matchVersion = match?.[1] ?? 'N/A';
       const matchBuildHash = match?.[2] ?? 'N/A';
       const matchBuildDate = match?.[3] ?? 'N/A';
