@@ -80,7 +80,7 @@ export async function executeShell(command: ExecuteShellCommand): ExecuteShellRe
   let fullCommand = command;
 
   const quotePosix = (string: ExecuteShellQuotePosixString) => `'${string.replace(new RegExp(CHARACTER_SINGLE_QUOTE, 'g'), '\'\\\'\'')}'`;
-  const quoteWindows = (string: ExecuteShellQuoteWindowsString) => `"${string.replace(new RegExp(CHARACTER_DOUBLE_QUOTE, 'g'), '\\"')}"`;
+  const quoteWindows = (string: ExecuteShellQuoteWindowsString) => `"${string.replace(new RegExp(CHARACTER_DOUBLE_QUOTE, 'g'), '""')}"`;
 
   // Windows.
   if (shell === 'cmd.exe') {
@@ -89,17 +89,17 @@ export async function executeShell(command: ExecuteShellCommand): ExecuteShellRe
 
   // macOS.
   if (shell === '/bin/zsh') {
-    fullCommand = `/bin/zsh -lc ${quotePosix(`[[ -f ~/.zshrc ]] && source ~/.zshrc || true; ${fullCommand}`)}`;
+    fullCommand = `/bin/zsh -l -i -c ${quotePosix(fullCommand)}`;
   }
 
   // Linux.
   if (shell === '/bin/bash') {
-    fullCommand = `env BASH_ENV="$HOME/.bashrc" /bin/bash -lc ${quotePosix(fullCommand)}`;
+    fullCommand = `/bin/bash -l -i -c ${quotePosix(fullCommand)}`;
   }
 
   // AIX / Solaris.
   if (shell === '/bin/ksh') {
-    fullCommand = `env ENV="$HOME/.kshrc" /bin/ksh -lc ${quotePosix(fullCommand)}`;
+    fullCommand = `/bin/ksh -l -i -c ${quotePosix(fullCommand)}`;
   }
 
   // Fallback.
