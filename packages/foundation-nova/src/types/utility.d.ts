@@ -1,11 +1,16 @@
 import type { ExecException } from 'child_process';
 
 /**
- * Detect unix shell.
+ * Detect shell.
  *
  * @since 1.0.0
  */
-export type DetectUnixShellReturns = string;
+export type DetectShellReturns =
+  'cmd.exe'
+  | '/bin/bash'
+  | '/bin/ksh'
+  | '/bin/sh'
+  | '/bin/zsh';
 
 /**
  * Execute shell.
@@ -22,6 +27,10 @@ export type ExecuteShellReturns = Promise<{
   text: ExecuteShellReturnsText;
   code: ExecuteShellReturnsCode;
 }>;
+
+export type ExecuteShellQuotePosixString = string;
+
+export type ExecuteShellQuoteWindowsString = string;
 
 /**
  * Is command exists.

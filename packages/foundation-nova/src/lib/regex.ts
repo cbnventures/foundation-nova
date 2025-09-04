@@ -1,4 +1,11 @@
 /**
+ * Character - Double quote.
+ *
+ * @since 1.0.0
+ */
+export const CHARACTER_DOUBLE_QUOTE = /"/;
+
+/**
  * Character - Pipe.
  *
  * @since 1.0.0
