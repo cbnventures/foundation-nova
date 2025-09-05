@@ -87,19 +87,14 @@ export async function executeShell(command: ExecuteShellCommand): ExecuteShellRe
     fullCommand = `cmd.exe /d /s /c "${quoteWindows(fullCommand)}"`;
   }
 
-  // macOS. todo
+  // macOS.
   if (shell === '/bin/zsh') {
     fullCommand = `/bin/zsh -l -i -c '${quotePosix(fullCommand)}'`;
   }
 
-  // Linux. todo
+  // Linux.
   if (shell === '/bin/bash') {
-    fullCommand = `/bin/bash -l -i -c '${quotePosix(fullCommand)};`;
-  }
-
-  // AIX / Solaris. todo
-  if (shell === '/bin/ksh') {
-    fullCommand = `/bin/ksh -l -i -c '${quotePosix(fullCommand)}'`;
+    fullCommand = `setsid -w /bin/bash -l -i -c '${quotePosix(fullCommand)}' </dev/null`;
   }
 
   // Fallback.
@@ -123,6 +118,9 @@ export async function executeShell(command: ExecuteShellCommand): ExecuteShellRe
             ...(process.env['LOCALAPPDATA']) ? [`${process.env['LOCALAPPDATA']}\\Volta\\bin`] : [],
             ...(process.env['PATH']) ? [process.env['PATH']] : [],
           ].join(';'),
+        } : {},
+        ...(shell === '/bin/bash') ? {
+          PAGER: 'cat',
         } : {},
       },
       cwd: process.cwd(),
