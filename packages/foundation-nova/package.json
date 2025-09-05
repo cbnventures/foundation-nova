@@ -1,6 +1,6 @@
 {
   "name": "@cbnventures/foundation-nova",
-  "version": "0.5.14",
+  "version": "0.6.0",
   "description": "Scripts, templates, and project configuration for the common JavaScript and TypeScript developer",
   "main": "",
   "bin": {
@@ -10,6 +10,8 @@
   "exports": {
     "./eslint": "./build/src/presets/eslint/index.mjs",
     "./eslint/*": "./build/src/presets/eslint/*.mjs",
+    "./toolkit": "./build/src/presets/toolkit/index.js",
+    "./toolkit/*": "./build/src/presets/toolkit/*.js",
     "./tsconfig/dx-essentials.json": "./build/src/presets/tsconfig/dx-essentials.json",
     "./tsconfig/dx-strict.json": "./build/src/presets/tsconfig/dx-strict.json",
     "./tsconfig/env-browser.json": "./build/src/presets/tsconfig/env-browser.json",

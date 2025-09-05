@@ -29,7 +29,7 @@ import type {
  *
  * @since 1.0.0
  */
-export class MarkdownTable {
+export default class MarkdownTable {
   /**
    * Markdown Table - Headers.
    *
@@ -71,7 +71,7 @@ export class MarkdownTable {
       throw new Error('"headers" must be a non-empty array');
     }
 
-    // In case you need to think about it, each array is mapped out like a row.
+    // In case you need to think about it, each array is panned out like a row.
     this.#headers = headers.map((header) => String(header));
     this.#minimumColumnWidth = Math.max(3, options?.minimumColumnWidth ?? 3);
     this.#padDelimiterRow = options?.padDelimiterRow ?? false;

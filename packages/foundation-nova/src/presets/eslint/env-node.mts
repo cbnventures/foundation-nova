@@ -43,13 +43,13 @@ const config: FlatConfig = [
       n: pluginN,
     },
     rules: {
-      // Forbid only console.log, allow other console methods (warn, error, info, debug, etc.).
+      // Forbid only console.log, allow other console methods (debug, info, warn, error, etc.).
       'no-console': ['error', {
         allow: [
+          'debug',
+          'info',
           'warn',
           'error',
-          'info',
-          'debug',
         ],
       }],
 

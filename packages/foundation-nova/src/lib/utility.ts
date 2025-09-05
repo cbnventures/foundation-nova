@@ -10,6 +10,7 @@ import {
   PATTERN_DOUBLE_QUOTED_STRING_CAPTURE,
   PATTERN_REGISTRY_QUERY_LINE,
 } from '@/lib/regex.js';
+import { Logger } from '@/toolkit/index.js';
 import type {
   DetectShellReturns,
   ExecuteShellCommand,
@@ -127,51 +128,41 @@ export async function executeShell(command: ExecuteShellCommand): ExecuteShellRe
       maxBuffer: 8 * 1024 * 1024, // 8 MB.
     });
 
-    // todo convert this to a debug command.
-    console.info('ok command', fullCommand);
-    console.info('ok response', {
-      textOut: stdout.trim(),
-      textError: stderr.trim(),
-      code: 0,
-    });
-
-    return {
+    const output = {
       textOut: stdout.trim(),
       textError: stderr.trim(),
       code: 0,
     };
+
+    Logger.name('executeShell:command').debug(fullCommand);
+    Logger.name('executeShell:output').debug(output);
+
+    return output;
   } catch (error) {
-    let textOut = '';
-    let textError = '';
-    let code = 1;
+    const output = {
+      textOut: '',
+      textError: '',
+      code: 1,
+    };
 
     if (isExecuteShellError(error)) {
       if (error.stdout !== undefined) {
-        textOut = `${error.stdout}`;
+        output.textOut = `${error.stdout}`;
       }
 
       if (error.stderr !== undefined) {
-        textError = `${error.stderr}`;
+        output.textError = `${error.stderr}`;
       }
 
       if (error.code !== undefined) {
-        code = error.code;
+        output.code = error.code;
       }
     }
 
-    // todo convert this to a debug command.
-    console.info('fail command', fullCommand);
-    console.info('fail response', {
-      textOut: textOut.trim(),
-      textError: textError.trim(),
-      code: 0,
-    });
+    Logger.name('executeShell:command').debug(fullCommand);
+    Logger.name('executeShell:output').debug(output);
 
-    return {
-      textOut: textOut.trim(),
-      textError: textError.trim(),
-      code: code,
-    };
+    return output;
   }
 }
 

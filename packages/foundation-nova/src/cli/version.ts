@@ -8,7 +8,7 @@ import {
   itemColumnTitlePrettyNames,
   itemTypePrettyNames,
 } from '@/lib/item.js';
-import { MarkdownTable } from '@/lib/markdown-table.js';
+import { MarkdownTable } from '@/toolkit/index.js';
 import {
   PATTERN_DOUBLE_QUOTED_STRING_CAPTURE,
   PATTERN_JAVA_VERSION_LINE,
