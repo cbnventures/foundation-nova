@@ -79,55 +79,50 @@ export async function executeShell(command: ExecuteShellCommand): ExecuteShellRe
 
   let fullCommand = command;
 
-  const quotePosix = (string: ExecuteShellQuotePosixString) => `'${string.replace(new RegExp(CHARACTER_SINGLE_QUOTE, 'g'), '\'\\\'\'')}'`;
-  const quoteWindows = (string: ExecuteShellQuoteWindowsString) => `"${string.replace(new RegExp(CHARACTER_DOUBLE_QUOTE, 'g'), '"')}"`;
+  const quotePosix = (string: ExecuteShellQuotePosixString) => string.replace(new RegExp(CHARACTER_SINGLE_QUOTE, 'g'), '\'\\\'\'');
+  const quoteWindows = (string: ExecuteShellQuoteWindowsString) => string.replace(new RegExp(CHARACTER_DOUBLE_QUOTE, 'g'), '"');
 
   // Windows.
   if (shell === 'cmd.exe') {
-    fullCommand = `cmd.exe /d /s /c ${quoteWindows(fullCommand)}`;
+    fullCommand = `cmd.exe /d /s /c "${quoteWindows(fullCommand)}"`;
   }
 
-  // macOS.
+  // macOS. todo
   if (shell === '/bin/zsh') {
-    fullCommand = `/bin/zsh -l -i -c ${quotePosix(`set +m; ${fullCommand}`)}`;
+    fullCommand = `/bin/zsh -l -i -c '${quotePosix(fullCommand)}'`;
   }
 
-  // Linux.
+  // Linux. todo
   if (shell === '/bin/bash') {
-    fullCommand = `/bin/bash -l -i -c ${quotePosix(`set +m; ${fullCommand}`)}`;
+    fullCommand = `/bin/bash -l -i -c '${quotePosix(fullCommand)};`;
   }
 
-  // AIX / Solaris.
+  // AIX / Solaris. todo
   if (shell === '/bin/ksh') {
-    fullCommand = `/bin/ksh -l -i -c ${quotePosix(`set +m; ${fullCommand}`)}`;
+    fullCommand = `/bin/ksh -l -i -c '${quotePosix(fullCommand)}'`;
   }
 
   // Fallback.
   if (shell === '/bin/sh') {
-    fullCommand = `/bin/sh -c ${quotePosix(fullCommand)}`;
+    fullCommand = `/bin/sh -c '${quotePosix(fullCommand)}'`;
   }
 
-  // todo convert this to a debug command.
-  console.info('fullCommand', fullCommand);
-
   try {
-    const {
-      stdout,
-      stderr,
-    } = await execAsync(fullCommand, {
+    const { stdout, stderr } = await execAsync(fullCommand, {
       encoding: 'utf-8',
       windowsHide: true,
       timeout: 15000,
       env: {
         ...process.env,
-        ...(process.env['PATH'] !== undefined && process.env['_VOLTA_TOOL_RECURSION'] !== undefined) ? {
-          PATH: [
-            'C:\\Program Files\\Volta\\',
-            process.env['PATH'],
-          ].join(';'),
-        } : {},
         ...(await isCommandExists('corepack')) ? {
           COREPACK_ENABLE_STRICT: '0',
+        } : {},
+        ...(process.env['_VOLTA_TOOL_RECURSION'] !== undefined) ? {
+          PATH: [
+            ...(process.env['ProgramW6432']) ? [`${process.env['ProgramW6432']}\\Volta\\`] : [],
+            ...(process.env['LOCALAPPDATA']) ? [`${process.env['LOCALAPPDATA']}\\Volta\\bin`] : [],
+            ...(process.env['PATH']) ? [process.env['PATH']] : [],
+          ].join(';'),
         } : {},
       },
       cwd: process.cwd(),
@@ -135,6 +130,7 @@ export async function executeShell(command: ExecuteShellCommand): ExecuteShellRe
     });
 
     // todo convert this to a debug command.
+    console.info('ok command', fullCommand);
     console.info('ok response', {
       textOut: stdout.trim(),
       textError: stderr.trim(),
@@ -166,6 +162,7 @@ export async function executeShell(command: ExecuteShellCommand): ExecuteShellRe
     }
 
     // todo convert this to a debug command.
+    console.info('fail command', fullCommand);
     console.info('fail response', {
       textOut: textOut.trim(),
       textError: textError.trim(),
@@ -190,8 +187,12 @@ export async function executeShell(command: ExecuteShellCommand): ExecuteShellRe
  * @since 1.0.0
  */
 export async function isCommandExists(command: IsCommandExistsCommand): IsCommandExistsReturns {
+  const isWin = os.platform() === 'win32';
+  const bin = (isWin) ? 'where' : 'sh';
+  const args = (isWin) ? ['/Q', command] : ['-c', `command -v "${command}" >/dev/null 2>&1`];
+
   return new Promise((resolve) => {
-    const childProcess = spawn(command, {
+    const childProcess = spawn(bin, args, {
       stdio: 'ignore',
     });
 
@@ -201,8 +202,8 @@ export async function isCommandExists(command: IsCommandExistsCommand): IsComman
     });
 
     // If the command exists.
-    childProcess.once('exit', () => {
-      return resolve(true);
+    childProcess.once('exit', (code) => {
+      return resolve(code === 0);
     });
   });
 }

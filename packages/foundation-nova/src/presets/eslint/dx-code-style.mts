@@ -94,31 +94,37 @@ const config: FlatConfig = [
     rules: {
       // Force line breaks inside braces when there are multiple items or inner line breaks so the structure stays uniform.
       '@stylistic/object-curly-newline': ['error', {
+        // Object literal expressions (e.g., const obj = { a: 1 }).
         ObjectExpression: {
           minProperties: 1,
           multiline: true,
           consistent: true,
         },
+        // Object destructuring patterns (e.g., const { a, b } = obj).
         ObjectPattern: {
-          minProperties: 2,
+          minProperties: 4,
           multiline: true,
           consistent: true,
         },
+        // Named imports in ES modules (e.g., import { a, b } from 'lib').
         ImportDeclaration: {
           minProperties: 4,
           multiline: true,
           consistent: true,
         },
+        // TypeScript type literals (e.g., type X = { a: string }).
         TSTypeLiteral: {
           minProperties: 1,
           multiline: true,
           consistent: true,
         },
+        // TypeScript interface bodies (e.g., interface X { a: string }).
         TSInterfaceBody: {
           minProperties: 1,
           multiline: true,
           consistent: true,
         },
+        // TypeScript enum bodies (e.g., enum X { A, B }).
         TSEnumBody: {
           minProperties: 1,
           multiline: true,
