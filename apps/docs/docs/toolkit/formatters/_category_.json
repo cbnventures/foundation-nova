@@ -1,5 +1,6 @@
 {
-  "label": "Must-Haves",
+  "label": "Formatters",
+  "position": 2,
   "collapsible": true,
   "collapsed": true,
   "link": {

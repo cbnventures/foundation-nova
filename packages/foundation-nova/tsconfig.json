@@ -13,7 +13,6 @@
       ]
     },
     "rootDir": "./",
-    "tsBuildInfoFile": "./.tsbuildinfo",
     "types": [
       "@commander-js/extra-typings",
       "@types/eslint-plugin-jsx-a11y",

@@ -166,7 +166,7 @@ export default class Logger {
       error: 40,
     };
     const currentLogLevel = (process.env['LOG_LEVEL'] ?? '').toLowerCase();
-    const defaultLogLevel = (process.env['NODE_ENV'] === 'production') ? 'info' : 'debug';
+    const defaultLogLevel = (process.env['NODE_ENV'] === 'development') ? 'debug' : 'info';
     const preferredLogLevel = Object.keys(weights).includes(currentLogLevel as LoggerShouldLogCurrentLogLevel) ? (currentLogLevel as LoggerShouldLogCurrentLogLevel) : defaultLogLevel;
 
     return weights[level] >= weights[preferredLogLevel];

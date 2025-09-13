@@ -1,5 +1,6 @@
 {
-  "label": "Must-Haves",
+  "label": "Logging",
+  "position": 3,
   "collapsible": true,
   "collapsed": true,
   "link": {

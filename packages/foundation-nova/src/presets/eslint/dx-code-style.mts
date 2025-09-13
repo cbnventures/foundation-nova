@@ -77,7 +77,7 @@ const config: FlatConfig = [
     },
   },
   {
-    name: 'foundation-nova/dx-code-style/objects-newlines',
+    name: 'foundation-nova/dx-code-style/objects',
     files: [
       '**/*.js',
       '**/*.ts',
@@ -134,7 +134,52 @@ const config: FlatConfig = [
     },
   },
   {
-    name: 'foundation-nova/dx-code-style/quotes-props',
+    name: 'foundation-nova/dx-code-style/operators',
+    files: [
+      '**/*.js',
+      '**/*.ts',
+      '**/*.jsx',
+      '**/*.tsx',
+      '**/*.cjs',
+      '**/*.cts',
+      '**/*.mjs',
+      '**/*.mts',
+    ],
+    plugins: {
+      '@stylistic': stylistic,
+    },
+    rules: {
+      // Forbid "++" and "--" so increments are explicit and side effects are not hidden.
+      'no-plusplus': ['error'],
+
+      // Disallow bitwise operators which are rare in app code and often indicate a bug or premature optimization.
+      'no-bitwise': ['error'],
+
+      // Disallow assignment in conditional expressions; avoids accidental "=" instead of "===".
+      'no-cond-assign': ['error', 'always'],
+
+      // Disallow using void for side effects; favor explicit "undefined" or comments for intent.
+      'no-void': ['error'],
+
+      // Disallow deleting variables; meaningless on bindings in modern JS.
+      'no-delete-var': ['error'],
+
+      // Disallow reassigning function parameters and avoid hidden mutations.
+      'no-param-reassign': ['error', {
+        props: true,
+      }],
+
+      // Prevent confusing negation of the left operand of relational operators (e.g., "!a in b").
+      'no-unsafe-negation': ['error'],
+
+      // Require parentheses when mixing operators with different precedence for clearer intent.
+      '@stylistic/no-mixed-operators': ['error', {
+        allowSamePrecedence: true,
+      }],
+    },
+  },
+  {
+    name: 'foundation-nova/dx-code-style/quotes',
     files: [
       '**/*.js',
       '**/*.ts',
@@ -157,7 +202,7 @@ const config: FlatConfig = [
     },
   },
   {
-    name: 'foundation-nova/dx-code-style/regex-flags',
+    name: 'foundation-nova/dx-code-style/regex',
     files: [
       '**/*.js',
       '**/*.ts',
@@ -180,7 +225,7 @@ const config: FlatConfig = [
     },
   },
   {
-    name: 'foundation-nova/dx-code-style/ternary-layout',
+    name: 'foundation-nova/dx-code-style/ternary',
     files: [
       '**/*.js',
       '**/*.ts',

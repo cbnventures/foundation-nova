@@ -1,7 +1,10 @@
 #!/usr/bin/env node
+import chalk from 'chalk';
 import { Command } from 'commander';
 
+import packageJson from '../../package.json' with { type: 'json' };
 import { CLIVersion } from '@/cli/version.js';
+import CLIHeader from '@/toolkit/cli-header.js';
 import type {
   CLIExecuteSubcommandCommand,
   CLIExecuteSubcommandOptions,
@@ -35,7 +38,21 @@ class CLI {
     (async () => {
       this.#program
         .name('foundation-nova')
-        .description('Command line for the common developer')
+        .addHelpText('beforeAll', CLIHeader.render(
+          [
+            chalk.bold.hex('#f0b030')(`Foundation Nova v${packageJson.version}`),
+            chalk.italic.hex('#e05050')('CLI for the Common Developer'),
+          ],
+          {
+            align: 'center',
+            marginBottom: 0,
+            marginTop: 0,
+            paddingX: 1,
+            paddingY: 0,
+            style: 'round',
+            width: 50,
+          },
+        ))
         .helpCommand(false)
         .helpOption(false)
         .allowExcessArguments(false)

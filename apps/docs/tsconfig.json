@@ -12,8 +12,7 @@
         "./src/*"
       ]
     },
-    "rootDir": "./",
-    "tsBuildInfoFile": "./.tsbuildinfo"
+    "rootDir": "./"
   },
   "include": [
     "./docusaurus.config.ts",

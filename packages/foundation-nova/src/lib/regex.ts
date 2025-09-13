@@ -34,6 +34,13 @@ export const LINEBREAK_CRLF_OR_LF = /\r?\n/;
 export const PATTERN_ANSI = /\x1B\[[0-?]*[ -/]*[@-~]/;
 
 /**
+ * Pattern - ANSI start.
+ *
+ * @since 1.0.0
+ */
+export const PATTERN_ANSI_START = /^(\x1B\[[0-?]*[ -/]*[@-~])/;
+
+/**
  * Pattern - Double quoted string capture.
  *
  * @since 1.0.0
@@ -74,3 +81,10 @@ export const PATTERN_RUSTC_VERSION_LINE = /^rustc\s+(\d+\.\d+\.\d+)\s+\((\w+)\s+
  * @since 1.0.0
  */
 export const PATTERN_SEMVER = /(?<semver>(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-(?:0|[1-9]\d*|\d*[A-Za-z-][0-9A-Za-z-]*)(?:\.(?:0|[1-9]\d*|\d*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?)/;
+
+/**
+ * Pattern - Whitespace.
+ *
+ * @since 1.0.0
+ */
+export const WHITESPACE_PATTERN = /\s+/;
