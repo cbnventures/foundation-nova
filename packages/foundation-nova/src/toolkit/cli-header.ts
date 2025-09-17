@@ -45,8 +45,8 @@ export default class CLIHeader {
     const style = options?.style ?? 'box';
     const width = Math.max(0, options?.width ?? process.stdout.columns);
 
-    const topMargin = '\n'.repeat(marginTop);
-    const bottomMargin = '\n'.repeat(marginBottom);
+    const topMargin = '\r\n'.repeat(marginTop);
+    const bottomMargin = '\r\n'.repeat(marginBottom);
 
     const borderChars = CLIHeader.borderChars(style);
     const borderlessWidth = Math.max((2 * paddingX), width - 2);
@@ -81,7 +81,11 @@ export default class CLIHeader {
       displayStrings.push(`${borderChars.vertical}${CLIHeader.padToWidth(padded, borderlessWidth)}${borderChars.vertical}`);
     }
 
-    return [topMargin, topBorder, ...displayStrings, bottomBorder, bottomMargin].join('\n');
+    return [
+      ...(topMargin.length !== 0) ? [`${topMargin}${topBorder}`] : [topBorder],
+      ...displayStrings,
+      ...(bottomMargin.length !== 0) ? [`${bottomBorder}${bottomMargin}`] : [bottomBorder],
+    ].join('\r\n');
   }
 
   /**

@@ -133,8 +133,8 @@ export class CLIVersion {
       }
 
       // Print the table.
-      console.info(`\n${itemCategoryPrettyNames[category] ?? chalk.grey(category)}`);
-      console.info(table.render());
+      process.stdout.write(`${itemCategoryPrettyNames[category] ?? chalk.grey(category)}\r\n`);
+      process.stdout.write(`${table.render()}\r\n\r\n`);
     }
   }
 

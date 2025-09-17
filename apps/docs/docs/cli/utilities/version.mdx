@@ -72,6 +72,10 @@ You can run this command in two ways:
     nova version --all
     ```
 
+    ```bash
+    nova ver -a
+    ```
+
     **Note:** If Nova is installed **only locally** (inside a project), the command will work **only within that project's directory**. See the [npm docs](https://docs.npmjs.com/cli/configuring-npm/folders) for details.
 
   </TabItem>
@@ -79,6 +83,10 @@ You can run this command in two ways:
 
     ```bash
     npx --yes @cbnventures/foundation-nova@latest version --all
+    ```
+
+    ```bash
+    npx --yes @cbnventures/foundation-nova@latest ver -a
     ```
 
     **Note:** If you prefer the shorter `nova` command, see the [Setup and Configure](/docs/quickstart/setup) guide for installation instructions.
@@ -174,32 +182,56 @@ Each option enables checks for a specific category of tools or system informatio
     <div className="row">
       <div className="col col--6 margin-bottom--sm">
         <CodeBlock language="bash" title="All">
+          {`# Original\r\n`}
           {`nova version --all`}
+          {`\r\n\r\n`}
+          {`# Shorthand\r\n`}
+          {`nova ver -a`}
         </CodeBlock>
       </div>
       <div className="col col--6 margin-bottom--sm">
         <CodeBlock language="bash" title="Operating System">
+          {`# Original\r\n`}
           {`nova version --os`}
+          {`\r\n\r\n`}
+          {`# Shorthand\r\n`}
+          {`nova ver -o`}
         </CodeBlock>
       </div>
       <div className="col col--6 margin-bottom--sm">
         <CodeBlock language="bash" title="Node.js + Tools">
+          {`# Original\r\n`}
           {`nova version --node`}
+          {`\r\n\r\n`}
+          {`# Shorthand\r\n`}
+          {`nova ver -n`}
         </CodeBlock>
       </div>
       <div className="col col--6 margin-bottom--sm">
         <CodeBlock language="bash" title="Web Browsers">
+          {`# Original\r\n`}
           {`nova version --browser`}
+          {`\r\n\r\n`}
+          {`# Shorthand\r\n`}
+          {`nova ver -b`}
         </CodeBlock>
       </div>
       <div className="col col--6 margin-bottom--sm">
         <CodeBlock language="bash" title="Interpreters / Runtimes">
+          {`# Original\r\n`}
           {`nova version --interpreter`}
+          {`\r\n\r\n`}
+          {`# Shorthand\r\n`}
+          {`nova ver -i`}
         </CodeBlock>
       </div>
       <div className="col col--6 margin-bottom--sm">
         <CodeBlock language="bash" title="Environment Managers">
+          {`# Original\r\n`}
           {`nova version --env`}
+          {`\r\n\r\n`}
+          {`# Shorthand\r\n`}
+          {`nova ver -e`}
         </CodeBlock>
       </div>
     </div>
@@ -208,32 +240,56 @@ Each option enables checks for a specific category of tools or system informatio
     <div className="row">
       <div className="col col--6 margin-bottom--sm">
         <CodeBlock language="bash" title="All">
+          {`# Original\r\n`}
           {`npx --yes @cbnventures/foundation-nova@latest version --all`}
+          {`\r\n\r\n`}
+          {`# Shorthand\r\n`}
+          {`npx --yes @cbnventures/foundation-nova@latest ver -a`}
         </CodeBlock>
       </div>
       <div className="col col--6 margin-bottom--sm">
         <CodeBlock language="bash" title="Operating System">
+          {`# Original\r\n`}
           {`npx --yes @cbnventures/foundation-nova@latest version --os`}
+          {`\r\n\r\n`}
+          {`# Shorthand\r\n`}
+          {`npx --yes @cbnventures/foundation-nova@latest ver -o`}
         </CodeBlock>
       </div>
       <div className="col col--6 margin-bottom--sm">
         <CodeBlock language="bash" title="Node.js + Tools">
+          {`# Original\r\n`}
           {`npx --yes @cbnventures/foundation-nova@latest version --node`}
+          {`\r\n\r\n`}
+          {`# Shorthand\r\n`}
+          {`npx --yes @cbnventures/foundation-nova@latest ver -n`}
         </CodeBlock>
       </div>
       <div className="col col--6 margin-bottom--sm">
         <CodeBlock language="bash" title="Web Browsers">
+          {`# Original\r\n`}
           {`npx --yes @cbnventures/foundation-nova@latest version --browser`}
+          {`\r\n\r\n`}
+          {`# Shorthand\r\n`}
+          {`npx --yes @cbnventures/foundation-nova@latest ver -b`}
         </CodeBlock>
       </div>
       <div className="col col--6 margin-bottom--sm">
         <CodeBlock language="bash" title="Interpreters / Runtimes">
+          {`# Original\r\n`}
           {`npx --yes @cbnventures/foundation-nova@latest version --interpreter`}
+          {`\r\n\r\n`}
+          {`# Shorthand\r\n`}
+          {`npx --yes @cbnventures/foundation-nova@latest ver -i`}
         </CodeBlock>
       </div>
       <div className="col col--6 margin-bottom--sm">
         <CodeBlock language="bash" title="Environment Managers">
+          {`# Original\r\n`}
           {`npx --yes @cbnventures/foundation-nova@latest version --env`}
+          {`\r\n\r\n`}
+          {`# Shorthand\r\n`}
+          {`npx --yes @cbnventures/foundation-nova@latest ver -e`}
         </CodeBlock>
       </div>
     </div>
@@ -245,7 +301,7 @@ Each option enables checks for a specific category of tools or system informatio
 <Tabs groupId="examples">
   <TabItem value="raw-node" label="Raw (terminal output)" default>
     <CodeBlock language="text">
-{`Node.js + Tools
+      {`Node.js + Tools
 | Tool                                   | Version    |
 |----------------------------------------|------------|
 | Node.js                                | 20.19.4    |

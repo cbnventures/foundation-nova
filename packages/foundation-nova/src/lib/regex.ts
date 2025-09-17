@@ -48,6 +48,13 @@ export const PATTERN_ANSI_START = /^(\x1B\[[0-?]*[ -/]*[@-~])/;
 export const PATTERN_DOUBLE_QUOTED_STRING_CAPTURE = /^"(.*)"$/;
 
 /**
+ * Pattern - Error prefix.
+ *
+ * @since 1.0.0
+ */
+export const PATTERN_ERROR_PREFIX = /^error:\s*/;
+
+/**
  * Pattern - Java version line.
  *
  * @since 1.0.0

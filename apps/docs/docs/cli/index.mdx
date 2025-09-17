@@ -68,37 +68,37 @@ All commands below **show a help screen first when run without options**, so you
 Create **semi-tailored** versions of supported vendor and project essentials, populated with values from `nova.config.json` at the monorepo root.
 
 :::info
-All commands in "Generators" are shaped as `nova generate <command>` or `nova gen <command>`.
+All commands in "Generators" are shaped as `nova generate <subcommand>` or `nova gen <subcommand>`.
 :::
 
-| Command                                                                             | What It Does                                                                                                                  |
+| Subcommand                                                                          | What It Does                                                                                                                  |
 |-------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| [`aws amplify`](/docs/cli/generators/aws/amplify)                                   | Creates a `amplify.yml` file for [AWS Amplify](https://aws.amazon.com/amplify/) deployments                                   |
-| [`cloudflare workers`](/docs/cli/generators/cloudflare/workers)                     | Creates a `wrangler.toml` file for [Cloudflare Workers](https://workers.cloudflare.com/) deployments                          |
-| [`docker compose`](/docs/cli/generators/docker/docker-compose)                      | Creates a `docker-compose.yml` file for [Docker](https://docs.docker.com/compose/) builds                                     |
-| [`docker file`](/docs/cli/generators/docker/dockerfile)                             | Creates a `Dockerfile` file for [Docker](https://docs.docker.com/reference/dockerfile/) builds                                |
-| [`docusaurus config`](/docs/cli/generators/docusaurus/config)                       | Creates a `docusaurus.config.ts` file for [Docusaurus](https://docusaurus.io/) configuration                                  |
-| [`github funding`](/docs/cli/generators/github/funding)                             | Creates a `./github/FUNDING.yml` file for [GitHub](https://github.com/) to enable sponsor links                               |
-| [`github issue-template`](/docs/cli/generators/github/issue-template)               | Creates a `./github/ISSUE_TEMPLATE` directory for [GitHub](https://github.com/) to create issue templates                     |
-| [`github workflows`](/docs/cli/generators/github/workflows)                         | Creates a `./github/workflows` directory for [GitHub](https://github.com/) to enable CI/CD automation                         |
-| [`must-haves dotenv-file`](/docs/cli/generators/must-haves/dotenv-file)             | Creates a `.env` file for managing local environment secrets across your project                                              |
-| [`must-haves editorconfig-file`](/docs/cli/generators/must-haves/editorconfig-file) | Creates a `.editorconfig` file for managing consistent coding styles                                                          |
-| [`must-haves gitignore-file`](/docs/cli/generators/must-haves/gitignore-file)       | Creates a `.gitignore` file for managing files that should be excluded from Git commits                                       |
-| [`must-haves install-hooks`](/docs/cli/generators/must-haves/install-hooks)         | Creates a `post-install.ts` file for expanding on post-install controls                                                       |
-| [`must-haves license-file`](/docs/cli/generators/must-haves/license-file)           | Creates a `LICENSE` file for managing project license agreements                                                              |
-| [`must-haves readme-file`](/docs/cli/generators/must-haves/readme-file)             | Creates a `README.md` file for managing welcome introductions for your project                                                |
-| [`nextjs config`](/docs/cli/generators/nextjs/config)                               | Creates a `next.config.mjs` file for [Next.js](https://nextjs.org/docs/app/api-reference/config/next-config-js) configuration |
-| [`vite config`](/docs/cli/generators/vite/config)                                   | Creates a `vite.config.mjs` file for [Vite](https://vite.dev/config/) configuration                                           |
+| [`aws-amplify`](/docs/cli/generators/aws/amplify)                                   | Creates a `amplify.yml` file for [AWS Amplify](https://aws.amazon.com/amplify/) deployments                                   |
+| [`cloudflare-workers`](/docs/cli/generators/cloudflare/workers)                     | Creates a `wrangler.toml` file for [Cloudflare Workers](https://workers.cloudflare.com/) deployments                          |
+| [`docker-compose`](/docs/cli/generators/docker/docker-compose)                      | Creates a `docker-compose.yml` file for [Docker](https://docs.docker.com/compose/) builds                                     |
+| [`docker-file`](/docs/cli/generators/docker/dockerfile)                             | Creates a `Dockerfile` file for [Docker](https://docs.docker.com/reference/dockerfile/) builds                                |
+| [`docusaurus-config`](/docs/cli/generators/docusaurus/config)                       | Creates a `docusaurus.config.ts` file for [Docusaurus](https://docusaurus.io/) configuration                                  |
+| [`github-funding`](/docs/cli/generators/github/funding)                             | Creates a `./github/FUNDING.yml` file for [GitHub](https://github.com/) to enable sponsor links                               |
+| [`github-issue-template`](/docs/cli/generators/github/issue-template)               | Creates a `./github/ISSUE_TEMPLATE` directory for [GitHub](https://github.com/) to create issue templates                     |
+| [`github-workflows`](/docs/cli/generators/github/workflows)                         | Creates a `./github/workflows` directory for [GitHub](https://github.com/) to enable CI/CD automation                         |
+| [`must-haves-dotenv-file`](/docs/cli/generators/must-haves/dotenv-file)             | Creates a `.env` file for managing local environment secrets across your project                                              |
+| [`must-haves-editorconfig-file`](/docs/cli/generators/must-haves/editorconfig-file) | Creates a `.editorconfig` file for managing consistent coding styles                                                          |
+| [`must-haves-gitignore-file`](/docs/cli/generators/must-haves/gitignore-file)       | Creates a `.gitignore` file for managing files that should be excluded from Git commits                                       |
+| [`must-haves-install-hooks`](/docs/cli/generators/must-haves/install-hooks)         | Creates a `post-install.ts` file for expanding on post-install controls                                                       |
+| [`must-haves-license-file`](/docs/cli/generators/must-haves/license-file)           | Creates a `LICENSE` file for managing project license agreements                                                              |
+| [`must-haves-readme-file`](/docs/cli/generators/must-haves/readme-file)             | Creates a `README.md` file for managing welcome introductions for your project                                                |
+| [`nextjs-config`](/docs/cli/generators/nextjs/config)                               | Creates a `next.config.mjs` file for [Next.js](https://nextjs.org/docs/app/api-reference/config/next-config-js) configuration |
+| [`vite-config`](/docs/cli/generators/vite/config)                                   | Creates a `vite.config.mjs` file for [Vite](https://vite.dev/config/) configuration                                           |
 
 ### Recipes
 
 Apply **scripted edits** that automate routine maintenance, using values from `nova.config.json` at the monorepo root.
 
 :::info
-All commands in "Recipes" are shaped as `nova receipe <command>` or `nova rcp <command>`.
+All commands in "Recipes" are shaped as `nova recipe <subcommand>` or `nova rcp <subcommand>`.
 :::
 
-| Command                                                  | What It Does                                                                                               |
+| Subcommand                                               | What It Does                                                                                               |
 |----------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
 | [`freeze-deps`](/docs/cli/recipes/freeze-deps)           | Freezes `package.json` dependencies to prevent unwanted version changes or "It works on my machine" issues |
 | [`sync-pkg-manager`](/docs/cli/recipes/sync-pkg-manager) | Syncs the preferred package manager to be used across the entire repository                                |
@@ -108,10 +108,10 @@ All commands in "Recipes" are shaped as `nova receipe <command>` or `nova rcp <c
 Bootstrap **full project starters** for popular builders and tools. All scaffolds are built as a monorepo, and includes Docusaurus built-in.
 
 :::info
-All commands in "Scaffolding" are shaped as `nova scaffold <command>` or `nova scaf <command>`.
+All commands in "Scaffolding" are shaped as `nova scaffold <subcommand>` or `nova scaf <subcommand>`.
 :::
 
-| Command                                  | Project Type |
+| Subcommand                               | Project Type |
 |------------------------------------------|--------------|
 | [`nextjs`](/docs/cli/scaffolding/nextjs) | Next.js      |
 
@@ -120,7 +120,7 @@ All commands in "Scaffolding" are shaped as `nova scaffold <command>` or `nova s
 Tools for **diagnostics**, **quick checks**, and **developer helpers**.
 
 :::info
-All commands in "Utilities" are shaped as `nova <command>`.
+All commands in "Utilities" are shaped as `nova <command>` or `nova <shorthand>`.
 :::
 
 | Command                                       | Shorthand | What It Does                                                                                                       |

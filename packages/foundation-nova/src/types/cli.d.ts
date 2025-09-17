@@ -1,19 +1,71 @@
-import type { Command } from '@commander-js/extra-typings';
+import type { Command, CommandUnknownOpts } from '@commander-js/extra-typings';
+import type { ChalkInstance } from 'chalk';
 
 /**
- * CLI - Execute subcommand.
+ * CLI - Execute feature command.
  *
  * @since 1.0.0
  */
-export type CLIExecuteSubcommandOptions<Options> = {
+export type CLIExecuteFeatureCommandSubcommand<Subcommand> = Subcommand;
+
+export type CLIExecuteFeatureCommandOptions<Options> = {
   [OptionKey in keyof Options]?: true;
 };
 
-export type CLIExecuteSubcommandCommand<Options> = Command<[], Options>;
+export type CLIExecuteFeatureCommandCommand<Subcommand, Options> = Command<[Subcommand], Options>;
 
-export type CLIExecuteSubcommandTarget = (options: CLIExecuteSubcommandOptions) => void | Promise<void>;
+export type CLIExecuteFeatureCommandTarget = (subcommand: CLIExecuteFeatureCommandSubcommand, options: CLIExecuteFeatureCommandOptions) => void | Promise<void>;
 
-export type CLIExecuteSubcommandReturns = Promise<void>;
+export type CLIExecuteFeatureCommandReturns = Promise<void>;
+
+/**
+ * CLI - Execute utility command.
+ *
+ * @since 1.0.0
+ */
+export type CLIExecuteUtilityCommandOptions<Options> = {
+  [OptionKey in keyof Options]?: true;
+};
+
+export type CLIExecuteUtilityCommandCommand<Options> = Command<[], Options>;
+
+export type CLIExecuteUtilityCommandTarget = (options: CLIExecuteUtilityCommandOptions) => void | Promise<void>;
+
+export type CLIExecuteUtilityCommandReturns = Promise<void>;
+
+/**
+ * CLI - Get header.
+ *
+ * @since 1.0.0
+ */
+export type CLIGetHeaderReturns = string;
+
+/**
+ * CLI - Get command usage.
+ *
+ * @since 1.0.0
+ */
+export type CLIGetCommandUsageCommand = CommandUnknownOpts;
+
+export type CLIGetCommandUsageReturns = string;
+
+/**
+ * CLI - Get root command.
+ *
+ * @since 1.0.0
+ */
+export type CLIGetRootCommandCommand = CommandUnknownOpts;
+
+export type CLIGetRootCommandReturns = CommandUnknownOpts;
+
+/**
+ * CLI - Get subcommand term.
+ *
+ * @since 1.0.0
+ */
+export type CLIGetSubcommandTermCommand = CommandUnknownOpts;
+
+export type CLIGetSubcommandTermReturns = string;
 
 /**
  * CLI - Program.
@@ -28,6 +80,48 @@ export type CLIProgram = Command;
  * @since 1.0.0
  */
 export type CLIRegisterCommandsReturns = void;
+
+/**
+ * CLI Generate - Run.
+ *
+ * @since 1.0.0
+ */
+export type CLIGenerateRunSubcommand = string;
+
+export type CLIGenerateRunOptions = {
+  dryRun?: true;
+  execute?: true;
+};
+
+export type CLIGenerateRunReturns = Promise<void>;
+
+/**
+ * CLI Recipe - Run.
+ *
+ * @since 1.0.0
+ */
+export type CLIRecipeRunSubcommand = string;
+
+export type CLIRecipeRunOptions = {
+  dryRun?: true;
+  execute?: true;
+};
+
+export type CLIRecipeRunReturns = Promise<void>;
+
+/**
+ * CLI Scaffold - Run.
+ *
+ * @since 1.0.0
+ */
+export type CLIScaffoldRunSubcommand = string;
+
+export type CLIScaffoldRunOptions = {
+  dryRun?: true;
+  execute?: true;
+};
+
+export type CLIScaffoldRunReturns = Promise<void>;
 
 /**
  * CLI Version - Get browser version.
@@ -99,6 +193,15 @@ export type CLIVersionGetOsVersionBuild = string;
 export type CLIVersionGetOsVersionKernel = string;
 
 /**
+ * CLI - Handle cli error.
+ *
+ * @since 1.0.0
+ */
+export type CLIHandleCLIErrorText = string;
+
+export type CLIHandleCLIErrorReturns = void;
+
+/**
  * CLI Version - Print.
  *
  * @since 1.0.0
@@ -126,3 +229,18 @@ export type CLIVersionRunReturns = Promise<void>;
 export type CLIVersionRunTasks = Promise<[keyof CLIVersionRunList, Record<string, string>]>[];
 
 export type CLIVersionRunList = Record<string, Record<string, string>>;
+
+/**
+ * CLI - Style text.
+ *
+ * @since 1.0.0
+ */
+export type CLIStyleTextType = 'descriptionText' | 'separatorCommands' | 'separatorUsage' | 'title' | 'usageCommands' | 'usageUsage';
+
+export type CLIStyleTextText = string;
+
+export type CLIStyleTextReturns = string;
+
+export type CLIStyleTextCategoryStyles = Record<CLIStyleTextType, ChalkInstance[]>;
+
+export type CLIStyleTextTitleStyles = Record<string, ChalkInstance[]>;
