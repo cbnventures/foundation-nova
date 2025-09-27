@@ -22,7 +22,7 @@ tags:
   - ci-cd
 ---
 
-import {Icon} from '@iconify/react';
+import { Icon } from '@iconify/react';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import CodeBlock from '@theme/CodeBlock';
@@ -117,6 +117,17 @@ Each option enables checks for a specific category of tools or system informatio
 - Performant Node Package Manager (pnpm)
 - Bun
 
+<details>
+  <summary>How Node.js tool version detection works</summary>
+  <ul>
+    <li><strong>Node.js</strong>: Read from <code>{'node --version'}</code>.</li>
+    <li><strong>npm</strong>: Read from <code>{'npm --version'}</code>.</li>
+    <li><strong>Yarn</strong>: Read from <code>{'yarn --version'}</code>.</li>
+    <li><strong>pnpm</strong>: Read from <code>{'pnpm --version'}</code>.</li>
+    <li><strong>Bun</strong>: Read from <code>{'bun --version'}</code>.</li>
+  </ul>
+</details>
+
 ### Environment Managers
 
 - Node Version Manager (nvm)
@@ -124,6 +135,15 @@ Each option enables checks for a specific category of tools or system informatio
 - Volta
 
 **Note**: On Windows, **NVM for Windows** is identified separately from **Node Version Manager**, since the original `nvm` only works in POSIX-compliant shells (macOS / Linux).
+
+<details>
+  <summary>How environment manager version detection works</summary>
+  <ul>
+    <li><strong>nvm (POSIX)</strong>: Read from <code>{'nvm --version'}</code>.</li>
+    <li><strong>nvm (Windows)</strong>: Read from <code>{'nvm --version'}</code>.</li>
+    <li><strong>Volta</strong>: Read from <code>{'volta --version'}</code>.</li>
+  </ul>
+</details>
 
 ### Operating System
 
@@ -134,11 +154,11 @@ Each option enables checks for a specific category of tools or system informatio
 - OS Kernel
 
 <details>
-  <summary>Platform-specific details</summary>
+  <summary>How OS version detection works</summary>
   <ul>
-    <li><strong>macOS</strong>: Uses <code>sw_vers</code>.</li>
-    <li><strong>Windows</strong>: Reads from the Windows Registry.</li>
-    <li><strong>Linux</strong>: Reads <code>/etc/os-release</code>.</li>
+    <li><strong>macOS</strong>: Read from the <code>{'sw_vers'}</code> command.</li>
+    <li><strong>Windows</strong>: Read from the <code>{'CurrentVersion'}</code> key inside Windows Registry.</li>
+    <li><strong>Linux</strong>: Read from the <code>{'/etc/os-release'}</code> file.</li>
   </ul>
 </details>
 
@@ -162,11 +182,11 @@ Each option enables checks for a specific category of tools or system informatio
 :::
 
 <details>
-  <summary>Platform-specific details</summary>
+  <summary>How browser version detection works</summary>
   <ul>
-    <li><strong>macOS</strong>: Reads from App bundles.</li>
-    <li><strong>Windows</strong>: Reads from the Windows Registry.</li>
-    <li><strong>Linux</strong>: Reads from the PATH.</li>
+    <li><strong>macOS</strong>: Read from <code>{'*.app/Contents/Info.plist'}</code> using <code>{'CFBundleShortVersionString'}</code>.</li>
+    <li><strong>Windows</strong>: Read from the executable's file metadata <code>{'VersionInfo.ProductVersion'}</code> via Windows Registry App Paths.</li>
+    <li><strong>Linux</strong>: Parsed from the output of running the binary on <code>{'PATH'}</code> with <code>{'--version'}</code>.</li>
   </ul>
 </details>
 
@@ -174,6 +194,14 @@ Each option enables checks for a specific category of tools or system informatio
 
 - Java (version, distribution, build info)
 - Rust (version, build hash, build date, source)
+
+<details>
+  <summary>How interpreter version detection works</summary>
+  <ul>
+    <li><strong>Java</strong>: Parsed from <code>{'java --version'}</code>.</li>
+    <li><strong>Rust</strong>: Parsed from <code>{'rustc --version'}</code>.</li>
+  </ul>
+</details>
 
 ## Examples
 

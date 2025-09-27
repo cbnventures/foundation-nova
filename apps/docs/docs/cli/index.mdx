@@ -27,7 +27,7 @@ import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-The Foundation Nova CLI lets you generate files, apply recipes, scaffold projects, and run utilities.
+The **Foundation Nova CLI** lets you generate files, apply recipes, scaffold projects, and run utilities.
 
 :::tip Step by step
 Not sure what to type? Build the command **one section at a time**.
@@ -39,19 +39,19 @@ Start with `nova`, then the **command** and **subcommand** (if available), and f
 
 <Tabs groupId="install-state">
   <TabItem value="nova" label="nova (installed)" default>
-    <CodeBlock language="bash" title="Utility commands">
-      {`nova \<command\> \<option\>`}
-    </CodeBlock>
     <CodeBlock language="bash" title="Feature commands">
       {`nova \<command\> \<subcommand\> \<option\>`}
     </CodeBlock>
+    <CodeBlock language="bash" title="Utility commands">
+      {`nova \<command\> \<option\>`}
+    </CodeBlock>
   </TabItem>
   <TabItem value="npx" label="npx (no install)">
-    <CodeBlock language="bash" title="Utility commands">
-      {`npx --yes @cbnventures/foundation-nova@latest \<command\> \<option\>`}
-    </CodeBlock>
     <CodeBlock language="bash" title="Feature commands">
       {`npx --yes @cbnventures/foundation-nova@latest \<command\> \<subcommand\> \<option\>`}
+    </CodeBlock>
+    <CodeBlock language="bash" title="Utility commands">
+      {`npx --yes @cbnventures/foundation-nova@latest \<command\> \<option\>`}
     </CodeBlock>
   </TabItem>
 </Tabs>
@@ -75,8 +75,8 @@ All commands in "Generators" are shaped as `nova generate <subcommand>` or `nova
 |-------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
 | [`aws-amplify`](/docs/cli/generators/aws/amplify)                                   | Creates a `amplify.yml` file for [AWS Amplify](https://aws.amazon.com/amplify/) deployments                                   |
 | [`cloudflare-workers`](/docs/cli/generators/cloudflare/workers)                     | Creates a `wrangler.toml` file for [Cloudflare Workers](https://workers.cloudflare.com/) deployments                          |
-| [`docker-compose`](/docs/cli/generators/docker/docker-compose)                      | Creates a `docker-compose.yml` file for [Docker](https://docs.docker.com/compose/) builds                                     |
-| [`docker-file`](/docs/cli/generators/docker/dockerfile)                             | Creates a `Dockerfile` file for [Docker](https://docs.docker.com/reference/dockerfile/) builds                                |
+| [`docker-compose`](/docs/cli/generators/docker/compose)                             | Creates a `docker-compose.yml` file for [Docker](https://docs.docker.com/compose/) builds                                     |
+| [`docker-file`](/docs/cli/generators/docker/file)                                   | Creates a `Dockerfile` file for [Docker](https://docs.docker.com/reference/dockerfile/) builds                                |
 | [`docusaurus-config`](/docs/cli/generators/docusaurus/config)                       | Creates a `docusaurus.config.ts` file for [Docusaurus](https://docusaurus.io/) configuration                                  |
 | [`github-funding`](/docs/cli/generators/github/funding)                             | Creates a `./github/FUNDING.yml` file for [GitHub](https://github.com/) to enable sponsor links                               |
 | [`github-issue-template`](/docs/cli/generators/github/issue-template)               | Creates a `./github/ISSUE_TEMPLATE` directory for [GitHub](https://github.com/) to create issue templates                     |
@@ -123,10 +123,11 @@ Tools for **diagnostics**, **quick checks**, and **developer helpers**.
 All commands in "Utilities" are shaped as `nova <command>` or `nova <shorthand>`.
 :::
 
-| Command                                       | Shorthand | What It Does                                                                                                       |
-|-----------------------------------------------|-----------|--------------------------------------------------------------------------------------------------------------------|
-| [`initalize`](/docs/cli/utilities/initialize) | `init`    | Generate a brand new `nova.config.json` configuration file for use with `nova generate` and `nova recipe` commands |
-| [`version`](/docs/cli/utilities/version)      | `ver`     | Generate a Markdown-ready snapshot of your development stack versions (e.g., `node --version`)                     |
+| Command                                        | Shorthand | What It Does                                                                                                       |
+|------------------------------------------------|-----------|--------------------------------------------------------------------------------------------------------------------|
+| [`initialize`](/docs/cli/utilities/initialize) | `init`    | Generate a brand new `nova.config.json` configuration file for use with `nova generate` and `nova recipe` commands |
+| [`inspect`](/docs/cli/utilities/inspect)       | `ins`     | Prints the Foundation Nova, ESLint, or TSConfig configuration without hassle                                       |
+| [`version`](/docs/cli/utilities/version)       | `ver`     | Generate a Markdown-ready snapshot of your development stack versions (e.g., `node --version`)                     |
 
 ## Troubleshooting
 

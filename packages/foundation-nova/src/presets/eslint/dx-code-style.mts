@@ -1,5 +1,4 @@
-import stylistic from '@stylistic/eslint-plugin';
-import regexpPlugin from 'eslint-plugin-regexp';
+import stylisticPlugin from '@stylistic/eslint-plugin';
 
 import type { FlatConfig } from '@/types/index.d.ts';
 
@@ -22,10 +21,10 @@ const config: FlatConfig = [
       '**/*.mts',
     ],
     plugins: {
-      '@stylistic': stylistic,
+      '@stylistic': stylisticPlugin,
     },
     rules: {
-      ...stylistic.configs.recommended.rules,
+      ...stylisticPlugin.configs.recommended.rules,
     },
   },
   {
@@ -41,7 +40,7 @@ const config: FlatConfig = [
       '**/*.mts',
     ],
     plugins: {
-      '@stylistic': stylistic,
+      '@stylistic': stylisticPlugin,
     },
     rules: {
       // Always wrap arrow function parameters in parentheses so "if (a => b)" isn't mistaken for a comparison.
@@ -61,7 +60,7 @@ const config: FlatConfig = [
       '**/*.mts',
     ],
     plugins: {
-      '@stylistic': stylistic,
+      '@stylistic': stylisticPlugin,
     },
     rules: {
       // Always use 1tbs (one true brace style) so opening and closing braces stay consistent across code.
@@ -89,7 +88,7 @@ const config: FlatConfig = [
       '**/*.mts',
     ],
     plugins: {
-      '@stylistic': stylistic,
+      '@stylistic': stylisticPlugin,
     },
     rules: {
       // Force line breaks inside braces when there are multiple items or inner line breaks so the structure stays uniform.
@@ -146,7 +145,7 @@ const config: FlatConfig = [
       '**/*.mts',
     ],
     plugins: {
-      '@stylistic': stylistic,
+      '@stylistic': stylisticPlugin,
     },
     rules: {
       // Forbid "++" and "--" so increments are explicit and side effects are not hidden.
@@ -191,7 +190,7 @@ const config: FlatConfig = [
       '**/*.mts',
     ],
     plugins: {
-      '@stylistic': stylistic,
+      '@stylistic': stylisticPlugin,
     },
     rules: {
       // Use single quotes for strings to match common JavaScript coding habits.
@@ -213,9 +212,6 @@ const config: FlatConfig = [
       '**/*.mjs',
       '**/*.mts',
     ],
-    plugins: {
-      'regexp': regexpPlugin,
-    },
     rules: {
       // Keep patterns reusable and do not put flags on literals so callers choose flags to use with "RegExp".
       'no-restricted-syntax': ['error', {
@@ -237,7 +233,7 @@ const config: FlatConfig = [
       '**/*.mts',
     ],
     plugins: {
-      '@stylistic': stylistic,
+      '@stylistic': stylisticPlugin,
     },
     rules: {
       // Disallow line breaks in ternary expressions, except allow them in JSX when needed.
@@ -247,7 +243,7 @@ const config: FlatConfig = [
     },
   },
   {
-    name: 'foundation-nova/dx-code-style/whitespace',
+    name: 'foundation-nova/dx-code-style/text-characters',
     files: [
       '**/*.js',
       '**/*.ts',
@@ -258,12 +254,15 @@ const config: FlatConfig = [
       '**/*.mjs',
       '**/*.mts',
     ],
-    plugins: {
-      '@stylistic': stylistic,
-    },
     rules: {
-      // Disallow strange whitespace characters so unseen spaces don't cause errors or misformatting.
-      'no-irregular-whitespace': ['error'],
+      // Disallow irregular Unicode whitespace in runtime text (strings, template chunks, JSX text) and skip comments and regex to avoid false positives.
+      'no-irregular-whitespace': ['error', {
+        skipStrings: false,
+        skipComments: true,
+        skipRegExps: true,
+        skipTemplates: false,
+        skipJSXText: false,
+      }],
     },
   },
 ];

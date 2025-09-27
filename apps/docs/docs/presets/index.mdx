@@ -1,11 +1,129 @@
 ---
 id: overview
 title: Overview
+description: Composable ESLint flat config and TSConfig presets with strict defaults and clear composition to speed up setup and reduce drift.
 sidebar_position: 1
+keywords:
+  - foundation nova presets
+  - eslint flat config
+  - tsconfig presets
+  - strict typescript
+  - developer experience
+  - predictable builds
+  - composition
 tags:
   - overview
-  - getting-started
-  - basics
+  - presets
+  - eslint
+  - tsconfig
 ---
 
-Coming soon
+# Overview
+
+Use **Foundation Nova Presets** to lock in strict TypeScript, consistent style, and predictable builds. Pick the layers that match your stack.
+
+## Install
+
+If the package is not in your repo yet, go to **[Setup and Configure](/docs/quickstart/setup#choose-your-path)** and choose **Install into project**.
+
+:::caution Warning
+**Nova** must be installed **in your project** before importing presets. This is because Node.js resolves imports from your project's `node_modules` folder.
+:::
+
+:::info
+If you wish, you can install Nova **globally** (into the system) and **locally** (into the project) at the same time. They will not conflict with each other.
+:::
+
+## ESLint presets
+
+Configure ESLint by **composing small layers** into a single **flat config** export. The goal is clear rules, low noise, and fast composition.
+
+### Mental Model
+Nova's ESLint presets are **flat config** layers that you **spread** into one export. Think of them as small building blocks. Each layer states intent and adds a focused set of opinions without hiding magic.
+
+Composition follows a simple order:
+
+1. Start with **scope ignores** to keep noise out.
+2. Apply strict **code styling** so formatting is consistent project-wide.
+3. Add a single **language** layer for the code you write (e.g., TypeScript).
+4. Then the **environment** (runtime) or **framework** that matches where it runs.
+5. Optionally, pick a **platform**.
+6. Finish with any **tool** specifics.
+
+### 60-Second Setup
+
+This example shows a minimal Node.js project using TypeScript, composed with Nova's ESLint presets. Configured through the `eslint.config.ts` or `eslint.config.js` file.
+
+```js
+import {
+  dxCodeStyle,
+  envNode,
+  langTypescript,
+  scopeIgnores,
+} from '@cbnventures/foundation-nova/eslint';
+
+export default [
+  ...scopeIgnores,
+  ...dxCodeStyle,
+  ...langTypescript,
+  ...envNode,
+];
+```
+
+> Read next: **[ESLint Best Practices](/docs/presets/eslint/best-practices)**.
+
+## TSConfig presets
+
+Configure TypeScript by **chaining a few preset configs** with `"extends"`. Aim for consistent compiler behavior, strict typing, and predictable output with minimal overrides.
+
+### Mental Model
+Nova's TSConfig presets are **small layers** you **chain** with `"extends"`.
+
+Composition follows a simple order:
+
+1. Start with **essentials** as the baseline.
+2. Apply **strict** for stronger compiler checks.
+3. Then add the **environment** (runtime) or **framework** that matches where it runs.
+4. Optionally, pick a **platform**.
+5. Finish with any **tool** specifics.
+
+The presets set the heavy knobs for you (e.g., `module` with `moduleResolution`, matching `lib` sets, etc.), so your config stays simple.
+
+Keep **local overrides** focused on project wiring: `paths` and `baseUrl` for imports, `outDir` and `rootDir` for layout, `types` for type packages, and use `include` for the files you compile and `exclude` for build artifacts and `node_modules`.
+
+### 60-Second Setup
+
+This example shows a minimal Node.js project using TypeScript, composed with Nova's TSConfig presets. Configured through the `tsconfig.json` file.
+
+```json
+{
+  "extends": [
+    "@cbnventures/foundation-nova/tsconfig/dx-essentials.json",
+    "@cbnventures/foundation-nova/tsconfig/dx-strict.json",
+    "@cbnventures/foundation-nova/tsconfig/env-node.json"
+  ],
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./build",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "rootDir": "./",
+    "types": [
+      "@types/node"
+    ]
+  },
+  "include": [
+    "./*",
+    "./src/**/*"
+  ],
+  "exclude": [
+    "./build/**",
+    "./node_modules/**"
+  ]
+}
+```
+
+> Read next: **[TSConfig Best Practices](/docs/presets/tsconfig/best-practices)**.

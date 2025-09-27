@@ -1,4 +1,4 @@
-import pluginN from 'eslint-plugin-n';
+import nPlugin from 'eslint-plugin-n';
 
 import type { FlatConfig } from '@/types/index.d.ts';
 
@@ -21,10 +21,10 @@ const config: FlatConfig = [
       '**/*.mts',
     ],
     plugins: {
-      n: pluginN,
+      n: nPlugin,
     },
     rules: {
-      ...pluginN.configs.recommended.rules,
+      ...nPlugin.configs.recommended.rules,
     },
   },
   {
@@ -40,7 +40,7 @@ const config: FlatConfig = [
       '**/*.mts',
     ],
     plugins: {
-      n: pluginN,
+      n: nPlugin,
     },
     rules: {
       // Forbid only console.log, allow other console methods (debug, info, warn, error, etc.).
@@ -77,7 +77,7 @@ const config: FlatConfig = [
       '**/src/cli/index.mts',
     ],
     plugins: {
-      n: pluginN,
+      n: nPlugin,
     },
     rules: {
       // Turn off shebang enforcement for source-level CLI files.

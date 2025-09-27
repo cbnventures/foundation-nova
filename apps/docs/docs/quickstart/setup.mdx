@@ -85,13 +85,13 @@ Choose **Run once (npx)** to try Nova or make a one-off change, **Install into s
     ```json
     {
       "extends": [
-      "./src/presets/tsconfig/dx-essentials.json",
-      "./src/presets/tsconfig/dx-strict.json"
+      "@cbnventures/foundation-nova/tsconfig/dx-essentials.json",
+      "@cbnventures/foundation-nova/tsconfig/dx-strict.json"
       ]
     }
     ```
 
-    Third, configure **ESLint** through the `eslint.config.mts` file. See **[ESLint best practices](/docs/presets/eslint/best-practices)**.
+    Third, configure **ESLint** through the `eslint.config.ts` or `eslint.config.js` file. See **[ESLint best practices](/docs/presets/eslint/best-practices)**.
 
     ```javascript
     import { dxCodeStyle, scopeIgnores } from '@cbnventures/foundation-nova/eslint';

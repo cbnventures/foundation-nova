@@ -4,6 +4,8 @@ import { Command } from 'commander';
 
 import packageJson from '../../package.json' with { type: 'json' };
 import { CLIGenerate } from '@/cli/generate.js';
+import { CLIInitialize } from '@/cli/initialize.js';
+import { CLIInspect } from '@/cli/inspect.js';
 import { CLIRecipe } from '@/cli/recipe.js';
 import { CLIScaffold } from '@/cli/scaffold.js';
 import { CLIVersion } from '@/cli/version.js';
@@ -113,6 +115,31 @@ class CLI {
         await this.executeFeatureCommand<typeof subcommand, typeof options>(subcommand, options, command, CLIGenerate.run);
       });
 
+    // [initialize] - Initialize Nova project configuration.
+    this.#program
+      .command('initialize')
+      .alias('init')
+      .usage('<options>')
+      .description('Initialize Nova project configuration')
+      .option('-e, --execute', 'Generate and write config files to disk')
+      .option('-d, --dry-run', 'Preview changes without writing files')
+      .action(async (options, command) => {
+        await this.executeUtilityCommand<typeof options>(options, command, CLIInitialize.run);
+      });
+
+    // [inspect] - Inspect Nova, ESLint, or TypeScript config without hassle.
+    this.#program
+      .command('inspect')
+      .alias('ins')
+      .usage('<options>')
+      .description('Inspect Nova, ESLint, or TypeScript config without hassle')
+      .option('-e, --eslint', 'ESLint configuration')
+      .option('-n, --nova', 'Foundation Nova configuration')
+      .option('-t, --tsconfig', 'TypeScript configuration')
+      .action(async (options, command) => {
+        await this.executeUtilityCommand<typeof options>(options, command, CLIInspect.run);
+      });
+
     // [recipe] - Automate routine maintenance.
     this.#program
       .command('recipe')
@@ -126,12 +153,12 @@ class CLI {
         await this.executeFeatureCommand<typeof subcommand, typeof options>(subcommand, options, command, CLIRecipe.run);
       });
 
-    // [scaffold] - Bootstrap full project starters.
+    // [scaffold] - Bootstrap templated monorepo-style projects.
     this.#program
       .command('scaffold')
       .alias('scaf')
       .usage('<subcommand> <options>')
-      .description('Bootstrap full project starters')
+      .description('Bootstrap templated monorepo-style projects')
       .argument('<subcommand>', 'View https://cbnventures.github.io/foundation-nova/docs/cli/#scaffolding')
       .option('-e, --execute', 'Generate and write vendor files to disk')
       .option('-d, --dry-run', 'Preview changes without writing files')

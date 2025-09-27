@@ -96,6 +96,31 @@ export type CLIGenerateRunOptions = {
 export type CLIGenerateRunReturns = Promise<void>;
 
 /**
+ * CLI Initialize - Run.
+ *
+ * @since 1.0.0
+ */
+export type CLIInitializeRunOptions = {
+  dryRun?: true;
+  execute?: true;
+};
+
+export type CLIInitializeRunReturns = Promise<void>;
+
+/**
+ * CLI Inspect - Run.
+ *
+ * @since 1.0.0
+ */
+export type CLIInspectRunOptions = {
+  eslint?: true;
+  nova?: true;
+  tsconfig?: true;
+};
+
+export type CLIInspectRunReturns = Promise<void>;
+
+/**
  * CLI Recipe - Run.
  *
  * @since 1.0.0

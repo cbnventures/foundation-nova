@@ -453,7 +453,7 @@ export class CLIVersion {
       };
     }
 
-    // Linux (must have a command that exists in PATH).
+    // Linux (must have a command that exists in PATH and supports the "--version" argument).
     if (platform === 'linux') {
       const supportedBrowsers = {
         'chrome': 'google-chrome',

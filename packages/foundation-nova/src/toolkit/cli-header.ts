@@ -163,7 +163,9 @@ export default class CLIHeader {
       if (matches) {
         const code = matches[0];
 
-        Logger.name('CLIHeader.truncate::strip').debug(`ANSI at rawIndex=${rawIndex}: ${JSON.stringify(code)}`);
+        Logger.name('CLIHeader.truncate::strip').debug([
+          `ANSI at rawIndex=${rawIndex}: ${JSON.stringify(code)}`,
+        ].join(', '));
 
         rawIndex += code.length;
 
@@ -174,7 +176,10 @@ export default class CLIHeader {
 
       plain += character;
 
-      Logger.name('CLIHeader.truncate::strip').debug(`Visible at rawIndex=${rawIndex}: ${JSON.stringify(character)}, plain so far: ${JSON.stringify(plain)}`);
+      Logger.name('CLIHeader.truncate::strip').debug([
+        `Visible at rawIndex=${rawIndex}: ${JSON.stringify(character)}`,
+        `plain so far: ${JSON.stringify(plain)}`,
+      ].join(', '));
 
       rawIndex += 1;
     }
@@ -199,7 +204,9 @@ export default class CLIHeader {
 
         output += code;
 
-        Logger.name('CLIHeader.truncate::rebuild').debug(`ANSI at rawIndex=${rawIndex}: ${JSON.stringify(code)}`);
+        Logger.name('CLIHeader.truncate::rebuild').debug([
+          `ANSI at rawIndex=${rawIndex}: ${JSON.stringify(code)}`,
+        ].join(', '));
 
         rawIndex += code.length;
 
@@ -212,7 +219,10 @@ export default class CLIHeader {
 
       visibleIndex += 1;
 
-      Logger.name('CLIHeader.truncate::rebuild').debug(`Visible at rawIndex=${rawIndex}: ${JSON.stringify(character)}, visible count: ${JSON.stringify(visibleIndex)}`);
+      Logger.name('CLIHeader.truncate::rebuild').debug([
+        `Visible at rawIndex=${rawIndex}: ${JSON.stringify(character)}`,
+        `visible count: ${JSON.stringify(visibleIndex)}`,
+      ].join(', '));
 
       rawIndex += 1;
     }

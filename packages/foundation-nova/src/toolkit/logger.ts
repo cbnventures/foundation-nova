@@ -2,14 +2,18 @@ import chalk from 'chalk';
 
 import type {
   LoggerDebugMessage,
+  LoggerDebugOptionalParams,
   LoggerDebugReturns,
   LoggerEmitLevel,
   LoggerEmitMessage,
   LoggerEmitName,
+  LoggerEmitOptionalParams,
   LoggerEmitReturns,
   LoggerErrorMessage,
+  LoggerErrorOptionalParams,
   LoggerErrorReturns,
   LoggerInfoMessage,
+  LoggerInfoOptionalParams,
   LoggerInfoReturns,
   LoggerNameName,
   LoggerNameReturns,
@@ -24,6 +28,7 @@ import type {
   LoggerShouldLogReturns,
   LoggerShouldLogWeights,
   LoggerWarnMessage,
+  LoggerWarnOptionalParams,
   LoggerWarnReturns,
 } from '@/types/logger.d.ts';
 
@@ -36,53 +41,57 @@ export default class Logger {
   /**
    * Logger - Info.
    *
-   * @param {LoggerInfoMessage} message - Message.
+   * @param {LoggerInfoMessage}        message        - Message.
+   * @param {LoggerInfoOptionalParams} optionalParams - Optional params.
    *
    * @returns {LoggerInfoReturns}
    *
    * @since 1.0.0
    */
-  public static info(message: LoggerInfoMessage): LoggerInfoReturns {
-    Logger.emit('info', undefined, message);
+  public static info(message: LoggerInfoMessage, ...optionalParams: LoggerInfoOptionalParams): LoggerInfoReturns {
+    Logger.emit('info', undefined, message, ...optionalParams);
   }
 
   /**
    * Logger - Warn.
    *
-   * @param {LoggerWarnMessage} message - Message.
+   * @param {LoggerWarnMessage}        message        - Message.
+   * @param {LoggerWarnOptionalParams} optionalParams - Optional params.
    *
    * @returns {LoggerWarnReturns}
    *
    * @since 1.0.0
    */
-  public static warn(message: LoggerWarnMessage): LoggerWarnReturns {
-    Logger.emit('warn', undefined, message);
+  public static warn(message: LoggerWarnMessage, ...optionalParams: LoggerWarnOptionalParams): LoggerWarnReturns {
+    Logger.emit('warn', undefined, message, ...optionalParams);
   }
 
   /**
    * Logger - Error.
    *
-   * @param {LoggerErrorMessage} message - Message.
+   * @param {LoggerErrorMessage}        message        - Message.
+   * @param {LoggerErrorOptionalParams} optionalParams - Optional params.
    *
    * @returns {LoggerErrorReturns}
    *
    * @since 1.0.0
    */
-  public static error(message: LoggerErrorMessage): LoggerErrorReturns {
-    Logger.emit('error', undefined, message);
+  public static error(message: LoggerErrorMessage, ...optionalParams: LoggerErrorOptionalParams): LoggerErrorReturns {
+    Logger.emit('error', undefined, message, ...optionalParams);
   }
 
   /**
    * Logger - Debug.
    *
-   * @param {LoggerDebugMessage} message - Message.
+   * @param {LoggerDebugMessage}        message        - Message.
+   * @param {LoggerDebugOptionalParams} optionalParams - Optional params.
    *
    * @returns {LoggerDebugReturns}
    *
    * @since 1.0.0
    */
-  public static debug(message: LoggerDebugMessage): LoggerDebugReturns {
-    Logger.emit('debug', undefined, message);
+  public static debug(message: LoggerDebugMessage, ...optionalParams: LoggerDebugOptionalParams): LoggerDebugReturns {
+    Logger.emit('debug', undefined, message, ...optionalParams);
   }
 
   /**
@@ -96,17 +105,17 @@ export default class Logger {
    */
   public static name(name: LoggerNameName): LoggerNameReturns {
     return {
-      debug(message: LoggerDebugMessage): LoggerDebugReturns {
-        Logger.emit('debug', name, message);
+      debug(message: LoggerDebugMessage, ...optionalParams: LoggerDebugOptionalParams): LoggerDebugReturns {
+        Logger.emit('debug', name, message, ...optionalParams);
       },
-      info(message: LoggerInfoMessage): LoggerInfoReturns {
-        Logger.emit('info', name, message);
+      info(message: LoggerInfoMessage, ...optionalParams: LoggerInfoOptionalParams): LoggerInfoReturns {
+        Logger.emit('info', name, message, ...optionalParams);
       },
-      warn(message: LoggerWarnMessage): LoggerWarnReturns {
-        Logger.emit('warn', name, message);
+      warn(message: LoggerWarnMessage, ...optionalParams: LoggerWarnOptionalParams): LoggerWarnReturns {
+        Logger.emit('warn', name, message, ...optionalParams);
       },
-      error(message: LoggerErrorMessage): LoggerErrorReturns {
-        Logger.emit('error', name, message);
+      error(message: LoggerErrorMessage, ...optionalParams: LoggerErrorOptionalParams): LoggerErrorReturns {
+        Logger.emit('error', name, message, ...optionalParams);
       },
     };
   }
@@ -114,9 +123,10 @@ export default class Logger {
   /**
    * Logger - Emit.
    *
-   * @param {LoggerEmitLevel}   level   - Level.
-   * @param {LoggerEmitName}    name    - Name.
-   * @param {LoggerEmitMessage} message - Message.
+   * @param {LoggerEmitLevel}          level          - Level.
+   * @param {LoggerEmitName}           name           - Name.
+   * @param {LoggerEmitMessage}        message        - Message.
+   * @param {LoggerEmitOptionalParams} optionalParams - Optional params.
    *
    * @private
    *
@@ -124,7 +134,7 @@ export default class Logger {
    *
    * @since 1.0.0
    */
-  private static emit(level: LoggerEmitLevel, name: LoggerEmitName, message: LoggerEmitMessage): LoggerEmitReturns {
+  private static emit(level: LoggerEmitLevel, name: LoggerEmitName, message: LoggerEmitMessage, ...optionalParams: LoggerEmitOptionalParams): LoggerEmitReturns {
     if (!Logger.shouldLog(level)) {
       return;
     }
@@ -133,16 +143,16 @@ export default class Logger {
 
     switch (level) {
       case 'debug':
-        console.debug(prefix, message);
+        console.debug(prefix, message, ...optionalParams);
         break;
       case 'info':
-        console.info(prefix, message);
+        console.info(prefix, message, ...optionalParams);
         break;
       case 'warn':
-        console.warn(prefix, message);
+        console.warn(prefix, message, ...optionalParams);
         break;
       case 'error':
-        console.error(prefix, message);
+        console.error(prefix, message, ...optionalParams);
         break;
     }
   }

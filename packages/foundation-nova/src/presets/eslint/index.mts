@@ -8,6 +8,7 @@ export { default as fwDocusaurus } from './fw-docusaurus.mjs';
 export { default as fwExpressjs } from './fw-expressjs.mjs';
 export { default as fwNextjs } from './fw-nextjs.mjs';
 export { default as langJavascript } from './lang-javascript.mjs';
+export { default as langMdx } from './lang-mdx.mjs';
 export { default as langTypescript } from './lang-typescript.mjs';
 export { default as platformCloudflareWorkers } from './platform-cloudflare-workers.mjs';
 export { default as scopeIgnores } from './scope-ignores.mjs';

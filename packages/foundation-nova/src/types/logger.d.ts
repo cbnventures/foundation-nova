@@ -7,6 +7,8 @@ import type { LogLevel } from '@/types/shared.d.ts';
  */
 export type LoggerDebugMessage = unknown;
 
+export type LoggerDebugOptionalParams = unknown[];
+
 export type LoggerDebugReturns = void;
 
 /**
@@ -20,6 +22,8 @@ export type LoggerEmitName = string | undefined;
 
 export type LoggerEmitMessage = unknown;
 
+export type LoggerEmitOptionalParams = unknown[];
+
 export type LoggerEmitReturns = void;
 
 /**
@@ -29,6 +33,8 @@ export type LoggerEmitReturns = void;
  */
 export type LoggerErrorMessage = unknown;
 
+export type LoggerErrorOptionalParams = unknown[];
+
 export type LoggerErrorReturns = void;
 
 /**
@@ -37,6 +43,8 @@ export type LoggerErrorReturns = void;
  * @since 1.0.0
  */
 export type LoggerInfoMessage = unknown;
+
+export type LoggerInfoOptionalParams = unknown[];
 
 export type LoggerInfoReturns = void;
 
@@ -48,10 +56,10 @@ export type LoggerInfoReturns = void;
 export type LoggerNameName = string;
 
 export type LoggerNameReturns = {
-  debug(message: LoggerDebugMessage): LoggerDebugReturns;
-  info(message: LoggerInfoMessage): LoggerInfoReturns;
-  warn(message: LoggerWarnMessage): LoggerWarnReturns;
-  error(message: LoggerErrorMessage): LoggerErrorReturns;
+  debug(message: LoggerDebugMessage, ...optionalParams: LoggerDebugOptionalParams): LoggerDebugReturns;
+  info(message: LoggerInfoMessage, ...optionalParams: LoggerInfoOptionalParams): LoggerInfoReturns;
+  warn(message: LoggerWarnMessage, ...optionalParams: LoggerWarnOptionalParams): LoggerWarnReturns;
+  error(message: LoggerErrorMessage, ...optionalParams: LoggerErrorOptionalParams): LoggerErrorReturns;
 };
 
 /**
@@ -95,5 +103,7 @@ export type LoggerShouldLogWeights = Record<LogLevel, number>;
  * @since 1.0.0
  */
 export type LoggerWarnMessage = unknown;
+
+export type LoggerWarnOptionalParams = unknown[];
 
 export type LoggerWarnReturns = void;

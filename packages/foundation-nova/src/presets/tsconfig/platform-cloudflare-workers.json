@@ -1,12 +1,14 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
+    "isolatedModules": true,
     "lib": [
       "ESNext",
       "WebWorker",
       "WebWorker.Iterable"
     ],
     "module": "ESNext",
-    "moduleResolution": "Bundler"
+    "moduleResolution": "Bundler",
+    "noEmit": true
   }
 }

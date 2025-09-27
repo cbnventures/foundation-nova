@@ -10,13 +10,6 @@
     ],
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "noEmit": true,
-    "types": [
-      "@docusaurus/module-type-aliases",
-      "@docusaurus/types",
-      "@types/node",
-      "@types/react",
-      "@types/react-dom"
-    ]
+    "noEmit": true
   }
 }

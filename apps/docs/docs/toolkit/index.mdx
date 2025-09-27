@@ -1,11 +1,93 @@
 ---
 id: overview
 title: Overview
+description: Modular, importable batteries that speed up development with predictable, MDX safe output for docs, CLIs, and automation workflows.
 sidebar_position: 1
+keywords:
+  - foundation nova
+  - development batteries
+  - toolkit overview
+  - formatter utilities
+  - logging utilities
+  - predictable outputs
+  - ci cd pipelines
+  - developer tooling
+  - automation workflows
+  - javascript typescript
 tags:
   - overview
   - getting-started
   - basics
+  - batteries
+  - formatters
+  - logging
 ---
 
-Coming soon
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Overview
+
+Use **Foundation Nova Toolkit** to accelerate development across projects fast. Pick the pieces that match your workflow.
+
+## Install
+
+If the package is not in your repo yet, go to **[Setup and Configure](/docs/quickstart/setup#choose-your-path)** and choose **Install into project**.
+
+:::caution Warning
+**Nova** must be installed **in your project** before importing batteries. This is because Node.js resolves imports from your project's `node_modules` folder.
+:::
+
+:::info
+If you wish, you can install Nova **globally** (into the system) and **locally** (into the project) at the same time. They will not conflict with each other.
+:::
+
+## Purpose and Scope
+
+<Tabs groupId="purpose">
+  <TabItem value="what" label="What" default>
+    <ul>
+      <li><strong>Importable batteries</strong> (modular helpers) that accelerate routine work.</li>
+      <li><strong>Lightweight</strong> building blocks that are <strong>explicit</strong> (clear) and <strong>composable</strong> (can be combined).</li>
+      <li><strong>Predictable</strong> results with <strong>repeat-safe</strong> operations.</li>
+      <li>Designed to reduce setup time and support focused workflows.</li>
+    </ul>
+  </TabItem>
+  <TabItem value="when" label="When">
+    <ul>
+      <li>When moving from idea to working code quickly.</li>
+      <li>When you want consistent patterns across teams and projects.</li>
+      <li>When you prefer sane defaults with room to configure.</li>
+      <li>When reliability and clarity matter more than novelty.</li>
+    </ul>
+  </TabItem>
+  <TabItem value="where" label="Where">
+    <ul>
+      <li>In new or existing codebases.</li>
+      <li>In local development, automation, review, and release workflows.</li>
+      <li>In any repository structure.</li>
+      <li>Alongside existing tools, processes, and conventions.</li>
+    </ul>
+  </TabItem>
+</Tabs>
+
+## Batteries
+
+All items below are **modular**, **explicit**, and **safe to adopt**. Import only what you need. Outputs and behavior are **predictable**.
+
+### Formatters
+
+Turn structured data into **stable, reviewable text** that fits anywhere in your pipeline.
+
+| Battery                                                   | Synopsis                                                          |
+|-----------------------------------------------------------|-------------------------------------------------------------------|
+| [Markdown Table](/docs/toolkit/formatters/markdown-table) | Render copy and pastable tables for docs, reports, and summaries. |
+
+### Logging
+
+Produce **consistent process messages** and lightweight **run context** that work in local development and automation.
+
+| Battery                                        | Synopsis                                                        |
+|------------------------------------------------|-----------------------------------------------------------------|
+| [CLI Header](/docs/toolkit/logging/cli-header) | Present a simple and customizable banner for projects with CLI. |
+| [Logger](/docs/toolkit/logging/logger)         | Emit logs that are more customizable than `console.log`.        |

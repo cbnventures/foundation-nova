@@ -1,7 +1,7 @@
+import stylisticPlugin from '@stylistic/eslint-plugin';
 import tseslint from 'typescript-eslint';
 
 import type { FlatConfig } from '@/types/index.d.ts';
-import stylistic from '@stylistic/eslint-plugin';
 
 /**
  * Config.
@@ -72,7 +72,7 @@ const config: FlatConfig = [
       },
     },
     plugins: {
-      '@stylistic': stylistic,
+      '@stylistic': stylisticPlugin,
     },
     rules: {
       // Use semicolons on multiple-line TypeScript members but optional on single-line to keep the style tidy yet flexible.

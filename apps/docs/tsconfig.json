@@ -12,12 +12,17 @@
         "./src/*"
       ]
     },
-    "rootDir": "./"
+    "rootDir": "./",
+    "types": [
+      "@docusaurus/module-type-aliases",
+      "@docusaurus/types",
+      "@types/node",
+      "@types/react",
+      "@types/react-dom"
+    ]
   },
   "include": [
-    "./docusaurus.config.ts",
-    "./eslint.config.mts",
-    "./sidebars.ts",
+    "./*",
     "./src/**/*"
   ],
   "exclude": [
