@@ -1,9 +1,10 @@
 export { default as dxCodeStyle } from './dx-code-style.mjs';
+export { default as dxIgnore } from './dx-ignore.mjs';
 export { default as envBrowser } from './env-browser.mjs';
 export { default as envEdge } from './env-edge.mjs';
 export { default as envNode } from './env-node.mjs';
-export { default as envServiceWorkers } from './env-service-workers.mjs';
-export { default as envWebWorkers } from './env-web-workers.mjs';
+export { default as envServiceWorker } from './env-service-worker.mjs';
+export { default as envWebWorker } from './env-web-worker.mjs';
 export { default as fwDocusaurus } from './fw-docusaurus.mjs';
 export { default as fwExpressjs } from './fw-expressjs.mjs';
 export { default as fwNextjs } from './fw-nextjs.mjs';
@@ -11,5 +12,4 @@ export { default as langJavascript } from './lang-javascript.mjs';
 export { default as langMdx } from './lang-mdx.mjs';
 export { default as langTypescript } from './lang-typescript.mjs';
 export { default as platformCloudflareWorkers } from './platform-cloudflare-workers.mjs';
-export { default as scopeIgnores } from './scope-ignores.mjs';
 export { default as toolVite } from './tool-vite.mjs';

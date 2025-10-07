@@ -1,10 +1,86 @@
 ---
 id: best-practices
 title: Best Practices
+description: ESLint best practices for Foundation Nova with one flat config, ordered layers, scoped rule groups, and sensible ignores for fast, predictable linting.
+sidebar_position: 1
+keywords:
+  - foundation nova
+  - eslint best practices
+  - eslint flat config
+  - config layering
+  - rule scope
+  - ignores
+  - monorepo linting
+  - predictable linting
+  - typescript projects
+  - node projects
 tags:
+  - eslint
+  - flat-config
   - best-practices
-  - tips-tricks
-  - recommendations
+  - reference
 ---
 
-Coming soon
+import { Icon } from '@iconify/react';
+
+# Best Practices
+
+Practical ESLint guidance for Foundation Nova that uses a single **flat config** and **small, ordered layers**. Favor **explicit**, inspectable rules and **predictable** results.
+
+## Dos and Don'ts
+
+<details>
+  <summary><Icon icon="openmoji:check-mark" /> DO: Use one flat config and start from Nova presets</summary>
+  <ul>
+    <li><strong>What</strong>: Use a single <code>{'eslint.config.ts'}</code> or <code>{'eslint.config.js'}</code>. First <strong>import Nova presets</strong>, then add your project's layers and overrides in that same array.</li>
+    <li><strong>Why</strong>: One file is the source of truth. Presets give a reliable base. Your local entries then adjust behavior in a controlled, visible order.</li>
+  </ul>
+</details>
+
+<details>
+  <summary><Icon icon="openmoji:check-mark" /> DO: Order layers intentionally</summary>
+  <ul>
+    <li><strong>What</strong>: Arrange as <em>ignores → style → language → environment/framework → platform → tool → your custom overrides</em>.</li>
+    <li><strong>Why</strong>: ESLint merges top to bottom and the <em>last</em> matching entry wins. Stable order makes outcomes predictable.</li>
+  </ul>
+</details>
+
+<details>
+  <summary><Icon icon="openmoji:check-mark" /> DO: Group rules into scoped entries</summary>
+  <ul>
+    <li><strong>What</strong>: Create an <strong>array of objects</strong>. Each object is a named group with <code>{'plugins'}</code>, <code>{'rules'}</code>, <code>{'settings'}</code>, <code>{'files'}</code>, <code>{'ignores'}</code>, etc.</li>
+    <li><strong>Why</strong>: You control <em>where</em> a ruleset applies. This replaces legacy overrides and avoids accidental coverage.</li>
+  </ul>
+</details>
+
+<details>
+  <summary><Icon icon="openmoji:cross-mark" /> DON'T: Mix flat config with legacy <code>{'.eslintrc*'}</code></summary>
+  <ul>
+    <li><strong>What</strong>: Do not keep old config files alongside <code>{'eslint.config.ts'}</code> or <code>{'eslint.config.js'}</code>.</li>
+    <li><strong>Why</strong>: Split sources of truth cause confusion. Flat config expects rules and ignores to live in one place.</li>
+  </ul>
+</details>
+
+<details>
+  <summary><Icon icon="openmoji:cross-mark" /> DON'T: Reorder config layers casually</summary>
+  <ul>
+    <li><strong>What</strong>: Avoid moving entries unless you intend to change who wins on conflicts.</li>
+    <li><strong>Why</strong>: Later entries override earlier ones. Order changes behavior.</li>
+  </ul>
+</details>
+
+<details>
+  <summary><Icon icon="openmoji:cross-mark" /> DON'T: Lint build output or vendor folders</summary>
+  <ul>
+    <li><strong>What</strong>: Exclude generated code (e.g. <code>{'build'}</code>, <code>{'dist'}</code>, <code>{'node_modules'}</code>) from linting.</li>
+    <li><strong>Why</strong>: Prevents noise, speed issues, and irrelevant rule failures from user-ignored files.</li>
+  </ul>
+</details>
+
+## Troubleshooting
+
+Find issues by using the command below to print the effective config:
+
+```bash
+nova inspect eslint
+```

@@ -1,16 +1,17 @@
 ---
 id: overview
 title: Overview
-description: Composable ESLint flat config and TSConfig presets with strict defaults and clear composition to speed up setup and reduce drift.
+description: Foundation Nova Presets provides composable ESLint and TSConfig presets with strict defaults, ordered layers, and Node TypeScript alignment for consistent style and predictable builds.
 sidebar_position: 1
 keywords:
-  - foundation nova presets
+  - foundation nova
   - eslint flat config
   - tsconfig presets
   - strict typescript
-  - developer experience
+  - composition order
+  - node runtime
   - predictable builds
-  - composition
+  - code style rules
 tags:
   - overview
   - presets
@@ -43,7 +44,7 @@ Nova's ESLint presets are **flat config** layers that you **spread** into one ex
 
 Composition follows a simple order:
 
-1. Start with **scope ignores** to keep noise out.
+1. Start with an **ignores** file to keep noise out.
 2. Apply strict **code styling** so formatting is consistent project-wide.
 3. Add a single **language** layer for the code you write (e.g., TypeScript).
 4. Then the **environment** (runtime) or **framework** that matches where it runs.
@@ -57,13 +58,13 @@ This example shows a minimal Node.js project using TypeScript, composed with Nov
 ```js
 import {
   dxCodeStyle,
+  dxIgnore,
   envNode,
   langTypescript,
-  scopeIgnores,
 } from '@cbnventures/foundation-nova/eslint';
 
 export default [
-  ...scopeIgnores,
+  ...dxIgnore,
   ...dxCodeStyle,
   ...langTypescript,
   ...envNode,

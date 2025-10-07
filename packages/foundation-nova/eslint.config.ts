@@ -1,12 +1,12 @@
 import {
   dxCodeStyle,
+  dxIgnore,
   envNode,
   langTypescript,
-  scopeIgnores,
 } from './src/presets/eslint/index.mjs';
 
 export default [
-  ...scopeIgnores,
+  ...dxIgnore,
   ...dxCodeStyle,
   ...langTypescript,
   ...envNode,

@@ -1,26 +1,28 @@
 ---
 id: setup
 title: Setup and Configure
-description: Start Nova in minutes. Run once with npx, install into system, or add to a project, with quick checks and ready to use TypeScript and ESLint presets.
+description: Setup and configuration for Foundation Nova covering installation instructions and TypeScript and ESLint presets setup.
 keywords:
   - foundation nova setup
   - nova installation
   - nova configuration
-  - npx run once
+  - npx
   - global install
   - project install
   - tsconfig presets
   - eslint presets
   - node lts
   - nova cli
+  - version check
 tags:
   - setup
+  - installation
   - configuration
   - initialization
-  - installation
   - presets
   - eslint
   - typescript
+  - cli
 ---
 
 import Tabs from '@theme/Tabs';
@@ -94,10 +96,10 @@ Choose **Run once (npx)** to try Nova or make a one-off change, **Install into s
     Third, configure **ESLint** through the `eslint.config.ts` or `eslint.config.js` file. See **[ESLint best practices](/docs/presets/eslint/best-practices)**.
 
     ```javascript
-    import { dxCodeStyle, scopeIgnores } from '@cbnventures/foundation-nova/eslint';
+    import { dxCodeStyle, dxIgnore } from '@cbnventures/foundation-nova/eslint';
 
     export default [
-      ...scopeIgnores,
+      ...dxIgnore,
       ...dxCodeStyle,
     ];
     ```

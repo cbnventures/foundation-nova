@@ -1,13 +1,13 @@
 import {
   dxCodeStyle,
+  dxIgnore,
   fwDocusaurus,
   langMdx,
   langTypescript,
-  scopeIgnores,
 } from '@cbnventures/foundation-nova/eslint';
 
 export default [
-  ...scopeIgnores,
+  ...dxIgnore,
   ...dxCodeStyle,
   ...langMdx,
   ...langTypescript,
