@@ -12,8 +12,6 @@ export type CLIExecuteFeatureCommandOptions<Options> = {
   [OptionKey in keyof Options]?: true;
 };
 
-export type CLIExecuteFeatureCommandCommand<Subcommand, Options> = Command<[Subcommand], Options>;
-
 export type CLIExecuteFeatureCommandTarget = (subcommand: CLIExecuteFeatureCommandSubcommand, options: CLIExecuteFeatureCommandOptions) => void | Promise<void>;
 
 export type CLIExecuteFeatureCommandReturns = Promise<void>;
@@ -26,8 +24,6 @@ export type CLIExecuteFeatureCommandReturns = Promise<void>;
 export type CLIExecuteUtilityCommandOptions<Options> = {
   [OptionKey in keyof Options]?: true;
 };
-
-export type CLIExecuteUtilityCommandCommand<Options> = Command<[], Options>;
 
 export type CLIExecuteUtilityCommandTarget = (options: CLIExecuteUtilityCommandOptions) => void | Promise<void>;
 

@@ -64,27 +64,27 @@ export class CLIVersion {
     const tasks: CLIVersionRunTasks = [];
 
     // Node.js + Tools.
-    if (options.node || options.all) {
+    if (options.node || options.all || Object.keys(options).length === 0) {
       tasks.push(CLIVersion.getNodeVersion().then((response) => ['node', response]));
     }
 
     // Environment Managers.
-    if (options.env || options.all) {
+    if (options.env || options.all || Object.keys(options).length === 0) {
       tasks.push(CLIVersion.getEnvironmentManagerVersion().then((response) => ['env', response]));
     }
 
     // Operating System.
-    if (options.os || options.all) {
+    if (options.os || options.all || Object.keys(options).length === 0) {
       tasks.push(CLIVersion.getOsVersion().then((response) => ['os', response]));
     }
 
     // Web Browsers.
-    if (options.browser || options.all) {
+    if (options.browser || options.all || Object.keys(options).length === 0) {
       tasks.push(CLIVersion.getBrowserVersion().then((response) => ['browsers', response]));
     }
 
     // Interpreters / Runtimes.
-    if (options.interpreter || options.all) {
+    if (options.interpreter || options.all || Object.keys(options).length === 0) {
       tasks.push(CLIVersion.getInterpreterVersion().then((response) => ['interpreters', response]));
     }
 

@@ -13,12 +13,10 @@ import { PATTERN_ANSI, PATTERN_ERROR_PREFIX, WHITESPACE_PATTERN } from '@/lib/re
 import CLIHeader from '@/toolkit/cli-header.js';
 import { Logger } from '@/toolkit/index.js';
 import type {
-  CLIExecuteFeatureCommandCommand,
   CLIExecuteFeatureCommandOptions,
   CLIExecuteFeatureCommandReturns,
   CLIExecuteFeatureCommandSubcommand,
   CLIExecuteFeatureCommandTarget,
-  CLIExecuteUtilityCommandCommand,
   CLIExecuteUtilityCommandOptions,
   CLIExecuteUtilityCommandReturns,
   CLIExecuteUtilityCommandTarget,
@@ -80,7 +78,7 @@ class CLI {
         })
         .addHelpText('beforeAll', this.getHeader())
         .helpCommand(false)
-        .helpOption(false)
+        .helpOption('-h, --help', 'Display the help menu for the current command')
         .allowExcessArguments(false)
         .showHelpAfterError();
 
@@ -106,71 +104,71 @@ class CLI {
     this.#program
       .command('generate')
       .alias('gen')
-      .usage('<subcommand> <options>')
+      .usage('<subcommand> [options]')
       .description('Generate vendor-specific files for projects')
       .argument('<subcommand>', 'View https://cbnventures.github.io/foundation-nova/docs/cli/#generators')
       .option('-e, --execute', 'Generate and write vendor files to disk')
       .option('-d, --dry-run', 'Preview changes without writing files')
-      .action(async (subcommand, options, command) => {
-        await this.executeFeatureCommand<typeof subcommand, typeof options>(subcommand, options, command, CLIGenerate.run);
+      .action(async (subcommand, options) => {
+        await this.executeFeatureCommand<typeof subcommand, typeof options>(subcommand, options, CLIGenerate.run);
       });
 
     // [initialize] - Initialize Nova project configuration.
     this.#program
       .command('initialize')
       .alias('init')
-      .usage('<options>')
+      .usage('[options]')
       .description('Initialize Nova project configuration')
       .option('-e, --execute', 'Generate and write config files to disk')
       .option('-d, --dry-run', 'Preview changes without writing files')
-      .action(async (options, command) => {
-        await this.executeUtilityCommand<typeof options>(options, command, CLIInitialize.run);
+      .action(async (options) => {
+        await this.executeUtilityCommand<typeof options>(options, CLIInitialize.run);
       });
 
     // [inspect] - Inspect Nova, ESLint, or TypeScript config without hassle.
     this.#program
       .command('inspect')
       .alias('ins')
-      .usage('<options>')
+      .usage('[options]')
       .description('Inspect Nova, ESLint, or TypeScript config without hassle')
       .option('-e, --eslint', 'ESLint configuration')
       .option('-n, --nova', 'Foundation Nova configuration')
       .option('-t, --tsconfig', 'TypeScript configuration')
-      .action(async (options, command) => {
-        await this.executeUtilityCommand<typeof options>(options, command, CLIInspect.run);
+      .action(async (options) => {
+        await this.executeUtilityCommand<typeof options>(options, CLIInspect.run);
       });
 
     // [recipe] - Automate routine maintenance.
     this.#program
       .command('recipe')
       .alias('rcp')
-      .usage('<subcommand> <options>')
+      .usage('<subcommand> [options]')
       .description('Automate routine maintenance')
       .argument('<subcommand>', 'View https://cbnventures.github.io/foundation-nova/docs/cli/#recipes')
       .option('-e, --execute', 'Generate and write vendor files to disk')
       .option('-d, --dry-run', 'Preview changes without writing files')
-      .action(async (subcommand, options, command) => {
-        await this.executeFeatureCommand<typeof subcommand, typeof options>(subcommand, options, command, CLIRecipe.run);
+      .action(async (subcommand, options) => {
+        await this.executeFeatureCommand<typeof subcommand, typeof options>(subcommand, options, CLIRecipe.run);
       });
 
     // [scaffold] - Bootstrap templated monorepo-style projects.
     this.#program
       .command('scaffold')
       .alias('scaf')
-      .usage('<subcommand> <options>')
+      .usage('<subcommand> [options]')
       .description('Bootstrap templated monorepo-style projects')
       .argument('<subcommand>', 'View https://cbnventures.github.io/foundation-nova/docs/cli/#scaffolding')
       .option('-e, --execute', 'Generate and write vendor files to disk')
       .option('-d, --dry-run', 'Preview changes without writing files')
-      .action(async (subcommand, options, command) => {
-        await this.executeFeatureCommand<typeof subcommand, typeof options>(subcommand, options, command, CLIScaffold.run);
+      .action(async (subcommand, options) => {
+        await this.executeFeatureCommand<typeof subcommand, typeof options>(subcommand, options, CLIScaffold.run);
       });
 
     // [version] - Show installed version information.
     this.#program
       .command('version')
       .alias('ver')
-      .usage('<options>')
+      .usage('[options]')
       .description('Show installed version information')
       .option('-a, --all', 'Show all available versions')
       .option('-b, --browser', 'Show web browser versions')
@@ -178,8 +176,8 @@ class CLI {
       .option('-i, --interpreter', 'Show interpreter / runtime versions')
       .option('-n, --node', 'Show Node.js and related package manager versions')
       .option('-o, --os', 'Show operating system details')
-      .action(async (options, command) => {
-        await this.executeUtilityCommand<typeof options>(options, command, CLIVersion.run);
+      .action(async (options) => {
+        await this.executeUtilityCommand<typeof options>(options, CLIVersion.run);
       });
   }
 
@@ -225,7 +223,7 @@ class CLI {
     let root = command;
 
     // Walk back until we hit the root of the command.
-    while (root.parent) {
+    while (root.parent !== null) {
       root = root.parent;
     }
 
@@ -380,7 +378,6 @@ class CLI {
    *
    * @param {CLIExecuteFeatureCommandSubcommand} subcommand - Subcommand.
    * @param {CLIExecuteFeatureCommandOptions}    options    - Options.
-   * @param {CLIExecuteFeatureCommandCommand}    command    - Command.
    * @param {CLIExecuteFeatureCommandTarget}     target     - Target.
    *
    * @private
@@ -389,15 +386,7 @@ class CLI {
    *
    * @since 1.0.0
    */
-  private async executeFeatureCommand<Subcommand, Options>(subcommand: CLIExecuteFeatureCommandSubcommand<Subcommand>, options: CLIExecuteFeatureCommandOptions<Options>, command: CLIExecuteFeatureCommandCommand<Subcommand, Options>, target: CLIExecuteFeatureCommandTarget): CLIExecuteFeatureCommandReturns {
-    // Show help and exit gracefully if no subcommand or options are provided.
-    if (
-      String(subcommand).length === 0
-      || Object.keys(options).length === 0
-    ) {
-      command.error('error: missing required argument \'subcommand\' and option');
-    }
-
+  private async executeFeatureCommand<Subcommand, Options>(subcommand: CLIExecuteFeatureCommandSubcommand<Subcommand>, options: CLIExecuteFeatureCommandOptions<Options>, target: CLIExecuteFeatureCommandTarget): CLIExecuteFeatureCommandReturns {
     // Write the header.
     process.stdout.write(`${this.getHeader()}\r\n`);
 
@@ -409,7 +398,6 @@ class CLI {
    * CLI - Execute utility command.
    *
    * @param {CLIExecuteUtilityCommandOptions} options - Options.
-   * @param {CLIExecuteUtilityCommandCommand} command - Command.
    * @param {CLIExecuteUtilityCommandTarget}  target  - Target.
    *
    * @private
@@ -418,12 +406,7 @@ class CLI {
    *
    * @since 1.0.0
    */
-  private async executeUtilityCommand<Options>(options: CLIExecuteUtilityCommandOptions<Options>, command: CLIExecuteUtilityCommandCommand<Options>, target: CLIExecuteUtilityCommandTarget): CLIExecuteUtilityCommandReturns {
-    // Show help and exit gracefully if no options are provided.
-    if (Object.keys(options).length === 0) {
-      command.error('error: missing required option');
-    }
-
+  private async executeUtilityCommand<Options>(options: CLIExecuteUtilityCommandOptions<Options>, target: CLIExecuteUtilityCommandTarget): CLIExecuteUtilityCommandReturns {
     // Write the header.
     process.stdout.write(`${this.getHeader()}\r\n`);
 

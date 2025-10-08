@@ -42,28 +42,28 @@ Start with `nova`, then the **command** and **subcommand** (if available), and f
 <Tabs groupId="install-state">
   <TabItem value="nova" label="nova (installed)" default>
     <CodeBlock language="bash" title="Feature commands">
-      {`nova \<command\> \<subcommand\> \<option\>`}
+      {`nova \<command\> \<subcommand\> [option]`}
     </CodeBlock>
     <CodeBlock language="bash" title="Utility commands">
-      {`nova \<command\> \<option\>`}
+      {`nova \<command\> [option]`}
     </CodeBlock>
   </TabItem>
   <TabItem value="npx" label="npx (no install)">
     <CodeBlock language="bash" title="Feature commands">
-      {`npx --yes @cbnventures/foundation-nova@latest \<command\> \<subcommand\> \<option\>`}
+      {`npx --yes @cbnventures/foundation-nova@latest \<command\> \<subcommand\> [option]`}
     </CodeBlock>
     <CodeBlock language="bash" title="Utility commands">
-      {`npx --yes @cbnventures/foundation-nova@latest \<command\> \<option\>`}
+      {`npx --yes @cbnventures/foundation-nova@latest \<command\> [option]`}
     </CodeBlock>
   </TabItem>
 </Tabs>
 
-- **Options are explicit**. You always type the option (**flags / switches**) you want, like `--all` or `-a`. No hidden defaults. This makes the command easy to learn.
+- **Options are recommended**. Always type the option (**flags / switches**) you want, like `--all` or `-a`. No assumptions. This helps you learn the command faster.
 - **Build it step by step**. Start with `nova`. Add the **command**. Add the **subcommand** if needed. Finish with **options** like `--all` or `-a`. Repeat until it feels natural.
 
 ## Commands
 
-All commands below **show a help screen first when run without options**, so you can explore safely and avoid accidental runs.
+All commands below **show a help screen when run with the `--help` or `-h` option**, so you can explore safely and avoid accidental runs.
 
 ### Generators
 
@@ -141,4 +141,4 @@ All commands in "Utilities" are shaped as `nova <command>` or `nova <shorthand>`
 | `1`  | Error   | Help text displayed              |
 
 ### Quick Fixes
-- Prefer **explicit command, subcommands, and options** for clarity, fewer mistakes, and predictable behavior. For example, `nova version --all` instead of `nova ver -a`.
+- Prefer **explicit command, subcommands, and options** for clarity, fewer mistakes, and predictable behavior. For example, `nova version --all` instead of the alternate variants.
