@@ -7,16 +7,14 @@ on:
     types: [ "published" ]
 
 permissions:
-  { }
+  contents: "read"
+  id-token: "write"
+  packages: "write"
 
 jobs:
   publish-to-npm-registries:
     runs-on: "ubuntu-latest"
     timeout-minutes: 10
-    permissions:
-      contents: "read"
-      id-token: "write"
-      packages: "write"
     env:
       NODE_AUTH_TOKEN: "${{ matrix.registries.name == 'GitHub Packages' && secrets.GITHUB_TOKEN || '' }}"
       WORKING_DIR: "./packages/foundation-nova"
@@ -46,5 +44,5 @@ jobs:
         working-directory: "${{ env.WORKING_DIR }}"
 
       - name: "Publish package to ${{ matrix.registries.name }}"
-        run: "npm publish --provenance"
+        run: "npm publish"
         working-directory: "${{ env.WORKING_DIR }}"
