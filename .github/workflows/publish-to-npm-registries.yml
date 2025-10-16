@@ -27,10 +27,10 @@ jobs:
             registry: "https://npm.pkg.github.com"
     steps:
       - name: "Checkout repository"
-        uses: "actions/checkout@v4"
+        uses: "actions/checkout@v5"
 
       - name: "Setup Node.js"
-        uses: "actions/setup-node@v4"
+        uses: "actions/setup-node@v6"
         with:
           node-version-file: "${{ env.WORKING_DIR }}/package.json"
           registry-url: "${{ matrix.registries.registry }}"
@@ -46,27 +46,6 @@ jobs:
       - name: "Build project"
         run: "npm run build"
         working-directory: "${{ env.WORKING_DIR }}"
-
-      - name: Debug OIDC & token state
-        run: |
-          echo "=== Debug Info ==="
-          echo "npm version:" $(npm --version)
-          echo "Registry URL: ${{ matrix.registries.registry }}"
-          echo "NODE_AUTH_TOKEN: '${{ env.NODE_AUTH_TOKEN }}'"
-          echo "OIDC request URL var: $ACTIONS_ID_TOKEN_REQUEST_URL"
-          echo "OIDC request token var: $ACTIONS_ID_TOKEN_REQUEST_TOKEN"
-
-          # Try fetching ID token manually (for registry audience)
-          if [ -n "$ACTIONS_ID_TOKEN_REQUEST_URL" ] && [ -n "$ACTIONS_ID_TOKEN_REQUEST_TOKEN" ]; then
-            echo "Requesting OIDC token for npm..."
-            curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
-              "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=registry.npmjs.org" || echo "OIDC token request failed"
-          else
-            echo "OIDC env not set, skipping token fetch"
-          fi
-
-          echo "Trying npm whoami (should show if logged in):"
-          npm whoami || echo "whoami failed — no auth"
 
       - name: "Publish package to ${{ matrix.registries.name }}"
         run: "npm publish"
