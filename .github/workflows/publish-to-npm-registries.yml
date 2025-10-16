@@ -33,6 +33,7 @@ jobs:
         uses: "actions/setup-node@v6"
         with:
           node-version-file: "${{ env.WORKING_DIR }}/package.json"
+          package-manager-cache: "false"
           registry-url: "${{ matrix.registries.registry }}"
 
       - name: "Update npm"
