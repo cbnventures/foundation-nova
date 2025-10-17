@@ -25,7 +25,7 @@ jobs:
         uses: "actions/setup-node@v6"
         with:
           node-version-file: "${{ env.WORKING_DIR }}/package.json"
-          package-manager-cache: "false"
+          package-manager-cache: false
 
       - name: "Update npm"
         run: "npm install -g npm@latest"
