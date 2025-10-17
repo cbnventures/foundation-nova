@@ -57,6 +57,7 @@ jobs:
 
       - name: "Install packages"
         run: |
+          npm install -g npm@latest
           npm install
         working-directory: "${{ env.WORKING_DIR }}"
 
@@ -126,13 +127,9 @@ jobs:
           fi
         working-directory: "${{ env.WORKING_DIR }}"
 
-      - name: "Update npm (Support for ODIC)"
-        run: |
-          npm install -g npm@latest
-        working-directory: "${{ env.WORKING_DIR }}"
-
       - name: "Install packages"
         run: |
+          npm install -g npm@latest
           npm install
         working-directory: "${{ env.WORKING_DIR }}"
 
