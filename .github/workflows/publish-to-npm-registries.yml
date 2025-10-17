@@ -16,9 +16,9 @@ jobs:
     runs-on: "ubuntu-latest"
     timeout-minutes: 10
     env:
-      NODE_AUTH_TOKEN: "${{ matrix.registries.name == 'GitHub Packages' && secrets.GITHUB_TOKEN || '' }}"
       WORKING_DIR: "./packages/foundation-nova"
     strategy:
+      fail-fast: false
       matrix:
         registries:
           - name: "npm"
@@ -47,6 +47,10 @@ jobs:
       - name: "Build project"
         run: "npm run build"
         working-directory: "${{ env.WORKING_DIR }}"
+
+      - name: "Set GitHub Packages Auth"
+        if: ${{ matrix.registries.name == 'GitHub Packages' }}
+        run: "echo \"NODE_AUTH_TOKEN=${{ secrets.GITHUB_TOKEN }}\" >> \"$GITHUB_ENV\""
 
       - name: "Publish package to ${{ matrix.registries.name }}"
         run: "npm publish"
