@@ -13,18 +13,16 @@ on:
       - "closed"
 
 permissions:
-  { }
+  contents: "read"
+  issues: "write"
 
 jobs:
   check-issues:
     runs-on: "ubuntu-latest"
     timeout-minutes: 5
-    permissions:
-      contents: "read"
-      issues: "write"
     steps:
       - name: "Checkout repository"
-        uses: "actions/checkout@v4"
+        uses: "actions/checkout@v5"
 
       - name: "Check support issues"
         uses: "mrjackyliang/sponsor-gated-support@v1.0.1"

@@ -52,6 +52,6 @@ jobs:
         if: ${{ matrix.registries.name == 'GitHub Packages' }}
         run: "echo \"NODE_AUTH_TOKEN=${{ secrets.GITHUB_TOKEN }}\" >> \"$GITHUB_ENV\""
 
-      - name: "Publish package to ${{ matrix.registries.name }}"
+      - name: "Publish package"
         run: "npm publish"
         working-directory: "${{ env.WORKING_DIR }}"
