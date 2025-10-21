@@ -1,6 +1,7 @@
 import { exec, spawn } from 'child_process';
-import { promises } from 'fs';
-import os from 'os';
+import { promises as fs } from 'fs';
+import * as os from 'os';
+import * as path from 'path';
 import { promisify } from 'util';
 
 import {
@@ -12,7 +13,13 @@ import {
 } from '@/lib/regex.js';
 import { Logger } from '@/toolkit/index.js';
 import type {
+  CurrentTimestampPadLeftNumber,
+  CurrentTimestampPadLeftReturns,
+  CurrentTimestampPadLeftWidth,
+  CurrentTimestampReturns,
   DetectShellReturns,
+  DiscoverPackageJsonsFoundPaths,
+  DiscoverPackageJsonsReturns,
   ExecuteShellCommand,
   ExecuteShellQuotePosixString,
   ExecuteShellQuoteWindowsString,
@@ -31,6 +38,51 @@ import type {
   PathExistsPath,
   PathExistsReturns,
 } from '@/types/utility.d.ts';
+
+/**
+ * Current timestamp.
+ *
+ * @returns {CurrentTimestampReturns}
+ *
+ * @since 1.0.0
+ */
+export function currentTimestamp(): CurrentTimestampReturns {
+  const now = new Date();
+
+  /**
+   * Current timestamp - Pad left.
+   *
+   * @param {CurrentTimestampPadLeftNumber} number - Number.
+   * @param {CurrentTimestampPadLeftWidth}  width  - Width.
+   *
+   * @private
+   *
+   * @returns {CurrentTimestampPadLeftReturns}
+   *
+   * @since 1.0.0
+   */
+  const padLeft = (number: CurrentTimestampPadLeftNumber, width: CurrentTimestampPadLeftWidth = 2): CurrentTimestampPadLeftReturns => {
+    const currentWidth = (width < 2) ? 2 : width;
+
+    return number.toString().padStart(currentWidth, '0');
+  };
+
+  const year = now.getFullYear();
+  const month = padLeft(now.getMonth() + 1);
+  const day = padLeft(now.getDate());
+  const hour = padLeft(now.getHours());
+  const minute = padLeft(now.getMinutes());
+  const second = padLeft(now.getSeconds());
+  const millisecond = now.getMilliseconds().toString().padStart(3, '0');
+
+  const timezoneOffsetMinutes = -now.getTimezoneOffset();
+  const timezoneSign = (timezoneOffsetMinutes >= 0) ? '+' : '-';
+  const timezoneAbs = Math.abs(timezoneOffsetMinutes);
+  const timezoneHours = padLeft(Math.trunc(timezoneAbs / 60));
+  const timezoneMinutes = padLeft(timezoneAbs % 60);
+
+  return `[${year}-${month}-${day} ${hour}:${minute}:${second}.${millisecond} ${timezoneSign}${timezoneHours}${timezoneMinutes}]`;
+}
 
 /**
  * Detect shell.
@@ -63,6 +115,47 @@ export function detectShell(): DetectShellReturns {
   }
 
   return '/bin/sh';
+}
+
+/**
+ * Discover package jsons.
+ *
+ * @returns {DiscoverPackageJsonsReturns}
+ *
+ * @since 1.0.0
+ */
+export async function discoverPackageJsons(): DiscoverPackageJsonsReturns {
+  const foundPaths: DiscoverPackageJsonsFoundPaths = [];
+  const startDirectory = process.cwd();
+  const rootDirectory = path.parse(startDirectory).root;
+
+  let currentDirectory = startDirectory;
+
+  while (true) {
+    const packagePath = path.join(currentDirectory, 'package.json');
+
+    try {
+      Logger.customize({ name: 'discoverPackageJsons::traverse' }).debug(`Current directory: "${currentDirectory}"`);
+
+      // Attempt to access the "package.json" file.
+      await fs.access(packagePath);
+
+      // If "package.json" is found, the current directory is noted.
+      foundPaths.push(currentDirectory);
+    } catch {
+      /* empty */
+    }
+
+    // Stop if current directory is the root directory.
+    if (currentDirectory === rootDirectory) {
+      break;
+    }
+
+    // Traverse towards the root directory.
+    currentDirectory = path.dirname(currentDirectory);
+  }
+
+  return foundPaths;
 }
 
 /**
@@ -134,8 +227,8 @@ export async function executeShell(command: ExecuteShellCommand): ExecuteShellRe
       code: 0,
     };
 
-    Logger.name('executeShell:command').debug(fullCommand);
-    Logger.name('executeShell:output').debug(output);
+    Logger.customize({ name: 'executeShell::command' }).debug(fullCommand);
+    Logger.customize({ name: 'executeShell::output' }).debug(output);
 
     return output;
   } catch (error) {
@@ -159,8 +252,8 @@ export async function executeShell(command: ExecuteShellCommand): ExecuteShellRe
       }
     }
 
-    Logger.name('executeShell:command').debug(fullCommand);
-    Logger.name('executeShell:output').debug(output);
+    Logger.customize({ name: 'executeShell::command' }).debug(fullCommand);
+    Logger.customize({ name: 'executeShell::output' }).debug(output);
 
     return output;
   }
@@ -320,7 +413,7 @@ export async function parseWindowsRegistryQuery(registryPaths: ParseWindowsRegis
  */
 export async function pathExists(path: PathExistsPath): PathExistsReturns {
   try {
-    await promises.access(path);
+    await fs.access(path);
 
     return true;
   } catch {

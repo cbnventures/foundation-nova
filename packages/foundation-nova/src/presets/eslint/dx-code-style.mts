@@ -63,6 +63,9 @@ const config: FlatConfig = [
       '@stylistic': stylisticPlugin,
     },
     rules: {
+      // Enforce curly braces for all control structures (if, for, while, etc.).
+      'curly': ['error', 'all'],
+
       // Always use 1tbs (one true brace style) so opening and closing braces stay consistent across code.
       '@stylistic/brace-style': ['error', '1tbs', {
         'allowSingleLine': false,
@@ -95,7 +98,7 @@ const config: FlatConfig = [
       '@stylistic/object-curly-newline': ['error', {
         // Object literal expressions (e.g., const obj = { a: 1 }).
         ObjectExpression: {
-          minProperties: 1,
+          minProperties: 2,
           multiline: true,
           consistent: true,
         },

@@ -1,13 +1,25 @@
-import type { LogLevel } from '@/types/shared.d.ts';
+import type { LogLevel, LogOptions } from '@/types/shared.d.ts';
+
+/**
+ * Logger - Customize.
+ *
+ * @since 1.0.0
+ */
+export type LoggerCustomizeOptions = LogOptions;
+
+export type LoggerCustomizeReturns = {
+  debug(...message: LoggerDebugMessage): LoggerDebugReturns;
+  info(...message: LoggerInfoMessage): LoggerInfoReturns;
+  warn(...message: LoggerWarnMessage): LoggerWarnReturns;
+  error(...message: LoggerErrorMessage): LoggerErrorReturns;
+};
 
 /**
  * Logger - Debug.
  *
  * @since 1.0.0
  */
-export type LoggerDebugMessage = unknown;
-
-export type LoggerDebugOptionalParams = unknown[];
+export type LoggerDebugMessage = unknown[];
 
 export type LoggerDebugReturns = void;
 
@@ -18,11 +30,9 @@ export type LoggerDebugReturns = void;
  */
 export type LoggerEmitLevel = LogLevel;
 
-export type LoggerEmitName = string | undefined;
+export type LoggerEmitOptions = LogOptions;
 
-export type LoggerEmitMessage = unknown;
-
-export type LoggerEmitOptionalParams = unknown[];
+export type LoggerEmitMessage = unknown[];
 
 export type LoggerEmitReturns = void;
 
@@ -31,9 +41,7 @@ export type LoggerEmitReturns = void;
  *
  * @since 1.0.0
  */
-export type LoggerErrorMessage = unknown;
-
-export type LoggerErrorOptionalParams = unknown[];
+export type LoggerErrorMessage = unknown[];
 
 export type LoggerErrorReturns = void;
 
@@ -42,36 +50,9 @@ export type LoggerErrorReturns = void;
  *
  * @since 1.0.0
  */
-export type LoggerInfoMessage = unknown;
-
-export type LoggerInfoOptionalParams = unknown[];
+export type LoggerInfoMessage = unknown[];
 
 export type LoggerInfoReturns = void;
-
-/**
- * Logger - Name.
- *
- * @since 1.0.0
- */
-export type LoggerNameName = string;
-
-export type LoggerNameReturns = {
-  debug(message: LoggerDebugMessage, ...optionalParams: LoggerDebugOptionalParams): LoggerDebugReturns;
-  info(message: LoggerInfoMessage, ...optionalParams: LoggerInfoOptionalParams): LoggerInfoReturns;
-  warn(message: LoggerWarnMessage, ...optionalParams: LoggerWarnOptionalParams): LoggerWarnReturns;
-  error(message: LoggerErrorMessage, ...optionalParams: LoggerErrorOptionalParams): LoggerErrorReturns;
-};
-
-/**
- * Logger - Pad left.
- *
- * @since 1.0.0
- */
-export type LoggerPadLeftNumber = number;
-
-export type LoggerPadLeftWidth = number;
-
-export type LoggerPadLeftReturns = string;
 
 /**
  * Logger - Prefix.
@@ -80,7 +61,7 @@ export type LoggerPadLeftReturns = string;
  */
 export type LoggerPrefixLevel = LogLevel;
 
-export type LoggerPrefixName = string;
+export type LoggerPrefixOptions = LogOptions;
 
 export type LoggerPrefixReturns = string;
 
@@ -102,8 +83,6 @@ export type LoggerShouldLogWeights = Record<LogLevel, number>;
  *
  * @since 1.0.0
  */
-export type LoggerWarnMessage = unknown;
-
-export type LoggerWarnOptionalParams = unknown[];
+export type LoggerWarnMessage = unknown[];
 
 export type LoggerWarnReturns = void;

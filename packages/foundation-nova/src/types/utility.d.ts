@@ -1,6 +1,24 @@
 import type { ExecException } from 'child_process';
 
 /**
+ * Current timestamp.
+ *
+ * @since 1.0.0
+ */
+export type CurrentTimestampReturns = string;
+
+/**
+ * Current timestamp. - Pad left.
+ *
+ * @since 1.0.0
+ */
+export type CurrentTimestampPadLeftNumber = number;
+
+export type CurrentTimestampPadLeftWidth = number;
+
+export type CurrentTimestampPadLeftReturns = string;
+
+/**
  * Detect shell.
  *
  * @since 1.0.0
@@ -11,6 +29,17 @@ export type DetectShellReturns =
   | '/bin/ksh'
   | '/bin/sh'
   | '/bin/zsh';
+
+/**
+ * Discover package jsons.
+ *
+ * @since 1.0.0
+ */
+export type DiscoverPackageJsonsReturns = Promise<DiscoverPackageJsonsFoundPaths>;
+
+export type DiscoverPackageJsonsFoundPath = string;
+
+export type DiscoverPackageJsonsFoundPaths = DiscoverPackageJsonsFoundPath[];
 
 /**
  * Execute shell.

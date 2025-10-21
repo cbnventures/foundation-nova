@@ -149,7 +149,7 @@ export default class CLIHeader {
       return '';
     }
 
-    Logger.name('CLIHeader.truncate::begin').debug(JSON.stringify(string));
+    Logger.customize({ name: 'CLIHeader.truncate::begin' }).debug(JSON.stringify(string));
 
     // First pass: Strip ANSI, record them in order.
     let rawIndex = 0;
@@ -163,7 +163,7 @@ export default class CLIHeader {
       if (matches) {
         const code = matches[0];
 
-        Logger.name('CLIHeader.truncate::strip').debug([
+        Logger.customize({ name: 'CLIHeader.truncate::strip' }).debug([
           `ANSI at rawIndex=${rawIndex}: ${JSON.stringify(code)}`,
         ].join(', '));
 
@@ -176,7 +176,7 @@ export default class CLIHeader {
 
       plain += character;
 
-      Logger.name('CLIHeader.truncate::strip').debug([
+      Logger.customize({ name: 'CLIHeader.truncate::strip' }).debug([
         `Visible at rawIndex=${rawIndex}: ${JSON.stringify(character)}`,
         `plain so far: ${JSON.stringify(plain)}`,
       ].join(', '));
@@ -184,7 +184,7 @@ export default class CLIHeader {
       rawIndex += 1;
     }
 
-    Logger.name('CLIHeader.truncate::first-pass').debug(JSON.stringify(plain));
+    Logger.customize({ name: 'CLIHeader.truncate::first-pass' }).debug(JSON.stringify(plain));
 
     const visibleWidth = Math.min(max, plain.length);
 
@@ -204,7 +204,7 @@ export default class CLIHeader {
 
         output += code;
 
-        Logger.name('CLIHeader.truncate::rebuild').debug([
+        Logger.customize({ name: 'CLIHeader.truncate::rebuild' }).debug([
           `ANSI at rawIndex=${rawIndex}: ${JSON.stringify(code)}`,
         ].join(', '));
 
@@ -219,7 +219,7 @@ export default class CLIHeader {
 
       visibleIndex += 1;
 
-      Logger.name('CLIHeader.truncate::rebuild').debug([
+      Logger.customize({ name: 'CLIHeader.truncate::rebuild' }).debug([
         `Visible at rawIndex=${rawIndex}: ${JSON.stringify(character)}`,
         `visible count: ${JSON.stringify(visibleIndex)}`,
       ].join(', '));
@@ -227,14 +227,14 @@ export default class CLIHeader {
       rawIndex += 1;
     }
 
-    Logger.name('CLIHeader.truncate::second-pass').debug(JSON.stringify(output));
+    Logger.customize({ name: 'CLIHeader.truncate::second-pass' }).debug(JSON.stringify(output));
 
     // If ANSI is detected in the output, add a hard reset at the end.
     if (output.includes('\x1b[')) {
       output += '\x1b[0m';
     }
 
-    Logger.name('CLIHeader.truncate::end').debug(JSON.stringify(output));
+    Logger.customize({ name: 'CLIHeader.truncate::end' }).debug(JSON.stringify(output));
 
     return output;
   }

@@ -13,7 +13,7 @@
     "release": "changeset version"
   },
   "engines": {
-    "node": ">=20"
+    "node": "^22"
   },
   "devDependencies": {
     "@cbnventures/foundation-nova": "file:./packages/foundation-nova",

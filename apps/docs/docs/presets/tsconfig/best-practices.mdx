@@ -31,7 +31,10 @@ Practical TSConfig guidance for Foundation Nova that uses **small, composable pr
 ## Dos and Don'ts
 
 <details>
-  <summary><Icon icon="openmoji:check-mark" /> DO: Order presets intentionally</summary>
+  <summary>
+    <Icon icon="openmoji:check-mark" width="20" height="20" />
+    <span>DO: Order presets intentionally</span>
+  </summary>
   <ul>
     <li><strong>What</strong>: Use a layered <code>{'"extends"'}</code> chain in this order: <em>essentials → strict → environment/framework → platform → tool → your custom overrides</em>.</li>
     <li><strong>Why</strong>: The base loads first; the child overrides it. A clear order keeps policy layered and reviewable.</li>
@@ -39,7 +42,10 @@ Practical TSConfig guidance for Foundation Nova that uses **small, composable pr
 </details>
 
 <details>
-  <summary><Icon icon="openmoji:check-mark" /> DO: Pair <code>{'module'}</code> with <code>{'moduleResolution'}</code> correctly</summary>
+  <summary>
+    <Icon icon="openmoji:check-mark" width="20" height="20" />
+    <span>DO: Pair <code>{'module'}</code> with <code>{'moduleResolution'}</code> correctly</span>
+  </summary>
   <ul>
     <li><strong>What</strong>: Keep them in sync by using <code>{'"module": "nodenext"'}</code> with <code>{'"moduleResolution": "nodenext"'}</code> for Node ESM, or <code>{'"module": "esnext"'}</code> with <code>{'"moduleResolution": "bundler"'}</code> for bundlers.</li>
     <li><strong>Why</strong>: Mismatched values make TypeScript and your runtime resolve imports differently, which causes "cannot find module" errors. Pairing keeps resolution consistent.</li>
@@ -47,7 +53,10 @@ Practical TSConfig guidance for Foundation Nova that uses **small, composable pr
 </details>
 
 <details>
-  <summary><Icon icon="openmoji:check-mark" /> DO: Pair <code>{'baseUrl'}</code> with <code>{'paths'}</code></summary>
+  <summary>
+    <Icon icon="openmoji:check-mark" width="20" height="20" />
+    <span>DO: Pair <code>{'baseUrl'}</code> with <code>{'paths'}</code></span>
+  </summary>
   <ul>
     <li><strong>What</strong>: Set <code>{'baseUrl'}</code> when you define import aliases in <code>{'paths'}</code>.</li>
     <li><strong>Why</strong>: <code>{'paths'}</code> relies on <code>{'baseUrl'}</code>. Editors and builds need both to resolve aliases correctly.</li>
@@ -55,7 +64,10 @@ Practical TSConfig guidance for Foundation Nova that uses **small, composable pr
 </details>
 
 <details>
-  <summary><Icon icon="openmoji:check-mark" /> DO: Path-related settings belong in the app's <code>{'tsconfig.json'}</code></summary>
+  <summary>
+    <Icon icon="openmoji:check-mark" width="20" height="20" />
+    <span>DO: Path-related settings belong in the app's <code>{'tsconfig.json'}</code></span>
+  </summary>
   <ul>
     <li><strong>What</strong>: Path-related settings like <code>{'baseUrl'}</code>, <code>{'paths'}</code>, <code>{'rootDir'}</code>, <code>{'outDir'}</code>, <code>{'include'}</code>, and <code>{'exclude'}</code> belong in the app's <code>{'tsconfig.json'}</code> file, not in Nova presets.</li>
     <li><strong>Why</strong>: TypeScript evaluates these against the file's location. Local wiring avoids resolution mistakes across different repos.</li>
@@ -63,7 +75,10 @@ Practical TSConfig guidance for Foundation Nova that uses **small, composable pr
 </details>
 
 <details>
-  <summary><Icon icon="openmoji:check-mark" /> DO: Declare ambient types explicitly</summary>
+  <summary>
+    <Icon icon="openmoji:check-mark" width="20" height="20" />
+    <span>DO: Declare ambient types explicitly</span>
+  </summary>
   <ul>
     <li><strong>What</strong>: Use <code>{'types'}</code> to list the type packages you installed (e.g., <code>{'@types/node'}</code>, <code>{'@types/react'}</code>).</li>
     <li><strong>Why</strong>: Makes type sources explicit and under the app's control. Reduces surprises from transitive <code>{'@types'}</code> dependencies.</li>
@@ -71,7 +86,10 @@ Practical TSConfig guidance for Foundation Nova that uses **small, composable pr
 </details>
 
 <details>
-  <summary><Icon icon="openmoji:check-mark" /> DO: Configure type-checking when a bundler transpiles</summary>
+  <summary>
+    <Icon icon="openmoji:check-mark" width="20" height="20" />
+    <span>DO: Configure type-checking when a bundler transpiles</span>
+  </summary>
   <ul>
     <li><strong>What</strong>: If your project does not use <code>{'tsc'}</code> to build, set <code>{'"isolatedModules": true'}</code> and <code>{'"noEmit": true'}</code> in the app's <code>{'tsconfig.json'}</code>.</li>
     <li><strong>Why</strong>: Bundlers and frameworks compile each file independently. <code>{'isolatedModules'}</code> enforces per-file safety. <code>{'noEmit'}</code> prevents TypeScript from writing JavaScript when another tool already emits output.</li>
@@ -79,7 +97,10 @@ Practical TSConfig guidance for Foundation Nova that uses **small, composable pr
 </details>
 
 <details>
-  <summary><Icon icon="openmoji:cross-mark" /> DON'T: Assume arrays merge/spread like JavaScript</summary>
+  <summary>
+    <Icon icon="openmoji:cross-mark" width="20" height="20" />
+    <span>DON'T: Assume arrays merge/spread like JavaScript</span>
+  </summary>
   <ul>
     <li><strong>What</strong>: Do not expect array settings like <code>{'lib'}</code> to spread values from the base.</li>
     <li><strong>Why</strong>: In <code>{'tsconfig'}</code>, these arrays <strong>replace</strong> the parent. This is a config limitation, not JS behavior.</li>
@@ -87,7 +108,10 @@ Practical TSConfig guidance for Foundation Nova that uses **small, composable pr
 </details>
 
 <details>
-  <summary><Icon icon="openmoji:cross-mark" /> DON'T: Turn on cache-style settings</summary>
+  <summary>
+    <Icon icon="openmoji:cross-mark" width="20" height="20" />
+    <span>DON'T: Turn on cache-style settings</span>
+  </summary>
   <ul>
     <li><strong>What</strong>: Avoid settings that create unpredictability like <code>{'incremental'}</code>, <code>{'composite'}</code>, and <code>{'assumeChangesOnlyAffectDirectDependencies'}</code> in app <code>{'tsconfig.json'}</code> files.</li>
     <li><strong>Why</strong>: These introduce cache drift across environments. Prefer deterministic builds.</li>
@@ -95,7 +119,10 @@ Practical TSConfig guidance for Foundation Nova that uses **small, composable pr
 </details>
 
 <details>
-  <summary><Icon icon="openmoji:cross-mark" /> DON'T: Force <code>{'typeRoots'}</code> unless required</summary>
+  <summary>
+    <Icon icon="openmoji:cross-mark" width="20" height="20" />
+    <span>DON'T: Force <code>{'typeRoots'}</code> unless required</span>
+  </summary>
   <ul>
     <li><strong>What</strong>: Do not set <code>{'typeRoots'}</code> without a strong reason.</li>
     <li><strong>Why</strong>: It limits which <code>{'@types'}</code> packages are visible. Defaults usually work best.</li>

@@ -30,7 +30,7 @@
       "name": "CBN Ventures",
       "email": "contact@cbnventures.io",
       "url": "https://www.cbnventures.io",
-      "role": [
+      "roles": [
         "author"
       ]
     },
@@ -38,7 +38,7 @@
       "name": "Jacky Liang",
       "email": "hello@mrjackyliang.com",
       "url": "https://www.mrjackyliang.com",
-      "role": [
+      "roles": [
         "contributor",
         "supporter"
       ]
@@ -53,10 +53,9 @@
     "documentation": "https://cbnventures.github.io/foundation-nova/",
     "github": "https://github.com/cbnventures/foundation-nova",
     "npm": "https://www.npmjs.com/package/@cbnventures/foundation-nova",
-    "funding": [
+    "fundSources": [
       "https://github.com/sponsors/cbnventures",
       "https://www.paypal.com/biz/profile/cbnventures"
     ]
-  },
-  "options": {}
+  }
 }

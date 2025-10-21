@@ -1,36 +1,29 @@
 import chalk from 'chalk';
 
 import type {
+  LoggerCustomizeOptions,
+  LoggerCustomizeReturns,
   LoggerDebugMessage,
-  LoggerDebugOptionalParams,
   LoggerDebugReturns,
   LoggerEmitLevel,
   LoggerEmitMessage,
-  LoggerEmitName,
-  LoggerEmitOptionalParams,
+  LoggerEmitOptions,
   LoggerEmitReturns,
   LoggerErrorMessage,
-  LoggerErrorOptionalParams,
   LoggerErrorReturns,
   LoggerInfoMessage,
-  LoggerInfoOptionalParams,
   LoggerInfoReturns,
-  LoggerNameName,
-  LoggerNameReturns,
-  LoggerPadLeftNumber,
-  LoggerPadLeftReturns,
-  LoggerPadLeftWidth,
   LoggerPrefixLevel,
-  LoggerPrefixName,
+  LoggerPrefixOptions,
   LoggerPrefixReturns,
   LoggerShouldLogCurrentLogLevel,
   LoggerShouldLogLevel,
   LoggerShouldLogReturns,
   LoggerShouldLogWeights,
   LoggerWarnMessage,
-  LoggerWarnOptionalParams,
   LoggerWarnReturns,
 } from '@/types/logger.d.ts';
+import { currentTimestamp } from '@/lib/utility.js';
 
 /**
  * Logger.
@@ -41,81 +34,77 @@ export default class Logger {
   /**
    * Logger - Info.
    *
-   * @param {LoggerInfoMessage}        message        - Message.
-   * @param {LoggerInfoOptionalParams} optionalParams - Optional params.
+   * @param {LoggerInfoMessage} message - Message.
    *
    * @returns {LoggerInfoReturns}
    *
    * @since 1.0.0
    */
-  public static info(message: LoggerInfoMessage, ...optionalParams: LoggerInfoOptionalParams): LoggerInfoReturns {
-    Logger.emit('info', undefined, message, ...optionalParams);
+  public static info(...message: LoggerInfoMessage): LoggerInfoReturns {
+    Logger.emit('info', {}, ...message);
   }
 
   /**
    * Logger - Warn.
    *
-   * @param {LoggerWarnMessage}        message        - Message.
-   * @param {LoggerWarnOptionalParams} optionalParams - Optional params.
+   * @param {LoggerWarnMessage} message - Message.
    *
    * @returns {LoggerWarnReturns}
    *
    * @since 1.0.0
    */
-  public static warn(message: LoggerWarnMessage, ...optionalParams: LoggerWarnOptionalParams): LoggerWarnReturns {
-    Logger.emit('warn', undefined, message, ...optionalParams);
+  public static warn(...message: LoggerWarnMessage): LoggerWarnReturns {
+    Logger.emit('warn', {}, ...message);
   }
 
   /**
    * Logger - Error.
    *
-   * @param {LoggerErrorMessage}        message        - Message.
-   * @param {LoggerErrorOptionalParams} optionalParams - Optional params.
+   * @param {LoggerErrorMessage} message - Message.
    *
    * @returns {LoggerErrorReturns}
    *
    * @since 1.0.0
    */
-  public static error(message: LoggerErrorMessage, ...optionalParams: LoggerErrorOptionalParams): LoggerErrorReturns {
-    Logger.emit('error', undefined, message, ...optionalParams);
+  public static error(...message: LoggerErrorMessage): LoggerErrorReturns {
+    Logger.emit('error', {}, ...message);
   }
 
   /**
    * Logger - Debug.
    *
-   * @param {LoggerDebugMessage}        message        - Message.
-   * @param {LoggerDebugOptionalParams} optionalParams - Optional params.
+   * @param {LoggerDebugMessage} message - Message.
    *
    * @returns {LoggerDebugReturns}
    *
    * @since 1.0.0
    */
-  public static debug(message: LoggerDebugMessage, ...optionalParams: LoggerDebugOptionalParams): LoggerDebugReturns {
-    Logger.emit('debug', undefined, message, ...optionalParams);
+  public static debug(...message: LoggerDebugMessage): LoggerDebugReturns {
+    Logger.emit('debug', {}, ...message);
   }
 
   /**
-   * Logger - Name.
+   * Logger - Customize.
    *
-   * @param {LoggerNameName} name - Name.
+   * @param {LoggerCustomizeOptions} options - Options.
    *
-   * @returns {LoggerNameReturns}
+   * @returns {LoggerCustomizeReturns}
    *
    * @since 1.0.0
    */
-  public static name(name: LoggerNameName): LoggerNameReturns {
+  public static customize(options: LoggerCustomizeOptions): LoggerCustomizeReturns {
     return {
-      debug(message: LoggerDebugMessage, ...optionalParams: LoggerDebugOptionalParams): LoggerDebugReturns {
-        Logger.emit('debug', name, message, ...optionalParams);
+      debug(...message: LoggerDebugMessage): LoggerDebugReturns {
+        Logger.emit('debug', options, ...message);
       },
-      info(message: LoggerInfoMessage, ...optionalParams: LoggerInfoOptionalParams): LoggerInfoReturns {
-        Logger.emit('info', name, message, ...optionalParams);
+      info(...message: LoggerInfoMessage): LoggerInfoReturns {
+        Logger.emit('info', options, ...message);
       },
-      warn(message: LoggerWarnMessage, ...optionalParams: LoggerWarnOptionalParams): LoggerWarnReturns {
-        Logger.emit('warn', name, message, ...optionalParams);
+      warn(...message: LoggerWarnMessage): LoggerWarnReturns {
+        Logger.emit('warn', options, ...message);
       },
-      error(message: LoggerErrorMessage, ...optionalParams: LoggerErrorOptionalParams): LoggerErrorReturns {
-        Logger.emit('error', name, message, ...optionalParams);
+      error(...message: LoggerErrorMessage): LoggerErrorReturns {
+        Logger.emit('error', options, ...message);
       },
     };
   }
@@ -123,10 +112,9 @@ export default class Logger {
   /**
    * Logger - Emit.
    *
-   * @param {LoggerEmitLevel}          level          - Level.
-   * @param {LoggerEmitName}           name           - Name.
-   * @param {LoggerEmitMessage}        message        - Message.
-   * @param {LoggerEmitOptionalParams} optionalParams - Optional params.
+   * @param {LoggerEmitLevel}   level   - Level.
+   * @param {LoggerEmitOptions} options - Options.
+   * @param {LoggerEmitMessage} message - Message.
    *
    * @private
    *
@@ -134,26 +122,39 @@ export default class Logger {
    *
    * @since 1.0.0
    */
-  private static emit(level: LoggerEmitLevel, name: LoggerEmitName, message: LoggerEmitMessage, ...optionalParams: LoggerEmitOptionalParams): LoggerEmitReturns {
+  private static emit(level: LoggerEmitLevel, options: LoggerEmitOptions, ...message: LoggerEmitMessage): LoggerEmitReturns {
     if (!Logger.shouldLog(level)) {
       return;
     }
 
-    const prefix = Logger.prefix(level, name);
+    const prefix = Logger.prefix(level, options);
+    const padTopCount = Math.max(0, options.padTop ?? 0);
+    const padBottomCount = Math.max(0, options.padBottom ?? 0);
+    const padTop = '\r\n'.repeat(padTopCount);
+    const padBottom = '\r\n'.repeat(padBottomCount);
+    const stream = (level === 'warn' || level === 'error') ? process.stderr : process.stdout;
+
+    if (padTop.length > 0) {
+      stream.write(padTop);
+    }
 
     switch (level) {
       case 'debug':
-        console.debug(prefix, message, ...optionalParams);
+        console.debug(prefix, ...message);
         break;
       case 'info':
-        console.info(prefix, message, ...optionalParams);
+        console.info(prefix, ...message);
         break;
       case 'warn':
-        console.warn(prefix, message, ...optionalParams);
+        console.warn(prefix, ...message);
         break;
       case 'error':
-        console.error(prefix, message, ...optionalParams);
+        console.error(prefix, ...message);
         break;
+    }
+
+    if (padBottom.length > 0) {
+      stream.write(padBottom);
     }
   }
 
@@ -185,8 +186,8 @@ export default class Logger {
   /**
    * Logger - Prefix.
    *
-   * @param {LoggerPrefixLevel} level  - Level.
-   * @param {LoggerPrefixName}  [name] - Name.
+   * @param {LoggerPrefixLevel}   level   - Level.
+   * @param {LoggerPrefixOptions} options - Options.
    *
    * @private
    *
@@ -194,26 +195,9 @@ export default class Logger {
    *
    * @since 1.0.0
    */
-  private static prefix(level: LoggerPrefixLevel, name?: LoggerPrefixName): LoggerPrefixReturns {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = Logger.padLeft(now.getMonth() + 1);
-    const day = Logger.padLeft(now.getDate());
-    const hour = Logger.padLeft(now.getHours());
-    const minute = Logger.padLeft(now.getMinutes());
-    const second = Logger.padLeft(now.getSeconds());
-    const millisecond = now.getMilliseconds().toString().padStart(3, '0');
-
-    const timezoneOffsetMinutes = -now.getTimezoneOffset();
-    const timezoneSign = (timezoneOffsetMinutes >= 0) ? '+' : '-';
-    const timezoneAbs = Math.abs(timezoneOffsetMinutes);
-    const timezoneHours = Logger.padLeft(Math.trunc(timezoneAbs / 60));
-    const timezoneMinutes = Logger.padLeft(timezoneAbs % 60);
-
-    const timestampText = `[${year}-${month}-${day} ${hour}:${minute}:${second}.${millisecond} ${timezoneSign}${timezoneHours}${timezoneMinutes}]`;
-
+  private static prefix(level: LoggerPrefixLevel, options: LoggerPrefixOptions): LoggerPrefixReturns {
     const levelLabelUpper = level.toUpperCase();
-    const nameLabel = name ? ' ' + chalk.dim(`[${name}]`) : '';
+    const nameLabel = (options.name) ? ' ' + chalk.dim(`[${options.name}]`) : '';
 
     let coloredLevelLabel;
 
@@ -235,29 +219,11 @@ export default class Logger {
         break;
     }
 
-    return `${chalk.dim(timestampText)} ${coloredLevelLabel}${nameLabel}`;
-  }
-
-  /**
-   * Logger - Pad left.
-   *
-   * @param {LoggerPadLeftNumber} number - Number.
-   * @param {LoggerPadLeftWidth}  width  - Width.
-   *
-   * @private
-   *
-   * @returns {LoggerPadLeftReturns}
-   *
-   * @since 1.0.0
-   */
-  private static padLeft(number: LoggerPadLeftNumber, width: LoggerPadLeftWidth = 2): LoggerPadLeftReturns {
-    let currentWidth = width;
-
-    // Minimum width must be set to "2".
-    if (width < 2) {
-      currentWidth = 2;
+    // Show log timestamp if the "LOG_TIME" environment variable is seen.
+    if (process.env['LOG_TIME'] && process.env['LOG_TIME'] === 'true') {
+      return `${chalk.dim(currentTimestamp())} ${coloredLevelLabel}${nameLabel}`;
     }
 
-    return number.toString().padStart(currentWidth, '0');
+    return `${coloredLevelLabel}${nameLabel}`;
   }
 }

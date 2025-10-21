@@ -48,6 +48,13 @@ export const PATTERN_ANSI_START = /^(\x1B\[[0-?]*[ -/]*[@-~])/;
 export const PATTERN_DOUBLE_QUOTED_STRING_CAPTURE = /^"(.*)"$/;
 
 /**
+ * Pattern - Email simple.
+ *
+ * @since 1.0.0
+ */
+export const PATTERN_EMAIL_SIMPLE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+/**
  * Pattern - Error prefix.
  *
  * @since 1.0.0
@@ -88,6 +95,13 @@ export const PATTERN_RUSTC_VERSION_LINE = /^rustc\s+(\d+\.\d+\.\d+)\s+\((\w+)\s+
  * @since 1.0.0
  */
 export const PATTERN_SEMVER = /(?<semver>(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-(?:0|[1-9]\d*|\d*[A-Za-z-][0-9A-Za-z-]*)(?:\.(?:0|[1-9]\d*|\d*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?)/;
+
+/**
+ * Pattern - Slug simple.
+ *
+ * @since 1.0.0
+ */
+export const PATTERN_SLUG_SIMPLE = /^[a-z0-9]+(?:[a-z0-9-_]*[a-z0-9])?$/;
 
 /**
  * Pattern - Whitespace.

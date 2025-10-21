@@ -121,3 +121,19 @@ code {
   background: color-mix(in srgb, var(--ifm-pre-background) 80%, white);
   border: 1px solid color-mix(in srgb, var(--ifm-color-primary) 20%, transparent);
 }
+
+/**
+ * ==================================================
+ * Custom tweaks
+ * ==================================================
+ */
+details summary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+table td:first-child,
+table th:first-child {
+  white-space: nowrap;
+}
