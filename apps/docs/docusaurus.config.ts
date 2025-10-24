@@ -22,7 +22,6 @@ const config: Config = {
   organizationName: 'cbnventures',
   projectName: 'foundation-nova',
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
   i18n: {
     defaultLocale: 'en',
     locales: [
@@ -37,6 +36,11 @@ const config: Config = {
         calendar: 'gregory',
         path: 'en',
       },
+    },
+  },
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
     },
   },
   presets: [

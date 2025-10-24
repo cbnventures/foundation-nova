@@ -1,11 +1,182 @@
 ---
 id: logger
 title: Logger
-description: x
+description: Emit leveled logs with colored prefixes, environment-aware filtering, and scoped customization for any CLI or automation script.
 keywords:
-  - x
+  - foundation nova
+  - logger
+  - log level
+  - cli logging
+  - chalk
+  - debug tooling
+  - diagnostics
+  - automation
 tags:
-  - x
+  - toolkit
+  - logging
+  - cli
+  - automation
+  - diagnostics
 ---
 
-Coming soon
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+import loggerBasics from './_assets_/logger-1.png';
+import loggerScoped from './_assets_/logger-2.png';
+import loggerMultiline from './_assets_/logger-3.png';
+
+Deliver consistent log output across local runs and CI without wiring custom formatting by hand.
+
+## Summary
+
+The `Logger` battery locks down terminal output with environment-aware level gating, scope-able helpers, and ANSI-safe formatting so debug chatter stays in dev and production logs stay spotless.
+
+## Why Use This Battery?
+
+1. Delivers out-of-the-box logging, so you skip the busywork of customizing `console` wrappers.
+2. Automatically adjusts verbosity based on `NODE_ENV` and `LOG_LEVEL`, reducing noise in production.
+3. Color‑coded output by default, with optional timestamps for easier reading.
+
+## Capabilities
+
+- Messages with line breaks are indented on subsequent lines for readability.
+- Automatically adapts to environment signals (frontend vs. backend) and the `LOG_LEVEL` setting.
+- Add timestamps to prefixes by setting the `LOG_TIME` environment flag.
+- Teams can call `Logger.customize` to reuse shared options like padding or component names.
+
+## Usage
+
+:::info Good to Know
+Examples use TypeScript, but the API is identical in JavaScript (ESM-only).
+:::
+
+<Tabs groupId="logger-usage">
+  <TabItem value="basics" label="Basics" default>
+
+    ```ts
+    import { Logger } from '@cbnventures/foundation-nova/toolkit';
+
+    Logger.debug('Loading configuration');
+    Logger.info('Build finished');
+    Logger.warn('Cache miss; re-installing dependencies');
+    Logger.error('Tests failed', new Error('integration timeout'));
+    ```
+
+  </TabItem>
+  <TabItem value="scoped" label="Scoped logger">
+
+    ```ts
+    import { Logger } from '@cbnventures/foundation-nova/toolkit';
+
+    const log = Logger.customize({
+      name: 'cli::init',
+      padTop: 1,
+      padBottom: 0,
+    });
+
+    log.info('Initializing project');
+    log.warn('Optional dependency missing; skipping feature');
+    log.error('Aborting due to validation errors');
+    ```
+
+  </TabItem>
+  <TabItem value="multiline" label="Multiline alignment">
+
+    ```ts
+    import { Logger } from '@cbnventures/foundation-nova/toolkit';
+
+    const details = [
+      'Scanning workspace',
+      '- packages: 4',
+      '- apps: 1',
+      `- node: ${process.version}`,
+    ].join('\n');
+
+    Logger.info(details);
+
+    Logger.error(
+      [
+        'Release blocked:',
+        '- Missing env: GITHUB_TOKEN',
+        '- Failing tests: 3',
+      ].join('\n'),
+      new Error('gate failed'),
+    );
+    ```
+
+  </TabItem>
+</Tabs>
+
+## Output Examples
+
+<Tabs groupId="logger-examples">
+  <TabItem value="basics" label="Basics" default>
+    <img
+      src={loggerBasics}
+      alt="Basics preview"
+      width={1155}
+      height={435}
+      style={{
+        maxWidth: '100%',
+        height: 'auto',
+      }}
+    />
+  </TabItem>
+  <TabItem value="scoped" label="Scoped logger">
+    <img
+      src={loggerScoped}
+      alt="Scoped logger preview"
+      width={1155}
+      height={435}
+      style={{
+        maxWidth: '100%',
+        height: 'auto',
+      }}
+    />
+  </TabItem>
+  <TabItem value="multiline" label="Multiline alignment">
+    <img
+      src={loggerMultiline}
+      alt="Multiline alignment preview"
+      width={1155}
+      height={435}
+      style={{
+        maxWidth: '100%',
+        height: 'auto',
+      }}
+    />
+  </TabItem>
+</Tabs>
+
+## Customize
+
+Tune the runtime behavior with the environment variables and options below.
+
+### Environment variables
+
+Before you run a script, set `LOG_LEVEL` for the right verbosity and toggle `LOG_TIME` to `'true'` when you want timestamped output.
+
+| Setting     | Type     | Default                                                                                      | Description                                                               |
+|-------------|----------|----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
+| `LOG_LEVEL` | `string` | `'debug'` when `NODE_ENV=development`; `'warn'` for browser `production`; otherwise `'info'` | Minimum level emitted; accepts `debug`, `info`, `warn`, `error`.          |
+| `NODE_ENV`  | `string` | —                                                                                            | Controls the default `LOG_LEVEL`; set to `'development'` for chatty logs. |
+| `LOG_TIME`  | `string` | —                                                                                            | Set to the string `'true'` to prefix each message with an ISO timestamp.  |
+
+### Options
+
+Call `Logger.customize({ ... })` to spin up scoped loggers, giving each phase a name and using padding to separate sections in the terminal.
+
+| Option      | Type   | Default | Description                                                                          |
+|-------------|--------|---------|--------------------------------------------------------------------------------------|
+| `name`      | string | —       | Appends a dimmed `[name]` tag to the colored level label for quick filtering.        |
+| `padTop`    | number | `0`     | Inserts that many blank lines **before** the payload (values below `0` are ignored). |
+| `padBottom` | number | `0`     | Inserts that many blank lines **after** the payload (values below `0` are ignored).  |
+
+## Troubleshooting
+
+- **Nothing prints to the terminal.** — Check `LOG_LEVEL`; if it is set higher than your message severity, downgrade it or unset it entirely.
+- **Colors missing in CI logs.** — Some environments disable ANSI. Export `FORCE_COLOR=1` or rely on timestamps/names for identification.
+- **Extra blank lines surround messages.** — Review `padTop`/`padBottom` on customized loggers and reset them to `0` when not needed.
+- **Timestamps not appearing.** — Ensure `LOG_TIME` is set to the string `'true'`, not any other truthy value.
+- **Debug logs still hidden locally.** — Confirm `NODE_ENV` is `'development'` or explicitly set `LOG_LEVEL=debug`.

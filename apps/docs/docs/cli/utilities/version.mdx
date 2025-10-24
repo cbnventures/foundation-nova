@@ -27,7 +27,9 @@ tags:
 import { Icon } from '@iconify/react';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
+
+import versionTerminalOutput from './_assets_/version-1.png';
+import versionRendered from './_assets_/version-2.png';
 
 Generate Markdown-ready tables of version information only for your OS, developer tools, package managers, browsers, and runtimes in one run.
 
@@ -71,7 +73,11 @@ You can run this command in two ways:
   <TabItem value="nova" label="nova (installed)" default>
 
     ```bash
+    # Original
     nova utility version
+
+    # Shorthand
+    nova util ver
     ```
 
     **Note:** If Nova is installed **only locally** (inside a project), the command will work **only within that project's directory**. See the [npm docs](https://docs.npmjs.com/cli/configuring-npm/folders) for details.
@@ -80,7 +86,11 @@ You can run this command in two ways:
   <TabItem value="npx" label="npx (no install)">
 
     ```bash
+    # Original
     npx --yes @cbnventures/foundation-nova@latest utility version
+
+    # Shorthand
+    npx --yes @cbnventures/foundation-nova@latest util ver
     ```
 
     **Note:** If you prefer the shorter `nova` command, see the [Setup and Configure](/docs/quickstart/setup) guide for installation instructions.
@@ -203,145 +213,165 @@ Each option enables checks for a specific category of tools or system informatio
   <TabItem value="nova" label="nova (installed)" default>
     <div className="row">
       <div className="col col--6 margin-bottom--sm">
-        <CodeBlock language="bash" title="All">
-          {`# Original\r\n`}
-          {`nova utility version --all`}
-          {`\r\n\r\n`}
-          {`# Shorthand\r\n`}
-          {`nova util ver -a`}
-        </CodeBlock>
+
+        ```bash title="All"
+        # Original
+        nova utility version --all
+
+        # Shorthand
+        nova util ver -a
+        ```
+
       </div>
       <div className="col col--6 margin-bottom--sm">
-        <CodeBlock language="bash" title="Operating System">
-          {`# Original\r\n`}
-          {`nova utility version --os`}
-          {`\r\n\r\n`}
-          {`# Shorthand\r\n`}
-          {`nova util ver -o`}
-        </CodeBlock>
+
+        ```bash title="Operating System"
+        # Original
+        nova utility version --os
+
+        # Shorthand
+        nova util ver -o
+        ```
+
       </div>
       <div className="col col--6 margin-bottom--sm">
-        <CodeBlock language="bash" title="Node.js + Tools">
-          {`# Original\r\n`}
-          {`nova utility version --node`}
-          {`\r\n\r\n`}
-          {`# Shorthand\r\n`}
-          {`nova util ver -n`}
-        </CodeBlock>
+
+        ```bash title="Node.js + Tools"
+        # Original
+        nova utility version --node
+
+        # Shorthand
+        nova util ver -n
+        ```
+
       </div>
       <div className="col col--6 margin-bottom--sm">
-        <CodeBlock language="bash" title="Web Browsers">
-          {`# Original\r\n`}
-          {`nova utility version --browser`}
-          {`\r\n\r\n`}
-          {`# Shorthand\r\n`}
-          {`nova util ver -b`}
-        </CodeBlock>
+
+        ```bash title="Web Browsers"
+        # Original
+        nova utility version --browser
+
+        # Shorthand
+        nova util ver -b
+        ```
+
       </div>
       <div className="col col--6 margin-bottom--sm">
-        <CodeBlock language="bash" title="Interpreters / Runtimes">
-          {`# Original\r\n`}
-          {`nova utility version --interpreter`}
-          {`\r\n\r\n`}
-          {`# Shorthand\r\n`}
-          {`nova util ver -i`}
-        </CodeBlock>
+
+        ```bash title="Interpreters / Runtimes"
+        # Original
+        nova utility version --interpreter
+
+        # Shorthand
+        nova util ver -i
+        ```
+
       </div>
       <div className="col col--6 margin-bottom--sm">
-        <CodeBlock language="bash" title="Environment Managers">
-          {`# Original\r\n`}
-          {`nova utility version --env`}
-          {`\r\n\r\n`}
-          {`# Shorthand\r\n`}
-          {`nova util ver -e`}
-        </CodeBlock>
+
+        ```bash title="Environment Managers"
+        # Original
+        nova utility version --env
+
+        # Shorthand
+        nova util ver -e
+        ```
+
       </div>
     </div>
   </TabItem>
   <TabItem value="npx" label="npx (no install)">
     <div className="row">
       <div className="col col--6 margin-bottom--sm">
-        <CodeBlock language="bash" title="All">
-          {`# Original\r\n`}
-          {`npx --yes @cbnventures/foundation-nova@latest utility version --all`}
-          {`\r\n\r\n`}
-          {`# Shorthand\r\n`}
-          {`npx --yes @cbnventures/foundation-nova@latest util ver -a`}
-        </CodeBlock>
+
+        ```bash title="All"
+        # Original
+        npx --yes @cbnventures/foundation-nova@latest utility version --all
+
+        # Shorthand
+        npx --yes @cbnventures/foundation-nova@latest util ver -a
+        ```
+
       </div>
       <div className="col col--6 margin-bottom--sm">
-        <CodeBlock language="bash" title="Operating System">
-          {`# Original\r\n`}
-          {`npx --yes @cbnventures/foundation-nova@latest utility version --os`}
-          {`\r\n\r\n`}
-          {`# Shorthand\r\n`}
-          {`npx --yes @cbnventures/foundation-nova@latest util ver -o`}
-        </CodeBlock>
+
+        ```bash title="Operating System"
+        # Original
+        npx --yes @cbnventures/foundation-nova@latest utility version --os
+
+        # Shorthand
+        npx --yes @cbnventures/foundation-nova@latest util ver -o
+        ```
+
       </div>
       <div className="col col--6 margin-bottom--sm">
-        <CodeBlock language="bash" title="Node.js + Tools">
-          {`# Original\r\n`}
-          {`npx --yes @cbnventures/foundation-nova@latest utility version --node`}
-          {`\r\n\r\n`}
-          {`# Shorthand\r\n`}
-          {`npx --yes @cbnventures/foundation-nova@latest util ver -n`}
-        </CodeBlock>
+
+        ```bash title="Node.js + Tools"
+        # Original
+        npx --yes @cbnventures/foundation-nova@latest utility version --node
+
+        # Shorthand
+        npx --yes @cbnventures/foundation-nova@latest util ver -n
+        ```
+
       </div>
       <div className="col col--6 margin-bottom--sm">
-        <CodeBlock language="bash" title="Web Browsers">
-          {`# Original\r\n`}
-          {`npx --yes @cbnventures/foundation-nova@latest utility version --browser`}
-          {`\r\n\r\n`}
-          {`# Shorthand\r\n`}
-          {`npx --yes @cbnventures/foundation-nova@latest util ver -b`}
-        </CodeBlock>
+
+        ```bash title="Web Browsers"
+        # Original
+        npx --yes @cbnventures/foundation-nova@latest utility version --browser
+
+        # Shorthand
+        npx --yes @cbnventures/foundation-nova@latest util ver -b
+        ```
+
       </div>
       <div className="col col--6 margin-bottom--sm">
-        <CodeBlock language="bash" title="Interpreters / Runtimes">
-          {`# Original\r\n`}
-          {`npx --yes @cbnventures/foundation-nova@latest utility version --interpreter`}
-          {`\r\n\r\n`}
-          {`# Shorthand\r\n`}
-          {`npx --yes @cbnventures/foundation-nova@latest util ver -i`}
-        </CodeBlock>
+
+        ```bash title="Interpreters / Runtimes"
+        # Original
+        npx --yes @cbnventures/foundation-nova@latest utility version --interpreter
+
+        # Shorthand
+        npx --yes @cbnventures/foundation-nova@latest util ver -i
+        ```
+
       </div>
       <div className="col col--6 margin-bottom--sm">
-        <CodeBlock language="bash" title="Environment Managers">
-          {`# Original\r\n`}
-          {`npx --yes @cbnventures/foundation-nova@latest utility version --env`}
-          {`\r\n\r\n`}
-          {`# Shorthand\r\n`}
-          {`npx --yes @cbnventures/foundation-nova@latest util ver -e`}
-        </CodeBlock>
+
+        ```bash title="Environment Managers"
+        # Original
+        npx --yes @cbnventures/foundation-nova@latest utility version --env
+
+        # Shorthand
+        npx --yes @cbnventures/foundation-nova@latest util ver -e
+        ```
+
       </div>
     </div>
   </TabItem>
 </Tabs>
 
-## Output Reference
+## Output Examples
 
-<Tabs groupId="examples">
-  <TabItem value="raw-node" label="Raw (terminal output)" default>
-    <CodeBlock language="text">
-      {`Node.js + Tools
-| Tool                                   | Version    |
-|----------------------------------------|------------|
-| Node.js                                | 20.19.4    |
-| Node Package Manager (npm)             | 10.8.2     |
-| Yarn                                   | 1.22.22    |
-| Performant Node Package Manager (pnpm) | 10.15.0    |
-| Bun                                    | 1.2.21     |`}
-    </CodeBlock>
+<Tabs groupId="version-examples">
+  <TabItem value="terminal-output" label="Terminal output" default>
+    <img
+      src={versionTerminalOutput}
+      alt="Terminal output preview"
+      width={759}
+      height={366}
+      style={{ maxWidth: '100%', height: 'auto' }}
+    />
   </TabItem>
-  <TabItem value="rendered-node" label="Rendered (preview)">
-    Node.js + Tools
-    | Tool                                   | Version    |
-    |----------------------------------------|------------|
-    | Node.js                                | 20.19.4    |
-    | Node Package Manager (npm)             | 10.8.2     |
-    | Yarn                                   | 1.22.22    |
-    | Performant Node Package Manager (pnpm) | 10.15.0    |
-    | Bun                                    | 1.2.21     |
+  <TabItem value="rendered" label="Rendered">
+    <img
+      src={versionRendered}
+      alt="Rendered preview"
+      width={896}
+      height={474}
+      style={{ maxWidth: '100%', height: 'auto' }}
+    />
   </TabItem>
 </Tabs>
 

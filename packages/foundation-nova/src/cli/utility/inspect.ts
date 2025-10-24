@@ -16,6 +16,6 @@ export class CLIInspect {
    * @since 1.0.0
    */
   public static async run(options: CLIInspectRunOptions): CLIInspectRunReturns {
-    console.info('hello from cli inspect', options); // todo
+    process.stdout.write(`hello from cli inspect ${options}`); // todo
   }
 }

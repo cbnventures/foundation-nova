@@ -1,7 +1,7 @@
 ---
 id: initialize
-title: Initialize Configuration
-description: Interactive wizard that loads, edits, and saves nova.config.json with project details, entities, and canonical URLs from the terminal.
+title: Initialize Config
+description: Interactive wizard that loads, edits, and saves the Foundation Nova config file with project details, entities, and canonical URLs straight from the terminal.
 keywords:
   - foundation nova
   - nova initialize
@@ -22,66 +22,80 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import CodeBlock from '@theme/CodeBlock';
 
-Generate or update `nova.config.json` with an interactive wizard that makes the config easy by remembering existing values, guiding each step, and saving when you're done.
+Generate or update the Nova config file with an interactive wizard by guiding you towards each step, and saving when you're done.
 
 ## Summary
 
-The `initialize` command scaffolds and maintains `nova.config.json` by opening a guided flow across project metadata, key contacts, and canonical URLs.
+The `initialize` command scaffolds and maintains the `nova.config.json` file by opening a guided flow across project metadata, key entities, and canonical URLs.
 
-Existing values populate each prompt so you edit an accurate snapshot and only persist changes when you confirm them.
+Existing values populate each prompt so you can edit an accurate snapshot and only persist changes when you confirm them.
 
 ## Why Use This Command?
 
-- Skip guessing the structure. The wizard lists each field, explains what it is for, and guides you to fill known values.
+- The wizard writes the JSON with only the fields you confirm, no extra cleanup required.
+- The wizard lists each field, explains what each field is for, and guides you to fill known values.
 - Avoid typos and mismatched formats with built-in validation for slugs, emails, and URLs.
-- Stop juggling manual edits. Nova writes the JSON with only the fields you confirm, no extra cleanup required.
-- Stay confident making changes. **Dry run** lets you walk through the questions without touching the file until you're ready.
+- **Dry run** lets you walk through the questions without touching the config file until you're ready.
 
 ## Use Cases
 
 - **Onboarding** — Create the first `nova.config.json` for a new or migrated repository.
-- **Metadata refresh** — Keep project descriptions, contacts, and canonical URLs in sync after ownership changes.
+- **Metadata refresh** — Keep project descriptions, entities, and canonical URLs in sync after ownership changes.
 - **Normalization** — Clean up manually edited entries without hunting for typos in raw JSON.
 - **Generator support** — Feed consistent metadata to Nova generators so docs, README files, and release notes stay accurate.
 
 ## Requirements
 
-- Run the command from the project root (the top-level `package.json`, including monorepos) so Nova can write `nova.config.json`.
-- Node.js LTS runtime with either the `nova` CLI installed or access to `npx`.
-- Terminal session that can display interactive prompts.
+- **Node.js runtime** — Use any Node.js LTS release with either the installed `nova` CLI or `npx`.
+- **Project root** — Run the command from the directory containing the top-level `package.json` (monorepos included).
+- **Interactive terminal** — Make sure the session can display the wizard's prompts.
 
 ## Usage
+
+You can run this command in two ways:
 
 <Tabs groupId="install-state">
   <TabItem value="nova" label="nova (installed)" default>
 
     ```bash
-    nova utility initialize
+    # Original
+    nova utility version
+
+    # Shorthand
+    nova util ver
     ```
+
+    **Note:** If Nova is installed **only locally** (inside a project), the command will work **only within that project's directory**. See the [npm docs](https://docs.npmjs.com/cli/configuring-npm/folders) for details.
 
   </TabItem>
   <TabItem value="npx" label="npx (no install)">
 
     ```bash
-    npx --yes @cbnventures/foundation-nova@latest utility initialize
+    # Original
+    npx --yes @cbnventures/foundation-nova@latest utility version
+
+    # Shorthand
+    npx --yes @cbnventures/foundation-nova@latest util ver
     ```
+
+    **Note:** If you prefer the shorter `nova` command, see the [Setup and Configure](/docs/quickstart/setup) guide for installation instructions.
 
   </TabItem>
 </Tabs>
 
-:::tip Editing an existing config?
-Existing values are pre-filled in each prompt. Press **Enter** to keep a value, type a new value to replace it, or enter a single space to clear that field.
-:::
-
 ## Options
 
-| Flag            | Description                                        |
-|-----------------|----------------------------------------------------|
-| `-d, --dry-run` | Skip saving to disk and warn that no files change. |
+| Flag            | Description                                 |
+|-----------------|---------------------------------------------|
+| `-d, --dry-run` | Skip saving to disk (warning will display). |
 
 ## Flow Overview
 
 The command loops until you choose **Save & Exit** or **Cancel**. You can edit any category multiple times during the same run.
+
+:::tip Editing an existing config?
+Existing values are pre-filled in each prompt. Press **Enter** to keep a value, type a new value to replace it, or enter a single space to clear that field.
+:::
 
 ### Project
 
@@ -91,19 +105,19 @@ The command loops until you choose **Save & Exit** or **Cancel**. You can edit a
 ### Entities
 
 - Manages people or organizations related to the project (authors, contributors, supporters).
-- For each entity you can set a name, email, URL, and roles; emails follow a simple pattern check and URLs must be valid HTTP(S).
+- For each entity you can set a name, email, URL, and roles; emails follow a simple pattern check and URLs must be valid `http://` or `https://`.
 - Menu supports **Add**, **Edit**, and **Remove** with confirmation before deletion; duplicates and blank roles are trimmed automatically.
 
 ### URLs
 
+- Repository URLs accept `git:`, `git+https:`, `git+ssh:`, `git+http:`, and standard `http://` or `https://`.
 - Normalizes all canonical project links: `homepage`, `repository`, `issues`, `license`, `logo`, `docs`, `github`, `npm`, and comma-separated funding sources.
-- Repository URLs accept `git:`, `git+https:`, `git+ssh:`, `git+http:`, and standard HTTP(S); all other fields require HTTP(S).
 - Funding sources are sanitized individually and stored as an array, skipping invalid entries.
 
 ## URL Sanitization and Validation
 
+- Enter a single space in any URL prompt to clear the value.
 - All URLs pass through sanitization, which trims whitespace, parses with the WHATWG `URL` class, and only persists allowed protocols.
-- Enter a single space in any URL prompt to clear the value; malformed entries trigger clear error messages so you can fix them immediately.
 - Funding URLs share the same validation, and any values Nova cannot normalize are ignored.
 
 ## Saving and Canceling
@@ -113,8 +127,8 @@ The command loops until you choose **Save & Exit** or **Cancel**. You can edit a
 
 ## Output Example
 
-<CodeBlock language="json" title="nova.config.json">
-  {`{
+```json title="nova.config.json"
+{
     "project": {
       "name": {
         "title": "Example Project",
@@ -164,11 +178,11 @@ The command loops until you choose **Save & Exit** or **Cancel**. You can edit a
         "https://opencollective.com/example"
       ]
     }
-  }`}
-</CodeBlock>
+  }
+```
 
 ## Troubleshooting
 
-- **"Must be run inside the project root directory."** — Verify you execute the command where the project root `package.json` resides. App or package folders inside monorepos are not supported.
+- **"Must be run inside the project root directory."** — Verify you execute the command where the project root `package.json` resides. App or package folders inside monorepos are not allowed.
 - **Validation loops keep reappearing.** — Fix the highlighted email or URL before continuing. To drop the value, enter a single space and press **Enter**.
 - **No file was created.** — Make sure `nova.config.json` is writable and that you did not pass `--dry-run` or choose **Cancel**.

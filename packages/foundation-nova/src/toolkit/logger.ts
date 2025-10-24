@@ -1,5 +1,9 @@
+import * as util from 'node:util';
+
 import chalk from 'chalk';
 
+import { LINEBREAK_CRLF_OR_LF, PATTERN_ANSI } from '@/lib/regex.js';
+import { currentTimestamp } from '@/lib/utility.js';
 import type {
   LoggerCustomizeOptions,
   LoggerCustomizeReturns,
@@ -20,10 +24,11 @@ import type {
   LoggerShouldLogLevel,
   LoggerShouldLogReturns,
   LoggerShouldLogWeights,
+  LoggerStripAnsiColorsReturns,
+  LoggerStripAnsiColorsValue,
   LoggerWarnMessage,
   LoggerWarnReturns,
 } from '@/types/logger.d.ts';
-import { currentTimestamp } from '@/lib/utility.js';
 
 /**
  * Logger.
@@ -127,31 +132,24 @@ export default class Logger {
       return;
     }
 
-    const prefix = Logger.prefix(level, options);
-    const padTopCount = Math.max(0, options.padTop ?? 0);
-    const padBottomCount = Math.max(0, options.padBottom ?? 0);
-    const padTop = '\r\n'.repeat(padTopCount);
-    const padBottom = '\r\n'.repeat(padBottomCount);
+    const padTop = '\r\n'.repeat(Math.max(0, options.padTop ?? 0));
+    const padBottom = '\r\n'.repeat(Math.max(0, options.padBottom ?? 0));
+
     const stream = (level === 'warn' || level === 'error') ? process.stderr : process.stdout;
+    const formattedMessage = (message.length > 0) ? util.format(...message) : '';
 
     if (padTop.length > 0) {
       stream.write(padTop);
     }
 
-    switch (level) {
-      case 'debug':
-        console.debug(prefix, ...message);
-        break;
-      case 'info':
-        console.info(prefix, ...message);
-        break;
-      case 'warn':
-        console.warn(prefix, ...message);
-        break;
-      case 'error':
-        console.error(prefix, ...message);
-        break;
-    }
+    const prefix = Logger.prefix(level, options);
+    const prefixVisibleLength = Logger.stripAnsiColors(prefix).length;
+    const indent = ' '.repeat(prefixVisibleLength + 1);
+    const alignedMessage = formattedMessage.replace(new RegExp(LINEBREAK_CRLF_OR_LF, 'g'), `$&${indent}`);
+
+    const payload = (formattedMessage.length > 0) ? `${prefix} ${alignedMessage}` : prefix;
+
+    stream.write(`${payload}\r\n`);
 
     if (padBottom.length > 0) {
       stream.write(padBottom);
@@ -176,8 +174,12 @@ export default class Logger {
       warn: 30,
       error: 40,
     };
+
+    const isBrowser = typeof globalThis === 'object' && Reflect.has(globalThis, 'window');
+    const nodeEnv = process.env['NODE_ENV'] ?? 'production';
+
     const currentLogLevel = (process.env['LOG_LEVEL'] ?? '').toLowerCase();
-    const defaultLogLevel = (process.env['NODE_ENV'] === 'development') ? 'debug' : 'info';
+    const defaultLogLevel = (isBrowser && nodeEnv === 'production') ? 'warn' : (nodeEnv === 'development') ? 'debug' : 'info';
     const preferredLogLevel = Object.keys(weights).includes(currentLogLevel as LoggerShouldLogCurrentLogLevel) ? (currentLogLevel as LoggerShouldLogCurrentLogLevel) : defaultLogLevel;
 
     return weights[level] >= weights[preferredLogLevel];
@@ -225,5 +227,20 @@ export default class Logger {
     }
 
     return `${coloredLevelLabel}${nameLabel}`;
+  }
+
+  /**
+   * Logger - Strip ansi colors.
+   *
+   * @param {LoggerStripAnsiColorsValue} value - Value.
+   *
+   * @private
+   *
+   * @returns {LoggerStripAnsiColorsReturns}
+   *
+   * @since 1.0.0
+   */
+  private static stripAnsiColors(value: LoggerStripAnsiColorsValue): LoggerStripAnsiColorsReturns {
+    return value.replace(new RegExp(PATTERN_ANSI, 'g'), '');
   }
 }

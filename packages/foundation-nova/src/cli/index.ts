@@ -7,8 +7,7 @@ import { CLIInitialize } from '@/cli/utility/initialize.js';
 import { CLIInspect } from '@/cli/utility/inspect.js';
 import { CLIVersion } from '@/cli/utility/version.js';
 import { PATTERN_ANSI, PATTERN_ERROR_PREFIX, WHITESPACE_PATTERN } from '@/lib/regex.js';
-import CLIHeader from '@/toolkit/cli-header.js';
-import { Logger } from '@/toolkit/index.js';
+import { CLIHeader, Logger } from '@/toolkit/index.js';
 import type {
   CLIExecuteCommandOptions,
   CLIExecuteCommandReturns,

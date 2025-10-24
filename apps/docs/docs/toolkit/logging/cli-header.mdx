@@ -1,11 +1,185 @@
 ---
 id: cli-header
 title: CLI Header
-description: x
+description: Render ANSI-aware CLI banners with configurable borders, alignment, padding, and smart truncation.
 keywords:
-  - x
+  - foundation nova
+  - cli header
+  - terminal banner
+  - command line ux
+  - automation
+  - developer tooling
 tags:
-  - x
+  - toolkit
+  - logging
+  - cli
+  - ux
+  - automation
 ---
 
-Coming soon
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+import cliHeaderBasic from './_assets_/cli-header-1.png';
+import cliHeaderStyled from './_assets_/cli-header-2.png';
+import cliHeaderMargins from './_assets_/cli-header-3.png';
+
+Display consistent CLI banners sized for any terminal, preserving color codes and honoring padding preferences.
+
+## Summary
+
+The `CLIHeader` battery renders ANSI-safe banner strings you can print, giving any CLI an instant, on-brand frame with tunable borders, width, padding, and smart truncation.
+
+## Why Use This Battery?
+
+1. Displays a branded heading so every command run carries clear visual identity.
+2. Pin important information (release version, commit SHA, target environment, etc.) in the header.
+3. Helps surface high-priority notices, like upcoming deprecations or required flags.
+
+## Capabilities
+
+- Terminal width is adapted during rendering, so banners match the window size without manual tuning.
+- Adds margin and padding controls without hand-tuning spaces or escape codes.
+- ANSI-aware truncation keeps long, colorized titles legible and prevents bleed into the rest of the output.
+- Border presets cover box, round, and thick frames, giving teams on-brand presentation with no bloat.
+
+## Usage
+
+:::info Good to Know
+Examples use TypeScript, but the API is identical in JavaScript (ESM-only).
+:::
+
+<Tabs groupId="cli-header-usage">
+  <TabItem value="basic" label="Basic centered box" default>
+
+    ```ts
+    import { CLIHeader } from '@cbnventures/foundation-nova/toolkit';
+
+    const banner = CLIHeader.render(
+      [
+        'Foundation Nova',
+        'CLI ready to automate',
+      ],
+      {
+        paddingX: 3,
+        paddingY: 1,
+      },
+    );
+
+    process.stdout.write(banner + '\n');
+    ```
+
+  </TabItem>
+  <TabItem value="styled" label="Styled + colored">
+
+    ```ts
+    import { CLIHeader } from '@cbnventures/foundation-nova/toolkit';
+    import chalk from 'chalk';
+
+    const banner = CLIHeader.render(
+      [
+        chalk.bold('Deploy pipeline'),
+        chalk.gray('Staging • build #2047'),
+        chalk.green('Status: READY'),
+      ],
+      {
+        align: 'left',
+        style: 'round',
+        width: 48,
+        paddingX: 2,
+        paddingY: 1,
+      },
+    );
+
+    process.stdout.write(banner + '\n');
+    ```
+
+  </TabItem>
+  <TabItem value="margins" label="Margins and padding">
+
+    ```ts
+    import { CLIHeader } from '@cbnventures/foundation-nova/toolkit';
+
+    const summary = CLIHeader.render(
+      [
+        'Summary',
+      ],
+      {
+        marginTop: 1,
+        marginBottom: 1,
+        paddingX: 2,
+        paddingY: 1,
+        style: 'thick',
+      },
+    );
+
+    process.stdout.write(summary + '\n');
+    ```
+
+  </TabItem>
+</Tabs>
+
+## Output Examples
+
+<Tabs groupId="cli-header-examples">
+  <TabItem value="basic" label="Basic centered box" default>
+    <img
+      src={cliHeaderBasic}
+      alt="Basic centered box preview"
+      width={682}
+      height={389}
+      style={{
+        maxWidth: '100%',
+        height: 'auto',
+      }}
+    />
+  </TabItem>
+  <TabItem value="styled" label="Styled + colored">
+    <img
+      src={cliHeaderStyled}
+      alt="Styled + colored preview"
+      width={682}
+      height={389}
+      style={{
+        maxWidth: '100%',
+        height: 'auto',
+      }}
+    />
+  </TabItem>
+  <TabItem value="margins" label="Margins and padding">
+    <img
+      src={cliHeaderMargins}
+      alt="Margins and padding preview"
+      width={682}
+      height={389}
+      style={{
+        maxWidth: '100%',
+        height: 'auto',
+      }}
+    />
+  </TabItem>
+</Tabs>
+
+## Customize
+
+Tune the runtime behavior with the environment variables and options below.
+
+### Options
+
+Pass these values as the second argument to `CLIHeader.render(lines, options)` and pick the border style, width, and padding that style the banner to fit your content.
+
+| Option         | Type                            | Default                  | Description                                                                               |
+|----------------|---------------------------------|--------------------------|-------------------------------------------------------------------------------------------|
+| `align`        | `'left' \| 'center' \| 'right'` | `'center'`               | Aligns each content row within the frame; defaults to centered text.                      |
+| `width`        | `number`                        | `process.stdout.columns` | Target frame width. Falls back to the current terminal columns—set this explicitly in CI. |
+| `style`        | `'box' \| 'round' \| 'thick'`   | `'box'`                  | Picks the border characters used for the top, bottom, and vertical edges.                 |
+| `paddingX`     | `number`                        | `0`                      | Adds spaces on both sides of each content row (negative values are treated as `0`).       |
+| `paddingY`     | `number`                        | `0`                      | Adds blank content rows above and below the provided text (negative values become `0`).   |
+| `marginTop`    | `number`                        | `0`                      | Emits that many blank lines before the banner block (clamped at `0`).                     |
+| `marginBottom` | `number`                        | `0`                      | Emits that many blank lines after the banner block (clamped at `0`).                      |
+
+## Troubleshooting
+
+- **Borders collapse or look uneven.** — Increase `width` or reduce `paddingX` so there is space between borders.
+- **Text truncates unexpectedly.** — Increase `width` or lower padding; a one-character ellipsis (`…`) indicates truncation.
+- **Extra blank lines.** — Check `marginTop`, `marginBottom`, and `paddingY`; set them to `0` for a tighter banner.

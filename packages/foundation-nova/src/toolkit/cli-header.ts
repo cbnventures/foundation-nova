@@ -186,7 +186,15 @@ export default class CLIHeader {
 
     Logger.customize({ name: 'CLIHeader.truncate::first-pass' }).debug(JSON.stringify(plain));
 
-    const visibleWidth = Math.min(max, plain.length);
+    const plainLength = plain.length;
+    const needsEllipsis = plainLength > max;
+    const visibleWidth = (needsEllipsis) ? Math.max(0, max - 1) : Math.min(max, plainLength);
+
+    Logger.customize({ name: 'CLIHeader.truncate::width' }).debug(JSON.stringify({
+      plainLength,
+      needsEllipsis,
+      visibleWidth,
+    }));
 
     // Second pass: Rebuild truncated string, reinserting ANSI.
     let visibleIndex = 0;
@@ -228,6 +236,12 @@ export default class CLIHeader {
     }
 
     Logger.customize({ name: 'CLIHeader.truncate::second-pass' }).debug(JSON.stringify(output));
+
+    if (needsEllipsis) {
+      output += '…';
+
+      Logger.customize({ name: 'CLIHeader.truncate::ellipsis' }).debug(JSON.stringify(output));
+    }
 
     // If ANSI is detected in the output, add a hard reset at the end.
     if (output.includes('\x1b[')) {

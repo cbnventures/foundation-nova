@@ -43,15 +43,8 @@ const config: FlatConfig = [
       n: nPlugin,
     },
     rules: {
-      // Forbid only console.log, allow other console methods (debug, info, warn, error, etc.).
-      'no-console': ['error', {
-        allow: [
-          'debug',
-          'info',
-          'warn',
-          'error',
-        ],
-      }],
+      // Prevent raw console output; rely on the "Logger" toolkit battery instead.
+      'no-console': ['error'],
 
       // Disallow "process.exit()" to enforce structured error handling.
       'no-process-exit': ['error'],

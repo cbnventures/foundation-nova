@@ -1,11 +1,202 @@
 ---
 id: markdown-table
 title: Markdown Table
-description: x
+description: Generate Markdown tables with ANSI-safe widths, escaped pipes, and copy-ready output for docs, logs, and bug reports.
 keywords:
-  - x
+  - foundation nova
+  - markdown table
+  - table formatter
+  - ansi safe formatting
+  - documentation tooling
+  - automation workflows
+  - copy ready output
+  - developer utilities
 tags:
-  - x
+  - toolkit
+  - formatter
+  - markdown
+  - docs
+  - automation
 ---
 
-Coming soon
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+import markdownTableBasic from './_assets_/markdown-table-1.png';
+import markdownTableAnsi from './_assets_/markdown-table-2.png';
+import markdownTableObjects from './_assets_/markdown-table-3.png';
+
+Generate copy-ready Markdown tables without juggling column widths or accidentally breaking ANSI-colored strings.
+
+## Summary
+
+The `MarkdownTable` battery turns rows of text into perfectly aligned Markdown tables. It returns a ready-to-print string you can drop into terminal logs, CI updates, or support runbooks without hand-tuning spacing.
+
+## Why Use This Battery?
+
+1. Way easier to scan than dumping raw JSON or console logs into an update.
+2. ANSI-supported output for terminals, and clean, copy‑ready Markdown for docs.
+3. Keeps diffs tidy in Git, so reviewers spot row-level changes fast.
+
+## Capabilities
+
+- Accounts for ANSI colors and escapes special characters so tables align correctly and render cleanly.
+- Enforces header and row parity, so to stop malformed tables from being generated.
+- Built-in minimum column sizing and optional padded separators create copy-paste-ready tables.
+- Chained row insertion lets automation pipelines stream data directly into reports with ease.
+
+## Usage
+
+:::info Good to Know
+Examples use TypeScript, but the API is identical in JavaScript (ESM-only).
+:::
+
+<Tabs groupId="markdown-table-usage">
+  <TabItem value="basic" label="Basic table" default>
+
+    ```ts
+    import { MarkdownTable } from '@cbnventures/foundation-nova/toolkit';
+
+    const table = new MarkdownTable(
+      [
+        'Tool',
+        'Version',
+      ],
+    );
+
+    table
+      .addRow(['Nova CLI', '1.2.0'])
+      .addRow(['Node.js', process.version]);
+
+    process.stdout.write(table.render() + '\n');
+    ```
+
+  </TabItem>
+  <TabItem value="ansi" label="ANSI-aware">
+
+    ```ts
+    import { MarkdownTable } from '@cbnventures/foundation-nova/toolkit';
+    import chalk from 'chalk';
+
+    const table = new MarkdownTable(
+      [
+        'Check',
+        'Result',
+      ],
+      {
+        minimumColumnWidth: 6,
+        padDelimiterRow: true,
+      },
+    );
+
+    table
+      .addRow([chalk.green('Unit tests'), chalk.green('PASS')])
+      .addRow([chalk.yellow('Docs'), chalk.yellow('WARN')]);
+
+    process.stdout.write(table.render() + '\n');
+    ```
+
+  </TabItem>
+  <TabItem value="objects" label="From objects + streaming">
+
+    ```ts
+    import { MarkdownTable } from '@cbnventures/foundation-nova/toolkit';
+
+    const tasks = [
+      {
+        name: 'Build',
+        status: 'Complete',
+        elapsedMs: 3200,
+      },
+      {
+        name: 'Test',
+        status: 'Pass',
+        elapsedMs: 18200,
+      },
+      {
+        name: 'Deploy',
+        status: 'Pending',
+        elapsedMs: 0,
+      },
+    ];
+
+    const table = new MarkdownTable(
+      [
+        'Task',
+        'Status',
+        'Duration',
+      ],
+    );
+
+    for (const task of tasks) {
+      table.addRow([task.name, task.status, `${task.elapsedMs} ms`]);
+
+      // Optional: stream the latest snapshot to the log.
+      // process.stdout.write(table.render());
+    }
+
+    process.stdout.write(table.render() + '\n');
+    ```
+
+  </TabItem>
+</Tabs>
+
+## Output Examples
+
+<Tabs groupId="markdown-table-examples">
+  <TabItem value="basic" label="Basic table" default>
+    <img
+      src={markdownTableBasic}
+      alt="Basic table preview"
+      width={682}
+      height={389}
+      style={{
+        maxWidth: '100%',
+        height: 'auto',
+      }}
+    />
+  </TabItem>
+  <TabItem value="ansi" label="ANSI-aware">
+    <img
+      src={markdownTableAnsi}
+      alt="ANSI-aware ansi preview"
+      width={682}
+      height={389}
+      style={{
+        maxWidth: '100%',
+        height: 'auto',
+      }}
+    />
+  </TabItem>
+  <TabItem value="objects" label="From objects + streaming">
+    <img
+      src={markdownTableObjects}
+      alt="From objects + streaming preview"
+      width={682}
+      height={389}
+      style={{
+        maxWidth: '100%',
+        height: 'auto',
+      }}
+    />
+  </TabItem>
+</Tabs>
+
+## Customize
+
+Tune the runtime behavior with the environment variables and options below.
+
+### Options
+
+Pass these options into the `MarkdownTable` constructor to control column widths and delimiter formatting so the output works in both terminals and docs.
+
+| Option               | Type      | Default | Description                                                                                   |
+|----------------------|-----------|---------|-----------------------------------------------------------------------------------------------|
+| `minimumColumnWidth` | `number`  | `3`     | Smallest visible width per column; anything below `3` is promoted to `3`.                     |
+| `padDelimiterRow`    | `boolean` | `false` | When `true`, outputs GitHub-style delimiter rows with surrounding spaces (e.g., `\| --- \|`). |
+
+## Troubleshooting
+
+- **`"headers" must be a non-empty array.`** — Ensure you pass at least one header string when constructing the table.
+- **`Length of "rows" must equal length of "headers"`.** — Each row array must align with the number of headers; pad missing cells before calling `addRow`.
+- **Unexpected spacing?** — Increase `minimumColumnWidth` when cells contain long strings or disable delimiter padding by leaving `padDelimiterRow` at its default.

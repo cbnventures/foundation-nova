@@ -25,7 +25,6 @@ tags:
   - getting-started
 ---
 
-import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -41,14 +40,18 @@ Start with `nova`, then the **command** and **subcommand** (if available), and f
 
 <Tabs groupId="install-state">
   <TabItem value="nova" label="nova (installed)" default>
-    <CodeBlock language="bash">
-      {`nova \<command\> \<subcommand\> [option]`}
-    </CodeBlock>
+
+    ```bash
+    nova <command> <subcommand> [option]
+    ```
+
   </TabItem>
   <TabItem value="npx" label="npx (no install)">
-    <CodeBlock language="bash">
-      {`npx --yes @cbnventures/foundation-nova@latest \<command\> \<subcommand\> [option]`}
-    </CodeBlock>
+
+    ```bash
+    npx --yes @cbnventures/foundation-nova@latest <command> <subcommand> [option]
+    ```
+
   </TabItem>
 </Tabs>
 
