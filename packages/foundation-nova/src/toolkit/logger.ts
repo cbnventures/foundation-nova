@@ -28,7 +28,7 @@ import type {
   LoggerStripAnsiColorsValue,
   LoggerWarnMessage,
   LoggerWarnReturns,
-} from '@/types/logger.d.ts';
+} from '@/types/toolkit/logger.d.ts';
 
 /**
  * Logger.

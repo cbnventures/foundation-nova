@@ -23,91 +23,91 @@ import {
   pathExists,
 } from '@/lib/utility.js';
 import type {
-  CLIVersionGetBrowserVersionBrowsers,
-  CLIVersionGetBrowserVersionReturns,
-  CLIVersionGetEnvironmentManagerVersionManagers,
-  CLIVersionGetEnvironmentManagerVersionReturns,
-  CLIVersionGetInterpreterVersionInterpreters,
-  CLIVersionGetInterpreterVersionReturns,
-  CLIVersionGetNodeVersionReturns,
-  CLIVersionGetNodeVersionTools,
-  CLIVersionGetOsVersionArchitecture,
-  CLIVersionGetOsVersionBuild,
-  CLIVersionGetOsVersionKernel,
-  CLIVersionGetOsVersionName,
-  CLIVersionGetOsVersionReturns,
-  CLIVersionGetOsVersionVersion,
-  CLIVersionPrintList,
-  CLIVersionPrintReturns,
-  CLIVersionRunList,
-  CLIVersionRunOptions,
-  CLIVersionRunReturns,
-  CLIVersionRunTasks,
-} from '@/types/cli.d.ts';
+  CLIUtilityVersionGetBrowserVersionBrowsers,
+  CLIUtilityVersionGetBrowserVersionReturns,
+  CLIUtilityVersionGetEnvironmentManagerVersionManagers,
+  CLIUtilityVersionGetEnvironmentManagerVersionReturns,
+  CLIUtilityVersionGetInterpreterVersionInterpreters,
+  CLIUtilityVersionGetInterpreterVersionReturns,
+  CLIUtilityVersionGetNodeVersionReturns,
+  CLIUtilityVersionGetNodeVersionTools,
+  CLIUtilityVersionGetOsVersionArchitecture,
+  CLIUtilityVersionGetOsVersionBuild,
+  CLIUtilityVersionGetOsVersionKernel,
+  CLIUtilityVersionGetOsVersionName,
+  CLIUtilityVersionGetOsVersionReturns,
+  CLIUtilityVersionGetOsVersionVersion,
+  CLIUtilityVersionPrintList,
+  CLIUtilityVersionPrintReturns,
+  CLIUtilityVersionRunList,
+  CLIUtilityVersionRunOptions,
+  CLIUtilityVersionRunReturns,
+  CLIUtilityVersionRunTasks,
+} from '@/types/cli/cli-utility.d.ts';
 
 /**
- * CLI Version.
+ * CLI Utility - Version.
  *
  * @since 1.0.0
  */
-export class CLIVersion {
+export class CLIUtilityVersion {
   /**
-   * CLI Version - Run.
+   * CLI Utility - Version - Run.
    *
-   * @param {CLIVersionRunOptions} options - Options.
+   * @param {CLIUtilityVersionRunOptions} options - Options.
    *
-   * @returns {CLIVersionRunReturns}
+   * @returns {CLIUtilityVersionRunReturns}
    *
    * @since 1.0.0
    */
-  public static async run(options: CLIVersionRunOptions): CLIVersionRunReturns {
-    const tasks: CLIVersionRunTasks = [];
+  public static async run(options: CLIUtilityVersionRunOptions): CLIUtilityVersionRunReturns {
+    const tasks: CLIUtilityVersionRunTasks = [];
 
     // Node.js + Tools.
     if (options.node || options.all || Object.keys(options).length === 0) {
-      tasks.push(CLIVersion.getNodeVersion().then((response) => ['node', response]));
+      tasks.push(CLIUtilityVersion.getNodeVersion().then((response) => ['node', response]));
     }
 
     // Environment Managers.
     if (options.env || options.all || Object.keys(options).length === 0) {
-      tasks.push(CLIVersion.getEnvironmentManagerVersion().then((response) => ['env', response]));
+      tasks.push(CLIUtilityVersion.getEnvironmentManagerVersion().then((response) => ['env', response]));
     }
 
     // Operating System.
     if (options.os || options.all || Object.keys(options).length === 0) {
-      tasks.push(CLIVersion.getOsVersion().then((response) => ['os', response]));
+      tasks.push(CLIUtilityVersion.getOsVersion().then((response) => ['os', response]));
     }
 
     // Web Browsers.
     if (options.browser || options.all || Object.keys(options).length === 0) {
-      tasks.push(CLIVersion.getBrowserVersion().then((response) => ['browsers', response]));
+      tasks.push(CLIUtilityVersion.getBrowserVersion().then((response) => ['browsers', response]));
     }
 
     // Interpreters / Runtimes.
     if (options.interpreter || options.all || Object.keys(options).length === 0) {
-      tasks.push(CLIVersion.getInterpreterVersion().then((response) => ['interpreters', response]));
+      tasks.push(CLIUtilityVersion.getInterpreterVersion().then((response) => ['interpreters', response]));
     }
 
     // Run all async calls in parallel and convert the results back to the list.
     const results = await Promise.all(tasks);
-    const list = Object.fromEntries(results) as CLIVersionRunList;
+    const list = Object.fromEntries(results) as CLIUtilityVersionRunList;
 
     // Print out the versions to the console.
-    CLIVersion.print(list);
+    CLIUtilityVersion.print(list);
   }
 
   /**
-   * CLI Version - Print.
+   * CLI Utility - Version - Print.
    *
-   * @param {CLIVersionPrintList} list - List.
+   * @param {CLIUtilityVersionPrintList} list - List.
    *
    * @private
    *
-   * @returns {CLIVersionPrintReturns}
+   * @returns {CLIUtilityVersionPrintReturns}
    *
    * @since 1.0.0
    */
-  private static print(list: CLIVersionPrintList): CLIVersionPrintReturns {
+  private static print(list: CLIUtilityVersionPrintList): CLIUtilityVersionPrintReturns {
     // Each category maps to a rows-by-key object used to render a single two-column table.
     for (const [category, rowsByKey] of Object.entries(list)) {
       // Skip empty objects.
@@ -139,15 +139,15 @@ export class CLIVersion {
   }
 
   /**
-   * CLI Version - Get node version.
+   * CLI Utility - Version - Get node version.
    *
    * @private
    *
-   * @returns {CLIVersionGetNodeVersionReturns}
+   * @returns {CLIUtilityVersionGetNodeVersionReturns}
    *
    * @since 1.0.0
    */
-  private static async getNodeVersion(): CLIVersionGetNodeVersionReturns {
+  private static async getNodeVersion(): CLIUtilityVersionGetNodeVersionReturns {
     const [
       nodeJsVersion,
       npmVersion,
@@ -162,7 +162,7 @@ export class CLIVersion {
       executeShell('bun --version'),
     ]);
 
-    let tools: CLIVersionGetNodeVersionTools = {};
+    let tools: CLIUtilityVersionGetNodeVersionTools = {};
 
     // Attempt to retrieve the Node.js version.
     if (nodeJsVersion.code === 0) {
@@ -228,21 +228,21 @@ export class CLIVersion {
   }
 
   /**
-   * CLI Version - Get environment manager version.
+   * CLI Utility - Version - Get environment manager version.
    *
    * @private
    *
-   * @returns {CLIVersionGetEnvironmentManagerVersionReturns}
+   * @returns {CLIUtilityVersionGetEnvironmentManagerVersionReturns}
    *
    * @since 1.0.0
    */
-  private static async getEnvironmentManagerVersion(): CLIVersionGetEnvironmentManagerVersionReturns {
+  private static async getEnvironmentManagerVersion(): CLIUtilityVersionGetEnvironmentManagerVersionReturns {
     const [nvmVersion, voltaVersion] = await Promise.all([
       executeShell('nvm --version'),
       executeShell('volta --version'),
     ]);
 
-    let managers: CLIVersionGetEnvironmentManagerVersionManagers = {};
+    let managers: CLIUtilityVersionGetEnvironmentManagerVersionManagers = {};
 
     // Attempt to retrieve the Node Version Manager (nvm-posix) version.
     if (os.platform() !== 'win32' && nvmVersion.code === 0) {
@@ -284,22 +284,22 @@ export class CLIVersion {
   }
 
   /**
-   * CLI Version - Get os version.
+   * CLI Utility - Version - Get os version.
    *
    * @private
    *
-   * @returns {CLIVersionGetOsVersionReturns}
+   * @returns {CLIUtilityVersionGetOsVersionReturns}
    *
    * @since 1.0.0
    */
-  private static async getOsVersion(): CLIVersionGetOsVersionReturns {
+  private static async getOsVersion(): CLIUtilityVersionGetOsVersionReturns {
     const platform = os.platform();
-    const architecture: CLIVersionGetOsVersionArchitecture = os.arch();
-    const kernel: CLIVersionGetOsVersionKernel = os.release();
+    const architecture: CLIUtilityVersionGetOsVersionArchitecture = os.arch();
+    const kernel: CLIUtilityVersionGetOsVersionKernel = os.release();
 
-    let name: CLIVersionGetOsVersionName = platform;
-    let version: CLIVersionGetOsVersionVersion = os.version();
-    let build: CLIVersionGetOsVersionBuild = '—';
+    let name: CLIUtilityVersionGetOsVersionName = platform;
+    let version: CLIUtilityVersionGetOsVersionVersion = os.version();
+    let build: CLIUtilityVersionGetOsVersionBuild = '—';
 
     // macOS.
     if (platform === 'darwin') {
@@ -344,18 +344,18 @@ export class CLIVersion {
   }
 
   /**
-   * CLI Version - Get browser version.
+   * CLI Utility - Version - Get browser version.
    *
    * @private
    *
-   * @returns {CLIVersionGetBrowserVersionReturns}
+   * @returns {CLIUtilityVersionGetBrowserVersionReturns}
    *
    * @since 1.0.0
    */
-  private static async getBrowserVersion(): CLIVersionGetBrowserVersionReturns {
+  private static async getBrowserVersion(): CLIUtilityVersionGetBrowserVersionReturns {
     const platform = os.platform();
 
-    let browsers: CLIVersionGetBrowserVersionBrowsers = {};
+    let browsers: CLIUtilityVersionGetBrowserVersionBrowsers = {};
 
     // macOS (must have "./Contents/Info" file and "CFBundleShortVersionString" key).
     if (platform === 'darwin') {
@@ -501,21 +501,21 @@ export class CLIVersion {
   }
 
   /**
-   * CLI Version - Get interpreter version.
+   * CLI Utility - Version - Get interpreter version.
    *
    * @private
    *
-   * @returns {CLIVersionGetInterpreterVersionReturns}
+   * @returns {CLIUtilityVersionGetInterpreterVersionReturns}
    *
    * @since 1.0.0
    */
-  private static async getInterpreterVersion(): CLIVersionGetInterpreterVersionReturns {
+  private static async getInterpreterVersion(): CLIUtilityVersionGetInterpreterVersionReturns {
     const [javaVersion, rustVersion] = await Promise.all([
       executeShell('java --version'),
       executeShell('rustc --version'),
     ]);
 
-    let interpreters: CLIVersionGetInterpreterVersionInterpreters = {};
+    let interpreters: CLIUtilityVersionGetInterpreterVersionInterpreters = {};
 
     // Attempt to retrieve the Java version.
     if (javaVersion.code === 0) {

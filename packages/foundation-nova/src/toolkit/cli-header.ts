@@ -18,7 +18,7 @@ import type {
   CLIHeaderTruncateString,
   CLIHeaderVisibleLengthReturns,
   CLIHeaderVisibleLengthString,
-} from '@/types/cli-header.d.ts';
+} from '@/types/toolkit/cli-header.d.ts';
 
 /**
  * CLI Header.

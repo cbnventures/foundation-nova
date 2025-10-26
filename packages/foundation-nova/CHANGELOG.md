@@ -1,5 +1,18 @@
 # @cbnventures/foundation-nova
 
+## 0.10.0
+
+### Minor Changes
+
+- Removed the `inspect` CLI command now that we decided not to wrap ESLint/TypeScript print-config.
+
+### Patch Changes
+
+- Updated the CLI "CURRENTLY RUNNING:" text to also include the base command used (`foundation-nova` or `nova`) for better debugging purposes.
+- Renamed `CLIInitialize` and `CLIVersion` to their sub-folder `CLIUtility*` variants.
+- Separated toolkit types into their own directory to prevent prefix collision.
+- Rename `sync-pkg-manager` to `sync-pkg-mgr` to shorten already long commands, in addition to adding a "one-letter per word" alias.
+
 ## 0.9.0
 
 ### Minor Changes

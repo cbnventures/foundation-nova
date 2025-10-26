@@ -22,7 +22,7 @@ import type {
   MarkdownTableRows,
   MarkdownTableStripAnsiColorsReturns,
   MarkdownTableStripAnsiColorsString,
-} from '@/types/markdown-table.d.ts';
+} from '@/types/toolkit/markdown-table.d.ts';
 
 /**
  * Markdown Table.

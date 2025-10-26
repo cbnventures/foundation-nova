@@ -62,6 +62,13 @@ export const PATTERN_EMAIL_SIMPLE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const PATTERN_ERROR_PREFIX = /^error:\s*/;
 
 /**
+ * Pattern - Foundation nova prefix.
+ *
+ * @since 1.0.0
+ */
+export const PATTERN_FOUNDATION_NOVA_PREFIX = /(?:foundation-)?nova.*/;
+
+/**
  * Pattern - Java version line.
  *
  * @since 1.0.0

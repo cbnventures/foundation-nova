@@ -3,10 +3,16 @@ import chalk from 'chalk';
 import { Command } from 'commander';
 
 import packageJson from '../../package.json' with { type: 'json' };
-import { CLIInitialize } from '@/cli/utility/initialize.js';
-import { CLIInspect } from '@/cli/utility/inspect.js';
-import { CLIVersion } from '@/cli/utility/version.js';
-import { PATTERN_ANSI, PATTERN_ERROR_PREFIX, WHITESPACE_PATTERN } from '@/lib/regex.js';
+import { CLIRecipeFreezeDeps } from '@/cli/recipe/freeze-deps.js';
+import { CLIRecipeSyncPkgMgr } from '@/cli/recipe/sync-pkg-mgr.js';
+import { CLIUtilityInitialize } from '@/cli/utility/initialize.js';
+import { CLIUtilityVersion } from '@/cli/utility/version.js';
+import {
+  PATTERN_ANSI,
+  PATTERN_ERROR_PREFIX,
+  PATTERN_FOUNDATION_NOVA_PREFIX,
+  WHITESPACE_PATTERN,
+} from '@/lib/regex.js';
 import { CLIHeader, Logger } from '@/toolkit/index.js';
 import type {
   CLIExecuteCommandOptions,
@@ -26,7 +32,7 @@ import type {
   CLIStyleTextText,
   CLIStyleTextTitleStyles,
   CLIStyleTextType,
-} from '@/types/cli.d.ts';
+} from '@/types/cli/index.d.ts';
 
 /**
  * CLI.
@@ -183,11 +189,23 @@ class CLI {
 
     recipe
       .command('freeze-deps')
-      .description('Freezes package.json dependencies to prevent unwanted version changes');
+      .alias('fd')
+      .usage('[options]')
+      .description('Freezes package.json dependencies to prevent unwanted version changes')
+      .option('-d, --dry-run', 'Preview changes without writing files')
+      .action(async (options) => {
+        await this.executeCommand<typeof options>(options, CLIRecipeFreezeDeps.run);
+      });
 
     recipe
-      .command('sync-pkg-manager')
-      .description('Syncs the preferred package manager to be used across the entire repository');
+      .command('sync-pkg-mgr')
+      .alias('spm')
+      .usage('[options]')
+      .description('Syncs the preferred package manager to be used on the entire repository')
+      .option('-d, --dry-run', 'Preview changes without writing files')
+      .action(async (options) => {
+        await this.executeCommand<typeof options>(options, CLIRecipeSyncPkgMgr.run);
+      });
 
     /**
      * Scaffold.
@@ -226,19 +244,7 @@ class CLI {
       .description('Generate a new Nova config for this project')
       .option('-d, --dry-run', 'Preview changes without writing files')
       .action(async (options) => {
-        await this.executeCommand<typeof options>(options, CLIInitialize.run);
-      });
-
-    utility
-      .command('inspect')
-      .alias('ins')
-      .usage('[options]')
-      .description('Prints the Nova, ESLint, or TypeScript configuration')
-      .option('-e, --eslint', 'ESLint configuration')
-      .option('-n, --nova', 'Foundation Nova configuration')
-      .option('-t, --tsconfig', 'TypeScript configuration')
-      .action(async (options) => {
-        await this.executeCommand<typeof options>(options, CLIInspect.run);
+        await this.executeCommand<typeof options>(options, CLIUtilityInitialize.run);
       });
 
     utility
@@ -253,7 +259,7 @@ class CLI {
       .option('-n, --node', 'Show Node.js and related package manager versions')
       .option('-o, --os', 'Show operating system details')
       .action(async (options) => {
-        await this.executeCommand<typeof options>(options, CLIVersion.run);
+        await this.executeCommand<typeof options>(options, CLIUtilityVersion.run);
       });
   }
 
@@ -442,11 +448,13 @@ class CLI {
    * @since 1.0.0
    */
   private async executeCommand<Options>(options: CLIExecuteCommandOptions<Options>, target: CLIExecuteCommandTarget): CLIExecuteCommandReturns {
+    const command = process.argv.join(' ').match(PATTERN_FOUNDATION_NOVA_PREFIX);
+
     // Write the header.
     process.stdout.write(`${this.getHeader()}\r\n`);
 
     // Write the running method.
-    process.stdout.write(`${chalk.bold.bgBlue('CURRENTLY RUNNING:')} ${process.argv.slice(2).join(' ')}\r\n\r\n`);
+    process.stdout.write(`${chalk.bold.bgBlue('CURRENTLY RUNNING:')} ${(command !== null) ? command[0] : 'N/A'}\r\n\r\n`);
 
     // Attempts to run the passed in function or method.
     await target(options);

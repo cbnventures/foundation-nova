@@ -6,83 +6,83 @@ import { PATTERN_EMAIL_SIMPLE, PATTERN_SLUG_SIMPLE } from '@/lib/regex.js';
 import { discoverPackageJsons } from '@/lib/utility.js';
 import { Logger } from '@/toolkit/index.js';
 import type {
-  CLIInitializeCheckPathCurrentDirectory,
-  CLIInitializeCheckPathReturns,
-  CLIInitializeIsAllowedHttpUrlField,
-  CLIInitializeIsAllowedHttpUrlReturns,
-  CLIInitializeIsAllowedHttpUrlValue,
-  CLIInitializePromptEntitiesConfig,
-  CLIInitializePromptEntitiesDeleteFormLabel,
-  CLIInitializePromptEntitiesDeleteFormPrompt,
-  CLIInitializePromptEntitiesDeleteFormReturns,
-  CLIInitializePromptEntitiesDescriptionParts,
-  CLIInitializePromptEntitiesFormAnswers,
-  CLIInitializePromptEntitiesFormEntity,
-  CLIInitializePromptEntitiesFormEntityRolesAnswer,
-  CLIInitializePromptEntitiesFormExistingRoles,
-  CLIInitializePromptEntitiesFormMode,
-  CLIInitializePromptEntitiesFormQuestions,
-  CLIInitializePromptEntitiesFormQuestionsForPrompts,
-  CLIInitializePromptEntitiesFormResolvedEntity,
-  CLIInitializePromptEntitiesFormReturns,
-  CLIInitializePromptEntitiesFormRoleQuestion,
-  CLIInitializePromptEntitiesFormRoleValues,
-  CLIInitializePromptEntitiesMenuChoices,
-  CLIInitializePromptEntitiesMenuPrompt,
-  CLIInitializePromptEntitiesMenuResult,
-  CLIInitializePromptEntitiesNormalizedRoles,
-  CLIInitializePromptEntitiesReturns,
-  CLIInitializePromptEntitiesSyncReturns,
-  CLIInitializePromptFlowCategoryKeys,
-  CLIInitializePromptFlowConfig,
-  CLIInitializePromptFlowReturns,
-  CLIInitializePromptFlowSelectChoices,
-  CLIInitializePromptFlowSelectPrompt,
-  CLIInitializePromptFlowSelectPromptResult,
-  CLIInitializePromptProjectAnswers,
-  CLIInitializePromptProjectConfig,
-  CLIInitializePromptProjectQuestions,
-  CLIInitializePromptProjectReturns,
-  CLIInitializePromptUrlsAnswers,
-  CLIInitializePromptUrlsAssignInput,
-  CLIInitializePromptUrlsAssignKey,
-  CLIInitializePromptUrlsAssignReturns,
-  CLIInitializePromptUrlsConfig,
-  CLIInitializePromptUrlsFundSourcesList,
-  CLIInitializePromptUrlsNextUrls,
-  CLIInitializePromptUrlsQuestions,
-  CLIInitializePromptUrlsReturns,
-  CLIInitializePromptUrlsUrls,
-  CLIInitializeRunOptions,
-  CLIInitializeRunReturns,
-  CLIInitializeSanitizeHttpUrlField,
-  CLIInitializeSanitizeHttpUrlReturns,
-  CLIInitializeSanitizeHttpUrlValue,
-  CLIInitializeValidateFundSourcesReturns,
-  CLIInitializeValidateFundSourcesValue,
-  CLIInitializeValidateHttpUrlField,
-  CLIInitializeValidateHttpUrlReturns,
-  CLIInitializeValidateHttpUrlValue,
-} from '@/types/cli.d.ts';
+  CLIUtilityInitializeCheckPathCurrentDirectory,
+  CLIUtilityInitializeCheckPathReturns,
+  CLIUtilityInitializeIsAllowedHttpUrlField,
+  CLIUtilityInitializeIsAllowedHttpUrlReturns,
+  CLIUtilityInitializeIsAllowedHttpUrlValue,
+  CLIUtilityInitializePromptEntitiesConfig,
+  CLIUtilityInitializePromptEntitiesDeleteFormLabel,
+  CLIUtilityInitializePromptEntitiesDeleteFormPrompt,
+  CLIUtilityInitializePromptEntitiesDeleteFormReturns,
+  CLIUtilityInitializePromptEntitiesDescriptionParts,
+  CLIUtilityInitializePromptEntitiesFormAnswers,
+  CLIUtilityInitializePromptEntitiesFormEntity,
+  CLIUtilityInitializePromptEntitiesFormEntityRolesAnswer,
+  CLIUtilityInitializePromptEntitiesFormExistingRoles,
+  CLIUtilityInitializePromptEntitiesFormMode,
+  CLIUtilityInitializePromptEntitiesFormQuestions,
+  CLIUtilityInitializePromptEntitiesFormQuestionsForPrompts,
+  CLIUtilityInitializePromptEntitiesFormResolvedEntity,
+  CLIUtilityInitializePromptEntitiesFormReturns,
+  CLIUtilityInitializePromptEntitiesFormRoleQuestion,
+  CLIUtilityInitializePromptEntitiesFormRoleValues,
+  CLIUtilityInitializePromptEntitiesMenuChoices,
+  CLIUtilityInitializePromptEntitiesMenuPrompt,
+  CLIUtilityInitializePromptEntitiesMenuResult,
+  CLIUtilityInitializePromptEntitiesNormalizedRoles,
+  CLIUtilityInitializePromptEntitiesReturns,
+  CLIUtilityInitializePromptEntitiesSyncReturns,
+  CLIUtilityInitializePromptFlowCategoryKeys,
+  CLIUtilityInitializePromptFlowConfig,
+  CLIUtilityInitializePromptFlowReturns,
+  CLIUtilityInitializePromptFlowSelectChoices,
+  CLIUtilityInitializePromptFlowSelectPrompt,
+  CLIUtilityInitializePromptFlowSelectPromptResult,
+  CLIUtilityInitializePromptProjectAnswers,
+  CLIUtilityInitializePromptProjectConfig,
+  CLIUtilityInitializePromptProjectQuestions,
+  CLIUtilityInitializePromptProjectReturns,
+  CLIUtilityInitializePromptUrlsAnswers,
+  CLIUtilityInitializePromptUrlsAssignInput,
+  CLIUtilityInitializePromptUrlsAssignKey,
+  CLIUtilityInitializePromptUrlsAssignReturns,
+  CLIUtilityInitializePromptUrlsConfig,
+  CLIUtilityInitializePromptUrlsFundSourcesList,
+  CLIUtilityInitializePromptUrlsNextUrls,
+  CLIUtilityInitializePromptUrlsQuestions,
+  CLIUtilityInitializePromptUrlsReturns,
+  CLIUtilityInitializePromptUrlsUrls,
+  CLIUtilityInitializeRunOptions,
+  CLIUtilityInitializeRunReturns,
+  CLIUtilityInitializeSanitizeHttpUrlField,
+  CLIUtilityInitializeSanitizeHttpUrlReturns,
+  CLIUtilityInitializeSanitizeHttpUrlValue,
+  CLIUtilityInitializeValidateFundSourcesReturns,
+  CLIUtilityInitializeValidateFundSourcesValue,
+  CLIUtilityInitializeValidateHttpUrlField,
+  CLIUtilityInitializeValidateHttpUrlReturns,
+  CLIUtilityInitializeValidateHttpUrlValue,
+} from '@/types/cli/cli-utility.d.ts';
 
 /**
- * CLI Initialize.
+ * CLI Utility - Initialize.
  *
  * @since 1.0.0
  */
-export class CLIInitialize {
+export class CLIUtilityInitialize {
   /**
-   * CLI Initialize - Run.
+   * CLI Utility - Initialize - Run.
    *
-   * @param {CLIInitializeRunOptions} options - Options.
+   * @param {CLIUtilityInitializeRunOptions} options - Options.
    *
-   * @returns {CLIInitializeRunReturns}
+   * @returns {CLIUtilityInitializeRunReturns}
    *
    * @since 1.0.0
    */
-  public static async run(options: CLIInitializeRunOptions): CLIInitializeRunReturns {
+  public static async run(options: CLIUtilityInitializeRunOptions): CLIUtilityInitializeRunReturns {
     const currentDirectory = process.cwd();
-    const isProjectRoot = await CLIInitialize.checkPath(currentDirectory);
+    const isProjectRoot = await CLIUtilityInitialize.checkPath(currentDirectory);
 
     if (!isProjectRoot) {
       process.exitCode = 1;
@@ -92,18 +92,18 @@ export class CLIInitialize {
 
     if (options.dryRun === true) {
       Logger.customize({
-        name: 'CLIInitialize.run::options',
+        name: 'CLIUtilityInitialize.run::options',
         padBottom: 1,
       }).warn('Dry run enabled. File changes will not be made in this session.');
     }
 
     const novaConfig = new NovaConfig();
     const workingFile = await novaConfig.load();
-    const promptFlowResult = await CLIInitialize.promptFlow(workingFile);
+    const promptFlowResult = await CLIUtilityInitialize.promptFlow(workingFile);
 
     if (promptFlowResult === 'cancel') {
       Logger.customize({
-        name: 'CLIInitialize.run::promptFlow',
+        name: 'CLIUtilityInitialize.run::promptFlow',
         padTop: 1,
         padBottom: 1,
       }).debug('Prompt flow exited without saving.');
@@ -115,7 +115,7 @@ export class CLIInitialize {
 
     if (options.dryRun === true) {
       Logger.customize({
-        name: 'CLIInitialize.run::promptFlow',
+        name: 'CLIUtilityInitialize.run::promptFlow',
         padTop: 1,
         padBottom: 1,
       }).debug('Dry run enabled. Skipping save operation.');
@@ -127,23 +127,23 @@ export class CLIInitialize {
   }
 
   /**
-   * CLI Initialize - Prompt flow.
+   * CLI Utility - Initialize - Prompt flow.
    *
-   * @param {CLIInitializePromptFlowConfig} config - Config.
+   * @param {CLIUtilityInitializePromptFlowConfig} config - Config.
    *
    * @private
    *
-   * @returns {CLIInitializePromptFlowReturns}
+   * @returns {CLIUtilityInitializePromptFlowReturns}
    *
    * @since 1.0.0
    */
-  private static async promptFlow(config: CLIInitializePromptFlowConfig): CLIInitializePromptFlowReturns {
+  private static async promptFlow(config: CLIUtilityInitializePromptFlowConfig): CLIUtilityInitializePromptFlowReturns {
     const categoryHandlers = {
-      project: CLIInitialize.promptProject,
-      entities: CLIInitialize.promptEntities,
-      urls: CLIInitialize.promptUrls,
+      project: CLIUtilityInitialize.promptProject,
+      entities: CLIUtilityInitialize.promptEntities,
+      urls: CLIUtilityInitialize.promptUrls,
     };
-    const categoryKeys: CLIInitializePromptFlowCategoryKeys = [
+    const categoryKeys: CLIUtilityInitializePromptFlowCategoryKeys = [
       'project',
       'entities',
       'urls',
@@ -160,7 +160,7 @@ export class CLIInitialize {
     };
 
     while (true) {
-      const selectChoices: CLIInitializePromptFlowSelectChoices = categoryKeys.map((categoryKey) => ({
+      const selectChoices: CLIUtilityInitializePromptFlowSelectChoices = categoryKeys.map((categoryKey) => ({
         title: categoryLabels[categoryKey],
         description: categoryDescriptions[categoryKey],
         value: categoryKey,
@@ -178,7 +178,7 @@ export class CLIInitialize {
         value: 'cancel',
       });
 
-      const selectPrompt: CLIInitializePromptFlowSelectPrompt = {
+      const selectPrompt: CLIUtilityInitializePromptFlowSelectPrompt = {
         type: 'select',
         name: 'action',
         message: 'Select a Nova configuration category to edit.',
@@ -187,7 +187,7 @@ export class CLIInitialize {
 
       let wasCancelled = false;
 
-      const selectPromptResult: CLIInitializePromptFlowSelectPromptResult = await prompts(selectPrompt, {
+      const selectPromptResult: CLIUtilityInitializePromptFlowSelectPromptResult = await prompts(selectPrompt, {
         onCancel: () => {
           wasCancelled = true;
 
@@ -222,17 +222,17 @@ export class CLIInitialize {
   }
 
   /**
-   * CLI Initialize - Prompt project.
+   * CLI Utility - Initialize - Prompt project.
    *
-   * @param {CLIInitializePromptProjectConfig} config - Config.
+   * @param {CLIUtilityInitializePromptProjectConfig} config - Config.
    *
    * @private
    *
-   * @returns {CLIInitializePromptProjectReturns}
+   * @returns {CLIUtilityInitializePromptProjectReturns}
    *
    * @since 1.0.0
    */
-  private static async promptProject(config: CLIInitializePromptProjectConfig): CLIInitializePromptProjectReturns {
+  private static async promptProject(config: CLIUtilityInitializePromptProjectConfig): CLIUtilityInitializePromptProjectReturns {
     const existingProject = config.project;
     const existingProjectName = existingProject?.name;
     const existingProjectDescription = existingProject?.description;
@@ -241,7 +241,7 @@ export class CLIInitialize {
     const project = (existingProject !== undefined) ? { ...existingProject } : {};
     const projectName = (existingProjectName !== undefined) ? { ...existingProjectName } : {};
     const projectDescription = (existingProjectDescription !== undefined) ? { ...existingProjectDescription } : {};
-    const projectQuestions: CLIInitializePromptProjectQuestions = [
+    const projectQuestions: CLIUtilityInitializePromptProjectQuestions = [
       {
         type: 'text',
         name: 'projectNameTitle',
@@ -297,7 +297,7 @@ export class CLIInitialize {
       return 'back';
     }
 
-    const answers = answersRaw as CLIInitializePromptProjectAnswers ?? {};
+    const answers = answersRaw as CLIUtilityInitializePromptProjectAnswers ?? {};
 
     const projectNameTitleInput = (answers.projectNameTitle ?? '').trim();
     const projectNameSlugInput = (answers.projectNameSlug ?? '').trim();
@@ -362,7 +362,7 @@ export class CLIInitialize {
     }
 
     Logger.customize({
-      name: 'CLIInitialize.promptProject::updated',
+      name: 'CLIUtilityInitialize.promptProject::updated',
       padTop: 1,
       padBottom: 1,
     }).info('Project details updated.');
@@ -371,17 +371,17 @@ export class CLIInitialize {
   }
 
   /**
-   * CLI Initialize - Prompt entities.
+   * CLI Utility - Initialize - Prompt entities.
    *
-   * @param {CLIInitializePromptEntitiesConfig} config - Config.
+   * @param {CLIUtilityInitializePromptEntitiesConfig} config - Config.
    *
    * @private
    *
-   * @returns {CLIInitializePromptEntitiesReturns}
+   * @returns {CLIUtilityInitializePromptEntitiesReturns}
    *
    * @since 1.0.0
    */
-  private static async promptEntities(config: CLIInitializePromptEntitiesConfig): CLIInitializePromptEntitiesReturns {
+  private static async promptEntities(config: CLIUtilityInitializePromptEntitiesConfig): CLIUtilityInitializePromptEntitiesReturns {
     const entities = (Array.isArray(config.entities)) ? config.entities.map((entity) => {
       const clonedEntity = { ...entity };
 
@@ -393,13 +393,13 @@ export class CLIInitialize {
     }) : [];
 
     /**
-     * CLI Initialize - Prompt entities - Sync.
+     * CLI Utility - Initialize - Prompt entities - Sync.
      *
-     * @returns {CLIInitializePromptEntitiesSyncReturns}
+     * @returns {CLIUtilityInitializePromptEntitiesSyncReturns}
      *
      * @since 1.0.0
      */
-    const sync = (): CLIInitializePromptEntitiesSyncReturns => {
+    const sync = (): CLIUtilityInitializePromptEntitiesSyncReturns => {
       if (entities.length > 0) {
         const normalizedEntities = entities.map((entity) => {
           const normalizedEntity = { ...entity };
@@ -420,7 +420,7 @@ export class CLIInitialize {
     };
 
     while (true) {
-      const menuChoices: CLIInitializePromptEntitiesMenuChoices = [];
+      const menuChoices: CLIUtilityInitializePromptEntitiesMenuChoices = [];
 
       entities.forEach((entity, index) => {
         const entityName = (typeof entity.name === 'string') ? entity.name.trim() : '';
@@ -428,7 +428,7 @@ export class CLIInitialize {
         const entityRoles = (Array.isArray(entity.roles)) ? entity.roles.filter((role) => role.trim() !== '') : [];
 
         const label = entityName || entityEmail || `Entity ${index + 1}`;
-        const descriptionParts: CLIInitializePromptEntitiesDescriptionParts = [];
+        const descriptionParts: CLIUtilityInitializePromptEntitiesDescriptionParts = [];
 
         if (entityEmail !== '') {
           descriptionParts.push(entityEmail);
@@ -438,7 +438,7 @@ export class CLIInitialize {
           const normalizedRoles = entityRoles
             .map((entityRole) => entityRole.trim())
             .filter((entityRole) => entityRole.length > 0)
-            .reduce<CLIInitializePromptEntitiesNormalizedRoles>((unique, entityRole) => {
+            .reduce<CLIUtilityInitializePromptEntitiesNormalizedRoles>((unique, entityRole) => {
               if (!unique.includes(entityRole)) {
                 unique.push(entityRole);
               }
@@ -487,7 +487,7 @@ export class CLIInitialize {
         },
       });
 
-      const menuPrompt: CLIInitializePromptEntitiesMenuPrompt = {
+      const menuPrompt: CLIUtilityInitializePromptEntitiesMenuPrompt = {
         type: 'select',
         name: 'action',
         message: (entities.length > 0) ? 'Select an entity to manage.' : 'No entities found. Choose an option.',
@@ -496,7 +496,7 @@ export class CLIInitialize {
 
       let wasCancelled = false;
 
-      const menuResult: CLIInitializePromptEntitiesMenuResult = await prompts(menuPrompt, {
+      const menuResult: CLIUtilityInitializePromptEntitiesMenuResult = await prompts(menuPrompt, {
         onCancel: () => {
           wasCancelled = true;
 
@@ -515,7 +515,7 @@ export class CLIInitialize {
       }
 
       if (menuResult.action.kind === 'add') {
-        const result = await CLIInitialize.promptEntitiesForm(undefined, 'create');
+        const result = await CLIUtilityInitialize.promptEntitiesForm(undefined, 'create');
 
         if (result.action === 'back') {
           continue;
@@ -536,7 +536,7 @@ export class CLIInitialize {
         sync();
 
         Logger.customize({
-          name: 'CLIInitialize.promptEntities::add',
+          name: 'CLIUtilityInitialize.promptEntities::add',
           padTop: 1,
           padBottom: 1,
         }).info('Added new entity.');
@@ -552,7 +552,7 @@ export class CLIInitialize {
         }
 
         const entityToEdit = entities[entityIndex];
-        const entityResult = await CLIInitialize.promptEntitiesForm(entityToEdit, 'update');
+        const entityResult = await CLIUtilityInitialize.promptEntitiesForm(entityToEdit, 'update');
 
         if (entityResult.action === 'back') {
           continue;
@@ -573,7 +573,7 @@ export class CLIInitialize {
         sync();
 
         Logger.customize({
-          name: 'CLIInitialize.promptEntities::edit',
+          name: 'CLIUtilityInitialize.promptEntities::edit',
           padTop: 1,
           padBottom: 1,
         }).info('Updated entity.');
@@ -597,7 +597,7 @@ export class CLIInitialize {
         const entityName = (typeof entityToRemove.name === 'string') ? entityToRemove.name.trim() : '';
         const entityEmail = (typeof entityToRemove.email === 'string') ? entityToRemove.email.trim() : '';
         const entityLabel = entityName || entityEmail || `Entity ${entityIndex + 1}`;
-        const shouldRemove = await CLIInitialize.promptEntitiesDeleteForm(entityLabel);
+        const shouldRemove = await CLIUtilityInitialize.promptEntitiesDeleteForm(entityLabel);
 
         if (!shouldRemove) {
           continue;
@@ -608,7 +608,7 @@ export class CLIInitialize {
         sync();
 
         Logger.customize({
-          name: 'CLIInitialize.promptEntities::remove',
+          name: 'CLIUtilityInitialize.promptEntities::remove',
           padTop: 1,
           padBottom: 1,
         }).info('Removed entity.');
@@ -617,25 +617,25 @@ export class CLIInitialize {
   }
 
   /**
-   * CLI Initialize - Prompt entities form.
+   * CLI Utility - Initialize - Prompt entities form.
    *
-   * @param {CLIInitializePromptEntitiesFormEntity} entity - Entity.
-   * @param {CLIInitializePromptEntitiesFormMode}   mode   - Mode.
+   * @param {CLIUtilityInitializePromptEntitiesFormEntity} entity - Entity.
+   * @param {CLIUtilityInitializePromptEntitiesFormMode}   mode   - Mode.
    *
    * @private
    *
-   * @returns {CLIInitializePromptEntitiesFormReturns}
+   * @returns {CLIUtilityInitializePromptEntitiesFormReturns}
    *
    * @since 1.0.0
    */
-  private static async promptEntitiesForm(entity: CLIInitializePromptEntitiesFormEntity, mode: CLIInitializePromptEntitiesFormMode): CLIInitializePromptEntitiesFormReturns {
-    const roleValues = ['author', 'contributor', 'supporter'] as CLIInitializePromptEntitiesFormRoleValues;
+  private static async promptEntitiesForm(entity: CLIUtilityInitializePromptEntitiesFormEntity, mode: CLIUtilityInitializePromptEntitiesFormMode): CLIUtilityInitializePromptEntitiesFormReturns {
+    const roleValues = ['author', 'contributor', 'supporter'] as CLIUtilityInitializePromptEntitiesFormRoleValues;
 
     const existingName = (typeof entity?.name === 'string') ? entity.name : '';
     const existingEmail = (typeof entity?.email === 'string') ? entity.email : '';
     const existingUrl = (typeof entity?.url === 'string') ? entity.url : '';
 
-    let existingRoles: CLIInitializePromptEntitiesFormExistingRoles = [];
+    let existingRoles: CLIUtilityInitializePromptEntitiesFormExistingRoles = [];
 
     if (Array.isArray(entity?.roles)) {
       existingRoles = entity.roles.filter((role) => roleValues.includes(role as typeof roleValues[number]));
@@ -648,7 +648,7 @@ export class CLIInitialize {
     const roleInitialSelection = roleChoices
       .map((choice, index) => (existingRoles.includes(choice.value)) ? index : -1)
       .filter((index) => index >= 0);
-    const questions: CLIInitializePromptEntitiesFormQuestions = [
+    const questions: CLIUtilityInitializePromptEntitiesFormQuestions = [
       {
         type: 'text',
         name: 'entityName',
@@ -686,7 +686,7 @@ export class CLIInitialize {
             return true;
           }
 
-          if (CLIInitialize.isAllowedHttpUrl(trimmed)) {
+          if (CLIUtilityInitialize.isAllowedHttpUrl(trimmed)) {
             return true;
           }
 
@@ -694,7 +694,7 @@ export class CLIInitialize {
         },
       },
     ];
-    const roleQuestion: CLIInitializePromptEntitiesFormRoleQuestion = {
+    const roleQuestion: CLIUtilityInitializePromptEntitiesFormRoleQuestion = {
       type: 'multiselect',
       name: 'entityRoles',
       message: 'Entity roles',
@@ -709,7 +709,7 @@ export class CLIInitialize {
 
     let wasCancelled = false;
 
-    const questionsForPrompts = questions as CLIInitializePromptEntitiesFormQuestionsForPrompts;
+    const questionsForPrompts = questions as CLIUtilityInitializePromptEntitiesFormQuestionsForPrompts;
     const answersRaw = await prompts(questionsForPrompts, {
       onCancel: () => {
         wasCancelled = true;
@@ -724,14 +724,14 @@ export class CLIInitialize {
       };
     }
 
-    const answers = answersRaw as CLIInitializePromptEntitiesFormAnswers ?? {};
-    const resolvedEntity: CLIInitializePromptEntitiesFormResolvedEntity = {};
+    const answers = answersRaw as CLIUtilityInitializePromptEntitiesFormAnswers ?? {};
+    const resolvedEntity: CLIUtilityInitializePromptEntitiesFormResolvedEntity = {};
 
     const entityNameInput = (typeof answers.entityName === 'string') ? answers.entityName.trim() : '';
     const entityEmailInput = (typeof answers.entityEmail === 'string') ? answers.entityEmail.trim() : '';
     const entityUrlInput = (typeof answers.entityUrl === 'string') ? answers.entityUrl.trim() : '';
 
-    let entityRolesAnswer: CLIInitializePromptEntitiesFormEntityRolesAnswer = [];
+    let entityRolesAnswer: CLIUtilityInitializePromptEntitiesFormEntityRolesAnswer = [];
 
     if (Array.isArray(answers.entityRoles)) {
       entityRolesAnswer = answers.entityRoles.filter((role) => roleValues.includes(role as typeof roleValues[number]));
@@ -766,18 +766,18 @@ export class CLIInitialize {
   }
 
   /**
-   * CLI Initialize - Prompt entities delete form.
+   * CLI Utility - Initialize - Prompt entities delete form.
    *
-   * @param {CLIInitializePromptEntitiesDeleteFormLabel} label - Label.
+   * @param {CLIUtilityInitializePromptEntitiesDeleteFormLabel} label - Label.
    *
    * @private
    *
-   * @returns {CLIInitializePromptEntitiesDeleteFormReturns}
+   * @returns {CLIUtilityInitializePromptEntitiesDeleteFormReturns}
    *
    * @since 1.0.0
    */
-  private static async promptEntitiesDeleteForm(label: CLIInitializePromptEntitiesDeleteFormLabel): CLIInitializePromptEntitiesDeleteFormReturns {
-    const prompt: CLIInitializePromptEntitiesDeleteFormPrompt = {
+  private static async promptEntitiesDeleteForm(label: CLIUtilityInitializePromptEntitiesDeleteFormLabel): CLIUtilityInitializePromptEntitiesDeleteFormReturns {
+    const prompt: CLIUtilityInitializePromptEntitiesDeleteFormPrompt = {
       type: 'confirm',
       name: 'confirm',
       message: `Remove entity "${label}"?`,
@@ -802,101 +802,101 @@ export class CLIInitialize {
   }
 
   /**
-   * CLI Initialize - Prompt urls.
+   * CLI Utility - Initialize - Prompt urls.
    *
-   * @param {CLIInitializePromptUrlsConfig} config - Config.
+   * @param {CLIUtilityInitializePromptUrlsConfig} config - Config.
    *
    * @private
    *
-   * @returns {CLIInitializePromptUrlsReturns}
+   * @returns {CLIUtilityInitializePromptUrlsReturns}
    *
    * @since 1.0.0
    */
-  private static async promptUrls(config: CLIInitializePromptUrlsConfig): CLIInitializePromptUrlsReturns {
+  private static async promptUrls(config: CLIUtilityInitializePromptUrlsConfig): CLIUtilityInitializePromptUrlsReturns {
     const existingUrls = config.urls;
 
-    const urls: CLIInitializePromptUrlsUrls = (existingUrls !== undefined) ? { ...existingUrls } : {};
+    const urls: CLIUtilityInitializePromptUrlsUrls = (existingUrls !== undefined) ? { ...existingUrls } : {};
 
-    const urlQuestions: CLIInitializePromptUrlsQuestions = [
+    const urlQuestions: CLIUtilityInitializePromptUrlsQuestions = [
       {
         type: 'text',
         name: 'urlsHomepage',
         message: 'Homepage URL',
         initial: urls.homepage ?? '',
-        validate: (value) => CLIInitialize.validateHttpUrl(value),
+        validate: (value) => CLIUtilityInitialize.validateHttpUrl(value),
       },
       {
         type: 'text',
         name: 'urlsRepository',
         message: 'Repository URL',
         initial: urls.repository ?? '',
-        validate: (value) => CLIInitialize.validateHttpUrl(value, 'repository'),
+        validate: (value) => CLIUtilityInitialize.validateHttpUrl(value, 'repository'),
       },
       {
         type: 'text',
         name: 'urlsBugs',
         message: 'Issue tracker URL',
         initial: urls.bugs ?? '',
-        validate: (value) => CLIInitialize.validateHttpUrl(value),
+        validate: (value) => CLIUtilityInitialize.validateHttpUrl(value),
       },
       {
         type: 'text',
         name: 'urlsLicense',
         message: 'License URL',
         initial: urls.license ?? '',
-        validate: (value) => CLIInitialize.validateHttpUrl(value),
+        validate: (value) => CLIUtilityInitialize.validateHttpUrl(value),
       },
       {
         type: 'text',
         name: 'urlsLogo',
         message: 'Logo URL',
         initial: urls.logo ?? '',
-        validate: (value) => CLIInitialize.validateHttpUrl(value),
+        validate: (value) => CLIUtilityInitialize.validateHttpUrl(value),
       },
       {
         type: 'text',
         name: 'urlsDocumentation',
         message: 'Documentation URL',
         initial: urls.documentation ?? '',
-        validate: (value) => CLIInitialize.validateHttpUrl(value),
+        validate: (value) => CLIUtilityInitialize.validateHttpUrl(value),
       },
       {
         type: 'text',
         name: 'urlsGithub',
         message: 'GitHub URL',
         initial: urls.github ?? '',
-        validate: (value) => CLIInitialize.validateHttpUrl(value),
+        validate: (value) => CLIUtilityInitialize.validateHttpUrl(value),
       },
       {
         type: 'text',
         name: 'urlsNpm',
         message: 'npm package URL',
         initial: urls.npm ?? '',
-        validate: (value) => CLIInitialize.validateHttpUrl(value),
+        validate: (value) => CLIUtilityInitialize.validateHttpUrl(value),
       },
       {
         type: 'text',
         name: 'urlsFundSources',
         message: 'Funding URLs (comma separated)',
         initial: (Array.isArray(urls.fundSources)) ? urls.fundSources.join(', ') : '',
-        validate: CLIInitialize.validateFundSources,
+        validate: CLIUtilityInitialize.validateFundSources,
       },
     ];
-    const nextUrls: CLIInitializePromptUrlsNextUrls = {};
+    const nextUrls: CLIUtilityInitializePromptUrlsNextUrls = {};
 
     /**
-     * CLI Initialize - Prompt urls - Assign.
+     * CLI Utility - Initialize - Prompt urls - Assign.
      *
-     * @param {CLIInitializePromptUrlsAssignKey}   key   - Key.
-     * @param {CLIInitializePromptUrlsAssignInput} input - Input.
+     * @param {CLIUtilityInitializePromptUrlsAssignKey}   key   - Key.
+     * @param {CLIUtilityInitializePromptUrlsAssignInput} input - Input.
      *
-     * @returns {CLIInitializePromptUrlsAssignReturns}
+     * @returns {CLIUtilityInitializePromptUrlsAssignReturns}
      *
      * @since 1.0.0
      */
-    const assign = (key: CLIInitializePromptUrlsAssignKey, input: CLIInitializePromptUrlsAssignInput): CLIInitializePromptUrlsAssignReturns => {
+    const assign = (key: CLIUtilityInitializePromptUrlsAssignKey, input: CLIUtilityInitializePromptUrlsAssignInput): CLIUtilityInitializePromptUrlsAssignReturns => {
       const field = (key === 'repository') ? 'repository' : undefined;
-      const normalized = CLIInitialize.sanitizeHttpUrl(input, field);
+      const normalized = CLIUtilityInitialize.sanitizeHttpUrl(input, field);
 
       if (normalized !== undefined) {
         nextUrls[key] = normalized;
@@ -917,7 +917,7 @@ export class CLIInitialize {
       return 'back';
     }
 
-    const answers = urlAnswersRaw as CLIInitializePromptUrlsAnswers ?? {};
+    const answers = urlAnswersRaw as CLIUtilityInitializePromptUrlsAnswers ?? {};
 
     assign('homepage', answers.urlsHomepage);
     assign('repository', answers.urlsRepository);
@@ -934,10 +934,10 @@ export class CLIInitialize {
       .filter((fundSourceInput) => fundSourceInput !== '');
 
     if (fundSourcesParts.length > 0) {
-      const fundSourcesList: CLIInitializePromptUrlsFundSourcesList = [];
+      const fundSourcesList: CLIUtilityInitializePromptUrlsFundSourcesList = [];
 
       for (const fundSourcesPart of fundSourcesParts) {
-        const normalizedPart = CLIInitialize.sanitizeHttpUrl(fundSourcesPart, 'fundSources');
+        const normalizedPart = CLIUtilityInitialize.sanitizeHttpUrl(fundSourcesPart, 'fundSources');
 
         if (normalizedPart !== undefined) {
           fundSourcesList.push(normalizedPart);
@@ -956,7 +956,7 @@ export class CLIInitialize {
     }
 
     Logger.customize({
-      name: 'CLIInitialize.promptUrls::updated',
+      name: 'CLIUtilityInitialize.promptUrls::updated',
       padTop: 1,
       padBottom: 1,
     }).info('URL references updated.');
@@ -965,25 +965,25 @@ export class CLIInitialize {
   }
 
   /**
-   * CLI Initialize - Validate http url.
+   * CLI Utility - Initialize - Validate http url.
    *
-   * @param {CLIInitializeValidateHttpUrlValue} value   - Value.
-   * @param {CLIInitializeValidateHttpUrlField} [field] - Field.
+   * @param {CLIUtilityInitializeValidateHttpUrlValue} value   - Value.
+   * @param {CLIUtilityInitializeValidateHttpUrlField} [field] - Field.
    *
    * @private
    *
-   * @returns {CLIInitializeValidateHttpUrlReturns}
+   * @returns {CLIUtilityInitializeValidateHttpUrlReturns}
    *
    * @since 1.0.0
    */
-  private static validateHttpUrl(value: CLIInitializeValidateHttpUrlValue, field?: CLIInitializeValidateHttpUrlField): CLIInitializeValidateHttpUrlReturns {
+  private static validateHttpUrl(value: CLIUtilityInitializeValidateHttpUrlValue, field?: CLIUtilityInitializeValidateHttpUrlField): CLIUtilityInitializeValidateHttpUrlReturns {
     const trimmedValue = value.trim();
 
     if (trimmedValue === '') {
       return true;
     }
 
-    if (CLIInitialize.isAllowedHttpUrl(trimmedValue, field)) {
+    if (CLIUtilityInitialize.isAllowedHttpUrl(trimmedValue, field)) {
       return true;
     }
 
@@ -991,17 +991,17 @@ export class CLIInitialize {
   }
 
   /**
-   * CLI Initialize - Validate fund sources.
+   * CLI Utility - Initialize - Validate fund sources.
    *
-   * @param {CLIInitializeValidateFundSourcesValue} value - Value.
+   * @param {CLIUtilityInitializeValidateFundSourcesValue} value - Value.
    *
    * @private
    *
-   * @returns {CLIInitializeValidateFundSourcesReturns}
+   * @returns {CLIUtilityInitializeValidateFundSourcesReturns}
    *
    * @since 1.0.0
    */
-  private static validateFundSources(value: CLIInitializeValidateFundSourcesValue): CLIInitializeValidateFundSourcesReturns {
+  private static validateFundSources(value: CLIUtilityInitializeValidateFundSourcesValue): CLIUtilityInitializeValidateFundSourcesReturns {
     const trimmedValue = value.trim();
 
     if (trimmedValue === '') {
@@ -1013,7 +1013,7 @@ export class CLIInitialize {
       .filter((part) => part !== '');
 
     for (const part of parts) {
-      if (!CLIInitialize.isAllowedHttpUrl(part, 'fundSources')) {
+      if (!CLIUtilityInitialize.isAllowedHttpUrl(part, 'fundSources')) {
         return 'Enter comma separated URLs (http:// or https://) or leave blank.';
       }
     }
@@ -1022,18 +1022,18 @@ export class CLIInitialize {
   }
 
   /**
-   * CLI Initialize - Sanitize http url.
+   * CLI Utility - Initialize - Sanitize http url.
    *
-   * @param {CLIInitializeSanitizeHttpUrlValue} value   - Value.
-   * @param {CLIInitializeSanitizeHttpUrlField} [field] - Field.
+   * @param {CLIUtilityInitializeSanitizeHttpUrlValue} value   - Value.
+   * @param {CLIUtilityInitializeSanitizeHttpUrlField} [field] - Field.
    *
    * @private
    *
-   * @returns {CLIInitializeSanitizeHttpUrlReturns}
+   * @returns {CLIUtilityInitializeSanitizeHttpUrlReturns}
    *
    * @since 1.0.0
    */
-  private static sanitizeHttpUrl(value: CLIInitializeSanitizeHttpUrlValue, field?: CLIInitializeSanitizeHttpUrlField): CLIInitializeSanitizeHttpUrlReturns {
+  private static sanitizeHttpUrl(value: CLIUtilityInitializeSanitizeHttpUrlValue, field?: CLIUtilityInitializeSanitizeHttpUrlField): CLIUtilityInitializeSanitizeHttpUrlReturns {
     if (typeof value !== 'string') {
       return undefined;
     }
@@ -1047,7 +1047,7 @@ export class CLIInitialize {
     try {
       const parsed = new URL(trimmedValue);
 
-      if (CLIInitialize.isAllowedHttpUrl(parsed.toString(), field)) {
+      if (CLIUtilityInitialize.isAllowedHttpUrl(parsed.toString(), field)) {
         return parsed.toString();
       }
     } catch {
@@ -1058,18 +1058,18 @@ export class CLIInitialize {
   }
 
   /**
-   * CLI Initialize - Is allowed http url.
+   * CLI Utility - Initialize - Is allowed http url.
    *
-   * @param {CLIInitializeIsAllowedHttpUrlValue} value   - Value.
-   * @param {CLIInitializeIsAllowedHttpUrlField} [field] - Field.
+   * @param {CLIUtilityInitializeIsAllowedHttpUrlValue} value   - Value.
+   * @param {CLIUtilityInitializeIsAllowedHttpUrlField} [field] - Field.
    *
    * @private
    *
-   * @returns {CLIInitializeIsAllowedHttpUrlReturns}
+   * @returns {CLIUtilityInitializeIsAllowedHttpUrlReturns}
    *
    * @since 1.0.0
    */
-  private static isAllowedHttpUrl(value: CLIInitializeIsAllowedHttpUrlValue, field?: CLIInitializeIsAllowedHttpUrlField): CLIInitializeIsAllowedHttpUrlReturns {
+  private static isAllowedHttpUrl(value: CLIUtilityInitializeIsAllowedHttpUrlValue, field?: CLIUtilityInitializeIsAllowedHttpUrlField): CLIUtilityInitializeIsAllowedHttpUrlReturns {
     try {
       const url = new URL(value);
 
@@ -1084,26 +1084,26 @@ export class CLIInitialize {
   }
 
   /**
-   * CLI Initialize - Check path.
+   * CLI Utility - Initialize - Check path.
    *
-   * @param {CLIInitializeCheckPathCurrentDirectory} currentDirectory - Current directory.
+   * @param {CLIUtilityInitializeCheckPathCurrentDirectory} currentDirectory - Current directory.
    *
    * @private
    *
-   * @returns {CLIInitializeCheckPathReturns}
+   * @returns {CLIUtilityInitializeCheckPathReturns}
    *
    * @since 1.0.0
    */
-  private static async checkPath(currentDirectory: CLIInitializeCheckPathCurrentDirectory): CLIInitializeCheckPathReturns {
+  private static async checkPath(currentDirectory: CLIUtilityInitializeCheckPathCurrentDirectory): CLIUtilityInitializeCheckPathReturns {
     const locations = await discoverPackageJsons();
 
-    Logger.customize({ name: 'CLIInitialize.checkPath::detectedLocations' }).debug(locations);
+    Logger.customize({ name: 'CLIUtilityInitialize.checkPath::detectedLocations' }).debug(locations);
 
     // If command was ran outside of project root directory.
     if (locations.length < 1) {
-      Logger.customize({ name: 'CLIInitialize.checkPath::lessThanOne' }).error('No "package.json" files were found. Re-run this command inside the project root directory.');
+      Logger.customize({ name: 'CLIUtilityInitialize.checkPath::lessThanOne' }).error('No "package.json" files were found. Re-run this command inside the project root directory.');
       Logger.customize({
-        name: 'CLIInitialize.checkPath::lessThanOne',
+        name: 'CLIUtilityInitialize.checkPath::lessThanOne',
         padBottom: 1,
       }).error(`Current directory is "${currentDirectory}"`);
 
@@ -1112,9 +1112,9 @@ export class CLIInitialize {
 
     // If command was ran inside a monorepo package.
     if (locations.length > 1) {
-      Logger.customize({ name: 'CLIInitialize.checkPath::greaterThanOne' }).error('Multiple "package.json" files were found. Re-run this command inside the project root directory.');
+      Logger.customize({ name: 'CLIUtilityInitialize.checkPath::greaterThanOne' }).error('Multiple "package.json" files were found. Re-run this command inside the project root directory.');
       Logger.customize({
-        name: 'CLIInitialize.checkPath::greaterThanOne',
+        name: 'CLIUtilityInitialize.checkPath::greaterThanOne',
         padBottom: 1,
       }).error(`Current directory is "${currentDirectory}"`);
 
@@ -1123,9 +1123,9 @@ export class CLIInitialize {
 
     // If command was not ran inside project root directory.
     if (locations.length === 1 && locations[0] !== currentDirectory) {
-      Logger.customize({ name: 'CLIInitialize.checkPath::notProjectRootDir' }).error('Must be run inside the project root directory.');
+      Logger.customize({ name: 'CLIUtilityInitialize.checkPath::notProjectRootDir' }).error('Must be run inside the project root directory.');
       Logger.customize({
-        name: 'CLIInitialize.checkPath::notProjectRootDir',
+        name: 'CLIUtilityInitialize.checkPath::notProjectRootDir',
         padBottom: 1,
       }).error(`Current directory is "${currentDirectory}"`);
 
