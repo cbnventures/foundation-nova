@@ -1,0 +1,131 @@
+{
+  "name": "@cbnventures/nova",
+  "version": "0.11.0",
+  "description": "Scripts, templates, and project configuration for the common JavaScript and TypeScript developer",
+  "main": "",
+  "bin": {
+    "nova": "build/src/cli/index.js"
+  },
+  "exports": {
+    "./eslint": "./build/src/presets/eslint/index.mjs",
+    "./eslint/*": "./build/src/presets/eslint/*.mjs",
+    "./toolkit": "./build/src/presets/toolkit/index.js",
+    "./toolkit/*": "./build/src/presets/toolkit/*.js",
+    "./tsconfig/dx-essentials.json": "./build/src/presets/tsconfig/dx-essentials.json",
+    "./tsconfig/dx-strict.json": "./build/src/presets/tsconfig/dx-strict.json",
+    "./tsconfig/env-browser.json": "./build/src/presets/tsconfig/env-browser.json",
+    "./tsconfig/env-edge.json": "./build/src/presets/tsconfig/env-edge.json",
+    "./tsconfig/env-node.json": "./build/src/presets/tsconfig/env-node.json",
+    "./tsconfig/env-service-worker.json": "./build/src/presets/tsconfig/env-service-worker.json",
+    "./tsconfig/env-web-worker.json": "./build/src/presets/tsconfig/env-web-worker.json",
+    "./tsconfig/fw-docusaurus.json": "./build/src/presets/tsconfig/fw-docusaurus.json",
+    "./tsconfig/fw-expressjs.json": "./build/src/presets/tsconfig/fw-expressjs.json",
+    "./tsconfig/fw-nextjs.json": "./build/src/presets/tsconfig/fw-nextjs.json",
+    "./tsconfig/platform-cloudflare-workers.json": "./build/src/presets/tsconfig/platform-cloudflare-workers.json",
+    "./tsconfig/tool-vite.json": "./build/src/presets/tsconfig/tool-vite.json"
+  },
+  "type": "module",
+  "private": false,
+  "scripts": {
+    "dev": "npm-run-all --parallel dev:*",
+    "dev:watch": "tsc --project tsconfig.json --watch",
+    "dev:fix-alias": "tsc-alias -p tsconfig.json -w",
+    "build": "npm-run-all --sequential build:*",
+    "build:clean": "npm run clean",
+    "build:build": "tsc --project tsconfig.json --outDir ./build",
+    "build:fix-alias": "tsc-alias -p tsconfig.json",
+    "build:fix-perms": "shx chmod +x ./build/src/cli/index.js",
+    "build:copy-tsconfig": "shx cp -r \"./src/presets/tsconfig\" \"./build/src/presets/tsconfig\"",
+    "check": "npm-run-all --sequential check:*",
+    "check:lint": "eslint ./",
+    "check:types": "tsc --noEmit",
+    "clean": "npm-run-all --parallel clean:*",
+    "clean:clear": "shx rm -rf ./build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cbnventures/nova.git"
+  },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/cbnventures"
+    },
+    {
+      "type": "custom",
+      "url": "https://www.cbnventures.io/paypal/"
+    }
+  ],
+  "keywords": [
+    "eslint",
+    "eslint-config",
+    "eslint-flat-config",
+    "typescript",
+    "tsconfig",
+    "tsconfig-presets",
+    "linting",
+    "code-style",
+    "scripts",
+    "templates",
+    "react",
+    "nextjs",
+    "node",
+    "monorepo"
+  ],
+  "author": {
+    "name": "Jacky Liang",
+    "email": "hello@mrjackyliang.com",
+    "url": "https://www.mrjackyliang.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cbnventures/nova/issues"
+  },
+  "files": [
+    "./build"
+  ],
+  "homepage": "https://cbnventures.github.io/nova/",
+  "engines": {
+    "node": "^22"
+  },
+  "dependencies": {
+    "@eslint/js": "9.38.0",
+    "@stylistic/eslint-plugin": "5.5.0",
+    "chalk": "5.6.2",
+    "commander": "14.0.1",
+    "eslint-mdx": "3.6.2",
+    "eslint-plugin-import": "2.32.0",
+    "eslint-plugin-jsx-a11y": "6.10.2",
+    "eslint-plugin-mdx": "3.6.2",
+    "eslint-plugin-n": "17.23.1",
+    "eslint-plugin-react": "7.37.5",
+    "eslint-plugin-react-hooks": "7.0.0",
+    "globals": "16.4.0",
+    "prompts": "2.4.2",
+    "typescript-eslint": "8.46.2"
+  },
+  "devDependencies": {
+    "@commander-js/extra-typings": "14.0.0",
+    "@types/eslint-plugin-jsx-a11y": "6.10.1",
+    "@types/node": "24.9.1",
+    "@types/prompts": "2.4.9",
+    "eslint": "9.38.0",
+    "eslint-import-resolver-typescript": "4.4.4",
+    "npm-run-all": "4.1.5",
+    "shx": "0.4.0",
+    "tsc-alias": "1.8.16",
+    "typescript": "5.9.3"
+  },
+  "peerDependencies": {
+    "eslint": "^9",
+    "typescript": "^5"
+  },
+  "peerDependenciesMeta": {
+    "eslint": {
+      "optional": true
+    },
+    "typescript": {
+      "optional": true
+    }
+  }
+}

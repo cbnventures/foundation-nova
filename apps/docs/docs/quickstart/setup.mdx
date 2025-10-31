@@ -1,9 +1,9 @@
 ---
 id: setup
 title: Setup and Configure
-description: Setup and configuration for Foundation Nova covering installation instructions and TypeScript and ESLint presets setup.
+description: Setup and configuration for Nova covering installation instructions and TypeScript and ESLint presets setup.
 keywords:
-  - foundation nova setup
+  - nova setup
   - nova installation
   - nova configuration
   - npx
@@ -30,7 +30,7 @@ import TabItem from '@theme/TabItem';
 
 # Setup and Configure
 
-Foundation Nova supports three starting paths. Use the runner for a one-off, install into system, or install into project for presets and toolkits you can commit with.
+Nova supports three starting paths. Use the runner for a one-off, install into system, or install into project for presets and toolkits you can commit with.
 
 ## Requirements
 
@@ -41,7 +41,7 @@ Foundation Nova supports three starting paths. Use the runner for a one-off, ins
 Run this command below to check the installed versions of your Node.js, package managers, operating system, installed browsers, and other dev tools directly:
 
 ```bash
-npx --yes @cbnventures/foundation-nova@latest utility version
+npx --yes @cbnventures/nova@latest utility version
 ```
 :::
 
@@ -59,7 +59,7 @@ If you wish, you can install Nova **globally** (into the system) and **locally**
     View the built-in help from the command below, or see **[CLI](/docs/cli/)**.
 
     ```bash
-    npx --yes @cbnventures/foundation-nova@latest
+    npx --yes @cbnventures/nova@latest
     ```
 
   </TabItem>
@@ -68,7 +68,7 @@ If you wish, you can install Nova **globally** (into the system) and **locally**
     View the built-in help from the command below, or see **[CLI](/docs/cli/)**.
 
     ```bash
-    npm i -g @cbnventures/foundation-nova@latest
+    npm i -g @cbnventures/nova@latest
     ```
 
     You can use the shorthand command for the **[CLI](/docs/cli/)** after installation:
@@ -83,7 +83,7 @@ If you wish, you can install Nova **globally** (into the system) and **locally**
     First, Install Nova.
 
     ```bash
-    npm i -D @cbnventures/foundation-nova@latest
+    npm i -D @cbnventures/nova@latest
     ```
 
     Second, configure **TypeScript** though the `tsconfig.json` file. See **[TSConfig best practices](/docs/presets/tsconfig/best-practices)**.
@@ -91,8 +91,8 @@ If you wish, you can install Nova **globally** (into the system) and **locally**
     ```json
     {
       "extends": [
-      "@cbnventures/foundation-nova/tsconfig/dx-essentials.json",
-      "@cbnventures/foundation-nova/tsconfig/dx-strict.json"
+      "@cbnventures/nova/tsconfig/dx-essentials.json",
+      "@cbnventures/nova/tsconfig/dx-strict.json"
       ]
     }
     ```
@@ -100,7 +100,7 @@ If you wish, you can install Nova **globally** (into the system) and **locally**
     Third, configure **ESLint** through the `eslint.config.ts` or `eslint.config.js` file. See **[ESLint best practices](/docs/presets/eslint/best-practices)**.
 
     ```js
-    import { dxCodeStyle, dxIgnore } from '@cbnventures/foundation-nova/eslint';
+    import { dxCodeStyle, dxIgnore } from '@cbnventures/nova/eslint';
 
     export default [
       ...dxIgnore,

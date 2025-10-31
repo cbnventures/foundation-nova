@@ -24,7 +24,7 @@ permissions:
 env:
   PUBLISH_TO_GITHUB: ${{ github.event_name == 'release' || (github.event_name == 'workflow_dispatch' && inputs['publish-to-github-packages']) }}
   PUBLISH_TO_NPMJS: ${{ github.event_name == 'release' || (github.event_name == 'workflow_dispatch' && inputs['publish-to-npmjs']) }}
-  WORKING_DIR: "./packages/foundation-nova"
+  WORKING_DIR: "./packages/nova"
 
 jobs:
   publish-to-github-packages:

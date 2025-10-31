@@ -3,7 +3,7 @@ id: cli-header
 title: CLI Header
 description: Render ANSI-aware CLI banners with configurable borders, alignment, padding, and smart truncation.
 keywords:
-  - foundation nova
+  - nova
   - cli header
   - terminal banner
   - command line ux
@@ -53,11 +53,11 @@ Examples use TypeScript, but the API is identical in JavaScript (ESM-only).
   <TabItem value="basic" label="Basic centered box" default>
 
     ```ts
-    import { CLIHeader } from '@cbnventures/foundation-nova/toolkit';
+    import { CLIHeader } from '@cbnventures/nova/toolkit';
 
     const banner = CLIHeader.render(
       [
-        'Foundation Nova',
+        'Nova',
         'CLI ready to automate',
       ],
       {
@@ -66,14 +66,14 @@ Examples use TypeScript, but the API is identical in JavaScript (ESM-only).
       },
     );
 
-    process.stdout.write(banner + '\n');
+    process.stdout.write(`${banner}\n`);
     ```
 
   </TabItem>
   <TabItem value="styled" label="Styled + colored">
 
     ```ts
-    import { CLIHeader } from '@cbnventures/foundation-nova/toolkit';
+    import { CLIHeader } from '@cbnventures/nova/toolkit';
     import chalk from 'chalk';
 
     const banner = CLIHeader.render(
@@ -91,14 +91,14 @@ Examples use TypeScript, but the API is identical in JavaScript (ESM-only).
       },
     );
 
-    process.stdout.write(banner + '\n');
+    process.stdout.write(`${banner}\n`);
     ```
 
   </TabItem>
   <TabItem value="margins" label="Margins and padding">
 
     ```ts
-    import { CLIHeader } from '@cbnventures/foundation-nova/toolkit';
+    import { CLIHeader } from '@cbnventures/nova/toolkit';
 
     const summary = CLIHeader.render(
       [
@@ -113,7 +113,7 @@ Examples use TypeScript, but the API is identical in JavaScript (ESM-only).
       },
     );
 
-    process.stdout.write(summary + '\n');
+    process.stdout.write(`${summary}\n`);
     ```
 
   </TabItem>

@@ -1,5 +1,5 @@
 {
-  "name": "docs",
+  "name": "nova-docs",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -16,7 +16,7 @@
     "clean:clear": "docusaurus clear"
   },
   "engines": {
-    "node": ">=20"
+    "node": "^22"
   },
   "dependencies": {
     "@docusaurus/core": "3.9.2",
@@ -29,7 +29,7 @@
     "react-dom": "19.2.0"
   },
   "devDependencies": {
-    "@cbnventures/foundation-nova": "file:../../packages/foundation-nova",
+    "@cbnventures/nova": "file:../../packages/nova",
     "@docusaurus/module-type-aliases": "3.9.2",
     "@docusaurus/types": "3.9.2",
     "@types/node": "24.9.1",

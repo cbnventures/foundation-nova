@@ -3,7 +3,7 @@ id: markdown-table
 title: Markdown Table
 description: Generate Markdown tables with ANSI-safe widths, escaped pipes, and copy-ready output for docs, logs, and bug reports.
 keywords:
-  - foundation nova
+  - nova
   - markdown table
   - table formatter
   - ansi safe formatting
@@ -55,7 +55,7 @@ Examples use TypeScript, but the API is identical in JavaScript (ESM-only).
   <TabItem value="basic" label="Basic table" default>
 
     ```ts
-    import { MarkdownTable } from '@cbnventures/foundation-nova/toolkit';
+    import { MarkdownTable } from '@cbnventures/nova/toolkit';
 
     const table = new MarkdownTable(
       [
@@ -68,14 +68,14 @@ Examples use TypeScript, but the API is identical in JavaScript (ESM-only).
       .addRow(['Nova CLI', '1.2.0'])
       .addRow(['Node.js', process.version]);
 
-    process.stdout.write(table.render() + '\n');
+    process.stdout.write(`${table.render()}\n`);
     ```
 
   </TabItem>
   <TabItem value="ansi" label="ANSI-aware">
 
     ```ts
-    import { MarkdownTable } from '@cbnventures/foundation-nova/toolkit';
+    import { MarkdownTable } from '@cbnventures/nova/toolkit';
     import chalk from 'chalk';
 
     const table = new MarkdownTable(
@@ -93,14 +93,14 @@ Examples use TypeScript, but the API is identical in JavaScript (ESM-only).
       .addRow([chalk.green('Unit tests'), chalk.green('PASS')])
       .addRow([chalk.yellow('Docs'), chalk.yellow('WARN')]);
 
-    process.stdout.write(table.render() + '\n');
+    process.stdout.write(`${table.render()}\n`);
     ```
 
   </TabItem>
   <TabItem value="objects" label="From objects + streaming">
 
     ```ts
-    import { MarkdownTable } from '@cbnventures/foundation-nova/toolkit';
+    import { MarkdownTable } from '@cbnventures/nova/toolkit';
 
     const tasks = [
       {
@@ -132,10 +132,10 @@ Examples use TypeScript, but the API is identical in JavaScript (ESM-only).
       table.addRow([task.name, task.status, `${task.elapsedMs} ms`]);
 
       // Optional: stream the latest snapshot to the log.
-      // process.stdout.write(table.render());
+      // process.stdout.write(`${table.render()}\n`);
     }
 
-    process.stdout.write(table.render() + '\n');
+    process.stdout.write(`${table.render()}\n`);
     ```
 
   </TabItem>

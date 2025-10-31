@@ -13,14 +13,14 @@ import { MenuBuilder } from './tools/menu-builder';
  * @since 1.0.0
  */
 const config: Config = {
-  title: 'Foundation Nova',
+  title: 'Nova',
   titleDelimiter: ' - ',
   tagline: 'Scripts, templates, and project configuration for the common JavaScript and TypeScript developer',
   favicon: 'images/favicon.ico',
   url: 'https://cbnventures.github.io',
-  baseUrl: '/foundation-nova/',
+  baseUrl: '/nova/',
   organizationName: 'cbnventures',
-  projectName: 'foundation-nova',
+  projectName: 'nova',
   onBrokenLinks: 'throw',
   i18n: {
     defaultLocale: 'en',
@@ -89,9 +89,9 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'Foundation Nova',
+      title: 'Nova',
       logo: {
-        alt: 'Foundation Nova',
+        alt: 'Nova',
         src: 'images/logo.svg',
       },
       items: [
@@ -100,7 +100,7 @@ const config: Config = {
           label: 'GitHub',
           position: 'right',
           type: undefined,
-          href: 'https://github.com/cbnventures/foundation-nova',
+          href: 'https://github.com/cbnventures/nova',
         },
       ],
     },

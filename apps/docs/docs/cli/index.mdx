@@ -1,10 +1,10 @@
 ---
 id: overview
 title: Overview
-description: Foundation Nova CLI generates files, applies recipes, scaffolds projects, and runs utilities with explicit commands and predictable behavior.
+description: Nova CLI generates files, applies recipes, scaffolds projects, and runs utilities with explicit commands and predictable behavior.
 sidebar_position: 1
 keywords:
-  - foundation nova cli
+  - nova cli
   - command line
   - generate files
   - apply recipes
@@ -28,7 +28,7 @@ tags:
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-The **Foundation Nova CLI** lets you generate files, apply recipes, scaffold projects, and run utilities.
+The **Nova CLI** lets you generate files, apply recipes, scaffold projects, and run utilities.
 
 :::tip Step by step
 Not sure what to type? Build the command **one section at a time**.
@@ -49,7 +49,7 @@ Start with `nova`, then the **command** and **subcommand** (if available), and f
   <TabItem value="npx" label="npx (no install)">
 
     ```bash
-    npx --yes @cbnventures/foundation-nova@latest <command> <subcommand> [option]
+    npx --yes @cbnventures/nova@latest <command> <subcommand> [option]
     ```
 
   </TabItem>
@@ -97,10 +97,10 @@ Apply **scripted edits** that automate routine maintenance, using values from `n
 All commands in "Recipes" are shaped as `nova recipe <subcommand>` or `nova rcp <subcommand>`.
 :::
 
-| Subcommand                                       | What It Does                                                                |
-|--------------------------------------------------|-----------------------------------------------------------------------------|
-| [`freeze-deps`](/docs/cli/recipes/freeze-deps)   | Freezes `package.json` dependencies to prevent unwanted version changes     |
-| [`sync-pkg-mgr`](/docs/cli/recipes/sync-pkg-mgr) | Syncs the preferred package manager to be used across the entire repository |
+| Subcommand                                         | What It Does                                                                              |
+|----------------------------------------------------|-------------------------------------------------------------------------------------------|
+| [`sync-metadata`](/docs/cli/recipes/sync-metadata) | Keeps every workspace manifest aligned with repository conventions and canonical metadata |
+| [`sync-versions`](/docs/cli/recipes/sync-versions) | Applies the monorepo's standard toolchain and version policy across all packages          |
 
 ### Scaffolding
 

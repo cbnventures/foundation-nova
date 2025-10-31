@@ -1,10 +1,10 @@
 ---
 id: overview
 title: Overview
-description: Foundation Nova Presets provides composable ESLint and TSConfig presets with strict defaults, ordered layers, and Node TypeScript alignment for consistent style and predictable builds.
+description: Nova Presets provides composable ESLint and TSConfig presets with strict defaults, ordered layers, and Node TypeScript alignment for consistent style and predictable builds.
 sidebar_position: 1
 keywords:
-  - foundation nova
+  - nova
   - eslint flat config
   - tsconfig presets
   - strict typescript
@@ -21,7 +21,7 @@ tags:
 
 # Overview
 
-Use **Foundation Nova Presets** to lock in strict TypeScript, consistent style, and predictable builds. Pick the layers that match your stack.
+Use **Nova Presets** to lock in strict TypeScript, consistent style, and predictable builds. Pick the layers that match your stack.
 
 ## Install
 
@@ -61,7 +61,7 @@ import {
   dxIgnore,
   envNode,
   langTypescript,
-} from '@cbnventures/foundation-nova/eslint';
+} from '@cbnventures/nova/eslint';
 
 export default [
   ...dxIgnore,
@@ -99,9 +99,9 @@ This example shows a minimal Node.js project using TypeScript, composed with Nov
 ```json
 {
   "extends": [
-    "@cbnventures/foundation-nova/tsconfig/dx-essentials.json",
-    "@cbnventures/foundation-nova/tsconfig/dx-strict.json",
-    "@cbnventures/foundation-nova/tsconfig/env-node.json"
+    "@cbnventures/nova/tsconfig/dx-essentials.json",
+    "@cbnventures/nova/tsconfig/dx-strict.json",
+    "@cbnventures/nova/tsconfig/env-node.json"
   ],
   "compilerOptions": {
     "baseUrl": "./",

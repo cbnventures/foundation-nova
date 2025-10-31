@@ -3,7 +3,7 @@ id: logger
 title: Logger
 description: Emit leveled logs with colored prefixes, environment-aware filtering, and scoped customization for any CLI or automation script.
 keywords:
-  - foundation nova
+  - nova
   - logger
   - log level
   - cli logging
@@ -55,7 +55,7 @@ Examples use TypeScript, but the API is identical in JavaScript (ESM-only).
   <TabItem value="basics" label="Basics" default>
 
     ```ts
-    import { Logger } from '@cbnventures/foundation-nova/toolkit';
+    import { Logger } from '@cbnventures/nova/toolkit';
 
     Logger.debug('Loading configuration');
     Logger.info('Build finished');
@@ -67,7 +67,7 @@ Examples use TypeScript, but the API is identical in JavaScript (ESM-only).
   <TabItem value="scoped" label="Scoped logger">
 
     ```ts
-    import { Logger } from '@cbnventures/foundation-nova/toolkit';
+    import { Logger } from '@cbnventures/nova/toolkit';
 
     const log = Logger.customize({
       name: 'cli::init',
@@ -84,7 +84,7 @@ Examples use TypeScript, but the API is identical in JavaScript (ESM-only).
   <TabItem value="multiline" label="Multiline alignment">
 
     ```ts
-    import { Logger } from '@cbnventures/foundation-nova/toolkit';
+    import { Logger } from '@cbnventures/nova/toolkit';
 
     const details = [
       'Scanning workspace',

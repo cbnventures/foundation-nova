@@ -4,7 +4,7 @@ import {
   fwDocusaurus,
   langMdx,
   langTypescript,
-} from '@cbnventures/foundation-nova/eslint';
+} from '@cbnventures/nova/eslint';
 
 export default [
   ...dxIgnore,
